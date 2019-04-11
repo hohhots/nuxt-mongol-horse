@@ -1,10 +1,14 @@
+For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
+
 # nuxt-mongol-horse
+
+mongol horse document site using nuxt
 
 > My groovy Nuxt.js project
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 $ npm install
 
@@ -18,5 +22,3 @@ $ npm start
 # generate static project
 $ npm run generate
 ```
-
-For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
