@@ -1,5 +1,5 @@
 <template>
-  <section class="container"><MonInput />&nbsp;Hello</section>
+  <div class="container"><MonInput />&nbsp;Hello</div>
 </template>
 
 <script>

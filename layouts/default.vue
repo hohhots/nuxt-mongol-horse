@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <MonBody>
     <nuxt />
-  </div>
+  </MonBody>
 </template>
 
 <style>
