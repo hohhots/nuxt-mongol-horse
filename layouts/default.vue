@@ -17,11 +17,15 @@ html {
   box-sizing: border-box;
 }
 
+body {
+  padding: 10px;
+}
+
 *,
 *:before,
 *:after {
   box-sizing: border-box;
-  margin: 10px;
+  margin: 0;
 }
 
 .button--green {

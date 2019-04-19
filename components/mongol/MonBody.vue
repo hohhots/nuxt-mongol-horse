@@ -1,28 +1,37 @@
 <template>
-  <div class="mon-body">
+  <div
+    class="mon-body"
+    :style="{ height: `${divWidth}px`, width: `${divHeight}px` }"
+  >
     <slot />
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   data() {
     return {
-      scrollBarHeight: {
-        type: Number,
-        default: 0
-      },
-      divHeight: {
-        type: Number
-      }
+      scrollBarHeight: 0,
+      divWidth: 0,
+      divHeight: 0
     }
   },
   beforeMount() {
-    this.setScrollBarHeight()
+    this._setScrollBarHeight()
+
+    window.onresize = () => {
+      // When window zooms, scroll bar height will change
+      this._setScrollBarHeight()
+    }
+  },
+  mounted() {
+    console.log(this.$el)
   },
   methods: {
-    setScrollBarHeight() {
-      if (!this.isMobile()) {
+    _setScrollBarHeight() {
+      if (!this._isMobile()) {
         const html = document.documentElement
         const body = document.body
 
@@ -35,20 +44,14 @@ export default {
         document.body.appendChild(div)
         window.scrollTo(0, div.scrollHeight)
         this.scrollBarHeight =
-          Math.ceil(window.pageYOffset) -
-          this.getComputedStyle(body, 'margin-top') -
-          this.getComputedStyle(body, 'margin-bottom') -
-          this.getComputedStyle(html, 'margin-top')
-        if (this.hasMarginBottom()) {
-          this.scrollBarHeight -= this.getComputedStyle(html, 'margin-bottom')
-        }
-        console.log(this.scrollBarHeight)
+          Math.ceil(window.pageYOffset) - this._allExtraHeight(html, body)
+        this.setScrollBarHeight(this.scrollBarHeight)
         document.body.removeChild(div)
 
         document.body.innerHTML = innerHtml
       }
     },
-    isMobile() {
+    _isMobile() {
       const ua = navigator.userAgent
       // memoized values
       const isIphone =
@@ -58,7 +61,7 @@ export default {
       const isAndroid = ua.toLowerCase().indexOf('android') !== -1
       return isIphone || isIpad || isAndroid
     },
-    hasMarginBottom() {
+    _hasMarginBottom() {
       // in firefox margin-bottom didn't work
       const ua = navigator.userAgent
       let has = true
@@ -68,16 +71,36 @@ export default {
 
       return has
     },
-    getComputedStyle(el, property) {
+    _getComputedStyle(el, property) {
       const p = window.getComputedStyle(el, null).getPropertyValue(property)
       if (p.indexOf('px') > 0) {
-        return this.getDimensionNumber(p)
+        return this._getDimensionNumber(p)
       }
       return p
     },
-    getDimensionNumber(dimension) {
+    _getDimensionNumber(dimension) {
       return parseInt(dimension.replace('px', ''))
-    }
+    },
+    _allExtraHeight(html, body) {
+      let allHeight =
+        this._getComputedStyle(body, 'margin-top') +
+        this._getComputedStyle(body, 'margin-bottom') +
+        this._getComputedStyle(html, 'margin-top') +
+        this._getComputedStyle(body, 'border-top-width') +
+        this._getComputedStyle(body, 'border-bottom-width') +
+        this._getComputedStyle(html, 'border-top-width') +
+        this._getComputedStyle(html, 'border-bottom-width') +
+        this._getComputedStyle(body, 'padding-top') +
+        this._getComputedStyle(body, 'padding-bottom') +
+        this._getComputedStyle(html, 'padding-top') +
+        this._getComputedStyle(html, 'padding-bottom')
+      if (this._hasMarginBottom()) {
+        allHeight += this._getComputedStyle(html, 'margin-bottom')
+      }
+
+      return allHeight
+    },
+    ...mapActions({ setScrollBarHeight: 'clientState/setScrollBarHeight' })
   }
 }
 </script>
@@ -90,8 +113,6 @@ export default {
   transform-origin: left top;
   -webkit-transform: rotate(-90deg) rotateY(180deg);
   transform: rotate(-90deg) rotateY(180deg);
-
   min-width: 100vh;
-  min-height: 100vw;
 }
 </style>
