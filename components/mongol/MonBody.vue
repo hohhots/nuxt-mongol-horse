@@ -1,9 +1,10 @@
 <template>
-  <div
-    class="mon-body"
-    :style="{ height: `${divWidth}px`, width: `${divHeight}px` }"
-  >
-    <slot />
+  <div class="container" :style="{ height: bodyHeight + 'px' }">
+    <div class="rotator" :style="{ width: bodyHeight + 'px' }">
+      <div ref="mondiv" class="mon-body" :style="{ width: bodyHeight + 'px' }">
+        <slot />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -14,42 +15,29 @@ export default {
   data() {
     return {
       scrollBarHeight: 0,
-      divWidth: 0,
-      divHeight: 0
+      bodyHeight: 10
     }
   },
   beforeMount() {
-    this._setScrollBarHeight()
-
+    this._initState()
     window.onresize = () => {
       // When window zooms, scroll bar height will change
-      this._setScrollBarHeight()
+      this.$browserConfig.setScrollBarHeight()
+      this._initState()
+      this._resizeEl()
     }
   },
   mounted() {
-    console.log(this.$el)
+    console.log('mounted', this.$browserConfig)
+    this._resizeEl()
   },
   methods: {
-    _setScrollBarHeight() {
-      if (!this._isMobile()) {
-        const html = document.documentElement
-        const body = document.body
-
-        const innerHtml = body.innerHTML
-        body.innerHTML = ''
-
-        const div = document.createElement('div')
-        div.style.height = '100vh'
-        div.style.width = '110vw'
-        document.body.appendChild(div)
-        window.scrollTo(0, div.scrollHeight)
-        this.scrollBarHeight =
-          Math.ceil(window.pageYOffset) - this._allExtraHeight(html, body)
-        this.setScrollBarHeight(this.scrollBarHeight)
-        document.body.removeChild(div)
-
-        document.body.innerHTML = innerHtml
-      }
+    _initState() {
+      this.setScrollBarHeight(this.$browserConfig.scrollBarHeight)
+    },
+    _resizeEl() {
+      console.log('resize el')
+      this.bodyHeight = this.scrollBarHeight
     },
     _isMobile() {
       const ua = navigator.userAgent
@@ -73,6 +61,7 @@ export default {
     },
     _getComputedStyle(el, property) {
       const p = window.getComputedStyle(el, null).getPropertyValue(property)
+      console.log(el + ' ----- ', p)
       if (p.indexOf('px') > 0) {
         return this._getDimensionNumber(p)
       }
@@ -106,13 +95,16 @@ export default {
 </script>
 
 <style scoped>
-.mon-body {
+.container,
+.rotator {
   box-sizing: border-box;
+}
+
+.rotator {
   -webkit-transform-origin: left top;
   -ms-transform-origin: left top;
   transform-origin: left top;
   -webkit-transform: rotate(-90deg) rotateY(180deg);
   transform: rotate(-90deg) rotateY(180deg);
-  min-width: 100vh;
 }
 </style>

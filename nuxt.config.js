@@ -29,7 +29,10 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [{ src: './plugins/global-register.js' }],
+  plugins: [
+    { src: './plugins/global-register.js' },
+    { src: './plugins/browser.js', mode: 'client' }
+  ],
 
   /*
    ** Nuxt.js modules

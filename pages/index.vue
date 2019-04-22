@@ -1,5 +1,7 @@
 <template>
-  <div class="container"><MonInput />&nbsp;Hello</div>
+  <MonBody>
+    <div class="container"><MonInput />&nbsp;Hello</div>
+  </MonBody>
 </template>
 
 <script>

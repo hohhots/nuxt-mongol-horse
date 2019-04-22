@@ -1,0 +1,60 @@
+my git progress
+
+step 1: Sync work branch and master branch with upstream
+	in master branch
+	git fetch upstream
+	git checkout master
+	git merge upstream/master
+
+step 2: Do work and commit.
+	git co work
+	does some work..........
+	git add .
+	git commit -m “××××”
+	git rebase master
+
+step 3: merge work branch in master branch
+	git checkout master
+	git merge work
+
+step 4: Push to orign
+	git push origin master
+
+
+   ----------------------
+
+--- Push all branch and tags into origin
+	git push --all origin
+
+--- Discarding the local commit this branch
+	git reset --hard HEAD^
+
+--- Discarding all local commits on this branch
+	git reset --hard @{u}
+
+--- View all remote
+	git remote -v
+
+--- Add remote repos
+	git remote add origin <URL>
+
+--- Change remote URL
+	git remote set-url origin <url>
+
+--- See the number of lines changed in each file
+	git diff --stat
+
+--- Rebase to combine all four commits into a single, concise commit.
+	git rebase -i HEAD~4
+
+--- Change last commit message.
+	git commit --amend
+
+--- Rebase work branch on master branch when in work branch
+	git rebase master
+
+--- Rebase master branch on work branch when in work branch
+	git rebase work master
+
+--- Take the client branch, figure out the patches since it diverged from the server branch, and replay these patches in the client branch as if it was based directly off the master branch instead.
+	git rebase --onto master server client
