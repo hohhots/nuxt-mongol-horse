@@ -1,7 +1,7 @@
 <template>
-  <div class="container" :style="{ height: bodyHeight + 'px' }">
-    <div class="rotator" :style="{ width: bodyHeight + 'px' }">
-      <div ref="mondiv" class="mon-body" :style="{ width: bodyHeight + 'px' }">
+  <div class="mon-container" :style="{ height: bodyHeight + 'px' }">
+    <div class="mon-rotator" :style="{ width: bodyHeight + 'px' }">
+      <div ref="mon-div" class="mon-body" :style="{ width: bodyHeight + 'px' }">
         <slot />
       </div>
     </div>
@@ -14,8 +14,12 @@ import { mapActions } from 'vuex'
 export default {
   data() {
     return {
-      scrollBarHeight: 0,
-      bodyHeight: 10
+      scrollBarHeight: 0
+    }
+  },
+  computed: {
+    bodyHeight() {
+      return this.scrollBarHeight
     }
   },
   beforeMount() {
@@ -34,60 +38,17 @@ export default {
   methods: {
     _initState() {
       this.setScrollBarHeight(this.$browserConfig.scrollBarHeight)
+      this.scrollBarHeight = this.$browserConfig.scrollBarHeight
     },
     _resizeEl() {
-      console.log('resize el')
-      this.bodyHeight = this.scrollBarHeight
-    },
-    _isMobile() {
-      const ua = navigator.userAgent
-      // memoized values
-      const isIphone =
-        ua.toLowerCase().indexOf('iphone') !== -1 ||
-        ua.toLowerCase().indexOf('ipod') !== -1
-      const isIpad = ua.toLowerCase().indexOf('ipad') !== -1
-      const isAndroid = ua.toLowerCase().indexOf('android') !== -1
-      return isIphone || isIpad || isAndroid
-    },
-    _hasMarginBottom() {
-      // in firefox margin-bottom didn't work
-      const ua = navigator.userAgent
-      let has = true
-      if (ua.toLowerCase().indexOf('firefox') !== -1) {
-        has = false
-      }
-
-      return has
+      console.log('resize el', this.scrollBarHeight)
     },
     _getComputedStyle(el, property) {
       const p = window.getComputedStyle(el, null).getPropertyValue(property)
-      console.log(el + ' ----- ', p)
       if (p.indexOf('px') > 0) {
-        return this._getDimensionNumber(p)
+        return parseFloat(p)
       }
       return p
-    },
-    _getDimensionNumber(dimension) {
-      return parseInt(dimension.replace('px', ''))
-    },
-    _allExtraHeight(html, body) {
-      let allHeight =
-        this._getComputedStyle(body, 'margin-top') +
-        this._getComputedStyle(body, 'margin-bottom') +
-        this._getComputedStyle(html, 'margin-top') +
-        this._getComputedStyle(body, 'border-top-width') +
-        this._getComputedStyle(body, 'border-bottom-width') +
-        this._getComputedStyle(html, 'border-top-width') +
-        this._getComputedStyle(html, 'border-bottom-width') +
-        this._getComputedStyle(body, 'padding-top') +
-        this._getComputedStyle(body, 'padding-bottom') +
-        this._getComputedStyle(html, 'padding-top') +
-        this._getComputedStyle(html, 'padding-bottom')
-      if (this._hasMarginBottom()) {
-        allHeight += this._getComputedStyle(html, 'margin-bottom')
-      }
-
-      return allHeight
     },
     ...mapActions({ setScrollBarHeight: 'clientState/setScrollBarHeight' })
   }
@@ -95,12 +56,12 @@ export default {
 </script>
 
 <style scoped>
-.container,
-.rotator {
+.mon-container,
+.mon-rotator {
   box-sizing: border-box;
 }
 
-.rotator {
+.mon-rotator {
   -webkit-transform-origin: left top;
   -ms-transform-origin: left top;
   transform-origin: left top;
