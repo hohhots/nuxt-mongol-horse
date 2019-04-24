@@ -1,7 +1,7 @@
 <template>
-  <div class="mon-container" :style="{ height: bodyHeight + 'px' }">
-    <div class="mon-rotator" :style="{ width: bodyHeight + 'px' }">
-      <div ref="mon-div" class="mon-body" :style="{ width: bodyHeight + 'px' }">
+  <div class="mv-container">
+    <div class="mv-rotator" :style="{ width: bodyHeight + 'px' }">
+      <div ref="mv-div" class="mv-body" :style="{ width: bodyHeight + 'px' }">
         <slot />
       </div>
     </div>
@@ -56,12 +56,16 @@ export default {
 </script>
 
 <style scoped>
-.mon-container,
-.mon-rotator {
+.mv-container {
+  height: 100vh;
+}
+
+.mv-container,
+.mv-rotator {
   box-sizing: border-box;
 }
 
-.mon-rotator {
+.mv-rotator {
   -webkit-transform-origin: left top;
   -ms-transform-origin: left top;
   transform-origin: left top;
