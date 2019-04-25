@@ -14,7 +14,9 @@ import { mapActions } from 'vuex'
 export default {
   data() {
     return {
-      scrollBarHeight: 0
+      html: '',
+      scrollBarHeight: 0,
+      htmlContentHeight: 0
     }
   },
   computed: {
@@ -26,22 +28,26 @@ export default {
     this._initState()
     window.onresize = () => {
       // When window zooms, scroll bar height will change
-      this.$browserConfig.setScrollBarHeight()
+      this.$browserConfig.setBrowserState()
       this._initState()
       this._resizeEl()
     }
   },
   mounted() {
     console.log('mounted', this.$browserConfig)
+    this.html = document.documentElement
     this._resizeEl()
   },
   methods: {
     _initState() {
-      this.setScrollBarHeight(this.$browserConfig.scrollBarHeight)
       this.scrollBarHeight = this.$browserConfig.scrollBarHeight
+      this.setScrollBarHeight(this.scrollBarHeight)
+      this.htmlContentHeight = this.$browserConfig.htmlContentHeight
+      this.setHtmlContentHeight(this.htmlContentHeight)
     },
     _resizeEl() {
       console.log('resize el', this.scrollBarHeight)
+      this.html.style.height = this.htmlContentHeight + 'px'
     },
     _getComputedStyle(el, property) {
       const p = window.getComputedStyle(el, null).getPropertyValue(property)
@@ -50,26 +56,25 @@ export default {
       }
       return p
     },
-    ...mapActions({ setScrollBarHeight: 'clientState/setScrollBarHeight' })
+    ...mapActions({
+      setScrollBarHeight: 'clientState/setScrollBarHeight',
+      setHtmlContentHeight: 'clientState/setHtmlContentHeight'
+    })
   }
 }
 </script>
 
 <style scoped>
-.mv-container {
-  height: 100vh;
-}
-
 .mv-container,
 .mv-rotator {
   box-sizing: border-box;
 }
 
 .mv-rotator {
-  -webkit-transform-origin: left top;
+  /* -webkit-transform-origin: left top;
   -ms-transform-origin: left top;
   transform-origin: left top;
   -webkit-transform: rotate(-90deg) rotateY(180deg);
-  transform: rotate(-90deg) rotateY(180deg);
+  transform: rotate(-90deg) rotateY(180deg); */
 }
 </style>

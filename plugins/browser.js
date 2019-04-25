@@ -1,6 +1,9 @@
 import Vue from 'vue'
 
-let scrollBarHeight = 0
+import util from '@/util/util.js'
+
+let _scrollBarHeight = 0
+let _htmlContentHeight = 0
 
 const _setScrollBarHeight = () => {
   if (Vue.prototype.$browserConfig) {
@@ -23,19 +26,52 @@ const _setScrollBarHeight = () => {
   document.body.appendChild(scrollDiv)
 
   // Get the scrollbar height
-  scrollBarHeight = scrollDiv.offsetHeight - scrollDiv.clientHeight
+  _scrollBarHeight = scrollDiv.offsetHeight - scrollDiv.clientHeight
 
   // Delete the DIV
   document.body.removeChild(scrollDiv)
 
   if (Vue.prototype.$browserConfig) {
-    Vue.prototype.$browserConfig.scrollBarHeight = scrollBarHeight
+    Vue.prototype.$browserConfig.scrollBarHeight = _scrollBarHeight
   }
 }
 
-_setScrollBarHeight()
+const _setHtmlContentHeight = () => {
+  const html = document.documentElement
+  const htmlTopMargin = util.getComputedStyle(html, 'margin-top')
+  const htmlBottomMargin = util.getComputedStyle(html, 'margin-bottom')
+
+  console.log('html top margin - ' + htmlTopMargin)
+  console.log('html bottom margin - ' + htmlBottomMargin)
+
+  html.style.height = '100%'
+  let htmlHeight = util.getComputedStyle(html, 'height')
+
+  console.log('html height - ' + util.getComputedStyle(html, 'height'))
+
+  htmlHeight -= htmlTopMargin
+  if (util.hasBottomMargin()) {
+    htmlHeight -= htmlBottomMargin
+  }
+
+  console.log('html height minus margin - ' + htmlHeight)
+
+  if (Vue.prototype.$browserConfig) {
+    Vue.prototype.$browserConfig.htmlContentHeight = htmlHeight
+  }
+
+  _htmlContentHeight = htmlHeight
+}
+
+const _setBrowserState = () => {
+  _setScrollBarHeight()
+  _setHtmlContentHeight()
+}
+
+_setBrowserState()
 
 Vue.prototype.$browserConfig = {
-  setScrollBarHeight: _setScrollBarHeight,
-  scrollBarHeight
+  setBrowserState: _setBrowserState,
+  scrollBarHeight: _scrollBarHeight,
+  htmlContentHeight: _htmlContentHeight
 }

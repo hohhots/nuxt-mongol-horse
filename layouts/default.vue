@@ -5,6 +5,13 @@
 </template>
 
 <style>
+*,
+*:before,
+*:after {
+  /* box-sizing: border-box; */
+  margin: 0;
+}
+
 html {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -14,12 +21,6 @@ html {
   -webkit-text-size-adjust: 100%;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-}
-
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-  margin: 0;
+  margin: 10px;
 }
 </style>
