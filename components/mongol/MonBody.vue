@@ -1,7 +1,7 @@
 <template>
-  <div class="mv-container">
-    <div class="mv-rotator" :style="{ width: bodyHeight + 'px' }">
-      <div ref="mv-div" class="mv-body" :style="{ width: bodyHeight + 'px' }">
+  <div class="mv-container" :style="{ height: bodyContentHeight + 'px' }">
+    <div class="mv-rotator" :style="{ width: bodyContentHeight + 'px' }">
+      <div ref="mv-div" class="mv-body">
         <slot />
       </div>
     </div>
@@ -16,7 +16,7 @@ export default {
     return {
       html: '',
       scrollBarHeight: 0,
-      htmlContentHeight: 0
+      bodyContentHeight: 0
     }
   },
   computed: {
@@ -42,12 +42,12 @@ export default {
     _initState() {
       this.scrollBarHeight = this.$browserConfig.scrollBarHeight
       this.setScrollBarHeight(this.scrollBarHeight)
-      this.htmlContentHeight = this.$browserConfig.htmlContentHeight
-      this.setHtmlContentHeight(this.htmlContentHeight)
+      this.bodyContentHeight = this.$browserConfig.bodyContentHeight
+      this.setBodyContentHeight(this.bodyContentHeight)
     },
     _resizeEl() {
       console.log('resize el', this.scrollBarHeight)
-      this.html.style.height = this.htmlContentHeight + 'px'
+      this.html.removeAttribute('style')
     },
     _getComputedStyle(el, property) {
       const p = window.getComputedStyle(el, null).getPropertyValue(property)
@@ -58,7 +58,7 @@ export default {
     },
     ...mapActions({
       setScrollBarHeight: 'clientState/setScrollBarHeight',
-      setHtmlContentHeight: 'clientState/setHtmlContentHeight'
+      setBodyContentHeight: 'clientState/setBodyContentHeight'
     })
   }
 }
@@ -68,13 +68,15 @@ export default {
 .mv-container,
 .mv-rotator {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 .mv-rotator {
-  /* -webkit-transform-origin: left top;
+  -webkit-transform-origin: left top;
   -ms-transform-origin: left top;
   transform-origin: left top;
   -webkit-transform: rotate(-90deg) rotateY(180deg);
-  transform: rotate(-90deg) rotateY(180deg); */
+  transform: rotate(-90deg) rotateY(180deg);
 }
 </style>

@@ -1,13 +1,13 @@
 export const state = () => ({
-  browser: { scrollBarHeight: 0, htmlContentHeight: 0 }
+  browser: { scrollBarHeight: 0, bodyContentHeight: 0 }
 })
 
 export const mutations = {
   setScrollBarHeight(state, barHeight) {
     state.browser.scrollBarHeight = barHeight
   },
-  setHtmlContentHeight(state, htmlContentHeight) {
-    state.browser.htmlContentHeight = htmlContentHeight
+  setBodyContentHeight(state, bodyContentHeight) {
+    state.browser.bodyContentHeight = bodyContentHeight
   }
 }
 
@@ -15,8 +15,8 @@ export const actions = {
   setScrollBarHeight({ commit }, barHeight) {
     commit('setScrollBarHeight', barHeight)
   },
-  setHtmlContentHeight({ commit }, htmlContentHeight) {
-    commit('setHtmlContentHeight', htmlContentHeight)
+  setBodyContentHeight({ commit }, bodyContentHeight) {
+    commit('setBodyContentHeight', bodyContentHeight)
   }
 }
 
@@ -24,7 +24,7 @@ export const getters = {
   getScrollBarHeight(state) {
     return state.browser.scrollBarHeight
   },
-  getHtmlContentHeight(state) {
-    return state.browser.htmlContentHeight
+  getBodyContentHeight(state) {
+    return state.browser.bodyContentHeight
   }
 }

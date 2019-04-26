@@ -4,6 +4,7 @@ import util from '@/util/util.js'
 
 let _scrollBarHeight = 0
 let _htmlContentHeight = 0
+let _bodyContentHeight = 0
 
 const _setScrollBarHeight = () => {
   if (Vue.prototype.$browserConfig) {
@@ -53,7 +54,7 @@ const _setHtmlContentHeight = () => {
 
   if (boxSizing === 'content-box') {
     htmlContentHeight -=
-      topPadding + bottomPadding + topBorderWidth + bottomBorderWidth
+      topBorderWidth + bottomBorderWidth + topPadding + bottomPadding
   }
 
   if (Vue.prototype.$browserConfig) {
@@ -63,9 +64,36 @@ const _setHtmlContentHeight = () => {
   _htmlContentHeight = htmlContentHeight
 }
 
+const _setBodyContentHeight = () => {
+  const body = document.body
+  const topMargin = util.getComputedStyle(body, 'margin-top')
+  const bottomMargin = util.getComputedStyle(body, 'margin-bottom')
+  const topBorderWidth = util.getComputedStyle(body, 'border-top-width')
+  const bottomBorderWidth = util.getComputedStyle(body, 'border-bottom-width')
+  const topPadding = util.getComputedStyle(body, 'padding-top')
+  const bottomPadding = util.getComputedStyle(body, 'padding-bottom')
+  const boxSizing = util.getComputedStyle(body, 'box-sizing').toLowerCase()
+
+  let bodyContentHeight = _htmlContentHeight
+
+  bodyContentHeight -= topMargin + bottomMargin
+
+  if (boxSizing === 'content-box') {
+    bodyContentHeight -=
+      topBorderWidth + bottomBorderWidth + topPadding + bottomPadding
+  }
+
+  if (Vue.prototype.$browserConfig) {
+    Vue.prototype.$browserConfig.bodyContentHeight = bodyContentHeight
+  }
+
+  _bodyContentHeight = bodyContentHeight
+}
+
 const _setBrowserState = () => {
   _setScrollBarHeight()
   _setHtmlContentHeight()
+  _setBodyContentHeight()
 }
 
 _setBrowserState()
@@ -73,5 +101,5 @@ _setBrowserState()
 Vue.prototype.$browserConfig = {
   setBrowserState: _setBrowserState,
   scrollBarHeight: _scrollBarHeight,
-  htmlContentHeight: _htmlContentHeight
+  bodyContentHeight: _bodyContentHeight
 }
