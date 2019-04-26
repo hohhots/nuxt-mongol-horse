@@ -45,17 +45,17 @@ const _setHtmlContentHeight = () => {
   const bottomBorderWidth = util.getComputedStyle(html, 'border-bottom-width')
   const topPadding = util.getComputedStyle(html, 'padding-top')
   const bottomPadding = util.getComputedStyle(html, 'padding-bottom')
-  const boxSizing = util.getComputedStyle(html, 'box-sizing').toLowerCase()
+  // const boxSizing = util.getComputedStyle(html, 'box-sizing').toLowerCase()
 
   html.style.height = '100%'
   let htmlContentHeight = util.getComputedStyle(html, 'height')
 
   htmlContentHeight -= topMargin + bottomMargin
 
-  if (boxSizing === 'content-box') {
-    htmlContentHeight -=
-      topBorderWidth + bottomBorderWidth + topPadding + bottomPadding
-  }
+  // if (boxSizing === 'content-box') {
+  htmlContentHeight -=
+    topBorderWidth + bottomBorderWidth + topPadding + bottomPadding
+  // }
 
   if (Vue.prototype.$browserConfig) {
     Vue.prototype.$browserConfig.htmlContentHeight = htmlContentHeight
@@ -72,16 +72,16 @@ const _setBodyContentHeight = () => {
   const bottomBorderWidth = util.getComputedStyle(body, 'border-bottom-width')
   const topPadding = util.getComputedStyle(body, 'padding-top')
   const bottomPadding = util.getComputedStyle(body, 'padding-bottom')
-  const boxSizing = util.getComputedStyle(body, 'box-sizing').toLowerCase()
+  // const boxSizing = util.getComputedStyle(body, 'box-sizing').toLowerCase()
 
   let bodyContentHeight = _htmlContentHeight
 
   bodyContentHeight -= topMargin + bottomMargin
 
-  if (boxSizing === 'content-box') {
-    bodyContentHeight -=
-      topBorderWidth + bottomBorderWidth + topPadding + bottomPadding
-  }
+  // if (boxSizing === 'content-box') {
+  bodyContentHeight -=
+    topBorderWidth + bottomBorderWidth + topPadding + bottomPadding
+  // }
 
   if (Vue.prototype.$browserConfig) {
     Vue.prototype.$browserConfig.bodyContentHeight = bodyContentHeight
