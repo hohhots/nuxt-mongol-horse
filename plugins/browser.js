@@ -38,29 +38,29 @@ const _setScrollBarHeight = () => {
 
 const _setHtmlContentHeight = () => {
   const html = document.documentElement
-  const htmlTopMargin = util.getComputedStyle(html, 'margin-top')
-  const htmlBottomMargin = util.getComputedStyle(html, 'margin-bottom')
-
-  console.log('html top margin - ' + htmlTopMargin)
-  console.log('html bottom margin - ' + htmlBottomMargin)
+  const topMargin = util.getComputedStyle(html, 'margin-top')
+  const bottomMargin = util.getComputedStyle(html, 'margin-bottom')
+  const topBorderWidth = util.getComputedStyle(html, 'border-top-width')
+  const bottomBorderWidth = util.getComputedStyle(html, 'border-bottom-width')
+  const topPadding = util.getComputedStyle(html, 'padding-top')
+  const bottomPadding = util.getComputedStyle(html, 'padding-bottom')
+  const boxSizing = util.getComputedStyle(html, 'box-sizing').toLowerCase()
 
   html.style.height = '100%'
-  let htmlHeight = util.getComputedStyle(html, 'height')
+  let htmlContentHeight = util.getComputedStyle(html, 'height')
 
-  console.log('html height - ' + util.getComputedStyle(html, 'height'))
+  htmlContentHeight -= topMargin + bottomMargin
 
-  htmlHeight -= htmlTopMargin
-  if (util.hasBottomMargin()) {
-    htmlHeight -= htmlBottomMargin
+  if (boxSizing === 'content-box') {
+    htmlContentHeight -=
+      topPadding + bottomPadding + topBorderWidth + bottomBorderWidth
   }
-
-  console.log('html height minus margin - ' + htmlHeight)
 
   if (Vue.prototype.$browserConfig) {
-    Vue.prototype.$browserConfig.htmlContentHeight = htmlHeight
+    Vue.prototype.$browserConfig.htmlContentHeight = htmlContentHeight
   }
 
-  _htmlContentHeight = htmlHeight
+  _htmlContentHeight = htmlContentHeight
 }
 
 const _setBrowserState = () => {

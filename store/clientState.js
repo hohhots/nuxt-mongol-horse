@@ -1,14 +1,13 @@
 export const state = () => ({
-  scrollBarHeight: 0,
-  htmlContentHeight: 0
+  browser: { scrollBarHeight: 0, htmlContentHeight: 0 }
 })
 
 export const mutations = {
   setScrollBarHeight(state, barHeight) {
-    state.scrollBarHeight = barHeight
+    state.browser.scrollBarHeight = barHeight
   },
   setHtmlContentHeight(state, htmlContentHeight) {
-    state.htmlContentHeight = htmlContentHeight
+    state.browser.htmlContentHeight = htmlContentHeight
   }
 }
 
@@ -23,9 +22,9 @@ export const actions = {
 
 export const getters = {
   getScrollBarHeight(state) {
-    return state.scrollBarHeight
+    return state.browser.scrollBarHeight
   },
   getHtmlContentHeight(state) {
-    return state.htmlContentHeight
+    return state.browser.htmlContentHeight
   }
 }
