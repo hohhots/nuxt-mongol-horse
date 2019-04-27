@@ -13,7 +13,7 @@
         <slot />
       </div>
     </div>
-    <div id="mv-measure" class="measure"></div>
+    <div id="mv-measure" ref="measure" class="measure"></div>
   </div>
 </template>
 
@@ -57,6 +57,7 @@ export default {
       this.bodyContentHeight += this.scrollBarHeight
       this.windowContentHeight = cWHeight
     }
+    this.$refs.measure.style.zIndex = -9999
   },
   methods: {
     _getWindowContentHeight() {
@@ -110,9 +111,11 @@ export default {
 
 .measure {
   position: absolute;
+  opacity: 1;
+  background-color: #fff;
   top: 0;
-  width: 0;
+  width: 100%;
   height: 100%;
-  z-index: -9999;
+  z-index: 10000;
 }
 </style>
