@@ -1,5 +1,6 @@
 <template>
   <div
+    ref="container"
     class="mv-container"
     :style="{ height: bodyContentHeight + 'px', width: rotatorHeight + 'px' }"
   >
@@ -12,6 +13,7 @@
         <slot />
       </div>
     </div>
+    <div id="mv-measure" class="measure"></div>
   </div>
 </template>
 
@@ -25,6 +27,7 @@ export default {
     return {
       html: '',
       body: '',
+      windowContentHeight: 0,
       scrollBarHeight: 0,
       bodyContentHeight: 0,
       rotatorHeight: 0
@@ -36,6 +39,7 @@ export default {
     }
   },
   beforeMount() {
+    this.windowContentHeight = this._getWindowContentHeight()
     this._initState()
     window.onresize = () => {
       // When window zooms, scroll bar height will change
@@ -45,12 +49,22 @@ export default {
     }
   },
   mounted() {
-    console.log('mounted', this.$browserConfig)
     this.html = document.documentElement
     this.body = document.body
     this._resizeEl()
+    const cWHeight = this._getWindowContentHeight()
+    if (this.windowContentHeight < cWHeight) {
+      this.bodyContentHeight += this.scrollBarHeight
+      this.windowContentHeight = cWHeight
+    }
   },
   methods: {
+    _getWindowContentHeight() {
+      return util.getComputedStyle(
+        document.getElementById('mv-measure'),
+        'height'
+      )
+    },
     _initState() {
       this.scrollBarHeight = this.$browserConfig.scrollBarHeight
       this.setScrollBarHeight(this.scrollBarHeight)
@@ -58,7 +72,6 @@ export default {
       this.setBodyContentHeight(this.bodyContentHeight)
     },
     _resizeEl() {
-      console.log('resize el', this.scrollBarHeight)
       this.html.removeAttribute('style')
       this.rotatorHeight = util.getComputedStyle(this.$refs.rotator, 'height')
       this.body.style.width = util.getBodyWidth(this.rotatorHeight) + 'px'
@@ -93,5 +106,13 @@ export default {
   transform-origin: left top;
   -webkit-transform: rotate(-90deg) rotateY(180deg);
   transform: rotate(-90deg) rotateY(180deg);
+}
+
+.measure {
+  position: absolute;
+  top: 0;
+  width: 0;
+  height: 100%;
+  z-index: -9999;
 }
 </style>
