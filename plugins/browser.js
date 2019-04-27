@@ -48,7 +48,6 @@ const _setHtmlContentHeight = () => {
 
   html.style.height = '100%'
   let htmlContentHeight = parseInt(util.getComputedStyle(html, 'height'))
-  console.log(htmlContentHeight)
   htmlContentHeight -= topMargin + bottomMargin
 
   htmlContentHeight -=
