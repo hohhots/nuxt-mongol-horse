@@ -47,8 +47,8 @@ const _setHtmlContentHeight = () => {
   const bottomPadding = util.getComputedStyle(html, 'padding-bottom')
 
   html.style.height = '100%'
-  let htmlContentHeight = util.getComputedStyle(html, 'height')
-
+  let htmlContentHeight = parseInt(util.getComputedStyle(html, 'height'))
+  console.log(htmlContentHeight)
   htmlContentHeight -= topMargin + bottomMargin
 
   htmlContentHeight -=

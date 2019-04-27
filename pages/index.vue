@@ -21,9 +21,7 @@
 </template>
 
 <script>
-export default {
-  components: {}
-}
+export default {}
 </script>
 
 <style>
