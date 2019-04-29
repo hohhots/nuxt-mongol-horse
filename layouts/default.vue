@@ -21,5 +21,14 @@ html {
   -webkit-text-size-adjust: 100%;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
+  margin: 10px;
+  border: 15px solid #393;
+  padding: 20px;
+}
+
+body {
+  margin: 10px;
+  border: 15px solid #933;
+  padding: 20px;
 }
 </style>

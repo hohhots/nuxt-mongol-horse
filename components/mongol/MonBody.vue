@@ -2,14 +2,14 @@
   <div
     ref="container"
     class="mv-container"
-    :style="{ height: bodyContentHeight + 'px', width: rotatorHeight + 'px' }"
+    :style="{ height: getContainerHeight + 'px', width: rotatorHeight + 'px' }"
   >
     <div
       ref="rotator"
       class="mv-rotator"
-      :style="{ width: bodyContentHeight + 'px' }"
+      :style="{ width: getContainerHeight + 'px' }"
     >
-      <div ref="mv-div" class="mv-body">
+      <div ref="mvbody" class="mv-body">
         <slot />
       </div>
     </div>
@@ -30,19 +30,24 @@ export default {
       windowContentHeight: 0,
       scrollBarHeight: 0,
       bodyContentHeight: 0,
-      rotatorHeight: 0
+      rotatorHeight: 0,
+      mvbodyWidth: 0
     }
   },
   computed: {
-    bodyHeight() {
-      return this.scrollBarHeight
+    getContainerHeight() {
+      return this.bodyContentHeight > this.mvbodyWidth
+        ? this.bodyContentHeight
+        : this.mvbodyWidth
     }
   },
   beforeMount() {
     this.windowContentHeight = this._getWindowContentHeight()
+    // Just call when first load to initial state
     this._initState()
     window.onresize = () => {
-      // When window zooms, scroll bar height will change
+      this.windowContentHeight = this._getWindowContentHeight()
+      // When window zooms, window state will change
       this.$browserConfig.setBrowserState()
       this._initState()
       this._resizeEl()
@@ -52,38 +57,59 @@ export default {
     this.html = document.documentElement
     this.body = document.body
     this._resizeEl()
-    const cWHeight = this._getWindowContentHeight()
-    if (this.windowContentHeight < cWHeight) {
-      this.bodyContentHeight += this.scrollBarHeight
-      this.windowContentHeight = cWHeight
-    }
+
+    this.$refs.measure.style.width = 0
     this.$refs.measure.style.zIndex = -9999
   },
   methods: {
+    _setBodyContentHeight(height) {
+      this.bodyContentHeight = height
+      this.setBodyContentHeight(height)
+    },
+    _setScrollBarHeight(height) {
+      this.scrollBarHeight = height
+      this.setScrollBarHeight(height)
+    },
     _getWindowContentHeight() {
       return util.getComputedStyle(
         document.getElementById('mv-measure'),
         'height'
       )
     },
+    _getMvbodyWidth() {
+      const mvbody = this.$refs.mvbody
+      const leftBorderWidth = util.getComputedStyle(mvbody, 'border-left-width')
+      const rightBorderWidth = util.getComputedStyle(
+        mvbody,
+        'border-right-width'
+      )
+      const leftPadding = util.getComputedStyle(mvbody, 'padding-left')
+      const rightPadding = util.getComputedStyle(mvbody, 'padding-right')
+      const leftMargin = util.getComputedStyle(mvbody, 'margin-left')
+      const rightMargin = util.getComputedStyle(mvbody, 'margin-right')
+      const boxSizing = util
+        .getComputedStyle(mvbody, 'box-sizing')
+        .toLowerCase()
+      let width = util.getComputedStyle(mvbody, 'width')
+      width += leftMargin + rightMargin
+      if (boxSizing === 'border-box') {
+        return width
+      }
+
+      return (width +=
+        leftBorderWidth + rightBorderWidth + leftPadding + rightPadding)
+    },
     _initState() {
-      this.scrollBarHeight = this.$browserConfig.scrollBarHeight
-      this.setScrollBarHeight(this.scrollBarHeight)
-      this.bodyContentHeight = this.$browserConfig.bodyContentHeight
-      this.setBodyContentHeight(this.bodyContentHeight)
+      this._setScrollBarHeight(this.$browserConfig.scrollBarHeight)
+      this._setBodyContentHeight(this.$browserConfig.bodyContentHeight)
     },
     _resizeEl() {
+      console.log('resize')
       this.html.removeAttribute('style')
       this.rotatorHeight = util.getComputedStyle(this.$refs.rotator, 'height')
+
       this.body.style.width = util.getBodyWidth(this.rotatorHeight) + 'px'
       this.html.style.width = util.getHtmlWidth() + 'px'
-    },
-    _getComputedStyle(el, property) {
-      const p = window.getComputedStyle(el, null).getPropertyValue(property)
-      if (p.indexOf('px') > 0) {
-        return parseFloat(p)
-      }
-      return p
     },
     ...mapActions({
       setScrollBarHeight: 'clientState/setScrollBarHeight',
@@ -114,6 +140,7 @@ export default {
   opacity: 1;
   background-color: #fff;
   top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   z-index: 10000;
