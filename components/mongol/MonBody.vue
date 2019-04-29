@@ -45,13 +45,6 @@ export default {
     this.windowContentHeight = this._getWindowContentHeight()
     // Just call when first load to initial state
     this._initState()
-    window.onresize = () => {
-      this.windowContentHeight = this._getWindowContentHeight()
-      // When window zooms, window state will change
-      this.$browserConfig.setBrowserState()
-      this._initState()
-      this._resizeEl()
-    }
   },
   mounted() {
     this.html = document.documentElement
@@ -67,6 +60,8 @@ export default {
 
     this.$refs.measure.style.width = 0
     this.$refs.measure.style.zIndex = -9999
+
+    this._setEvents()
   },
   methods: {
     _setBodyContentHeight(height) {
@@ -117,6 +112,27 @@ export default {
 
       this.body.style.width = util.getBodyWidth(this.rotatorHeight) + 'px'
       this.html.style.width = util.getHtmlWidth() + 'px'
+    },
+    _setEvents() {
+      window.onresize = () => {
+        this.windowContentHeight = this._getWindowContentHeight()
+        // When window zooms, window state will change
+        this.$browserConfig.setBrowserState()
+        this._initState()
+        this._resizeEl()
+      }
+
+      window.onwheel = e => {
+        let left = window.pageXOffset
+        const top = window.pageYOffset
+
+        left += e.deltaY
+        if (util.isFirefox()) {
+          left += e.deltaY * 24
+        }
+
+        window.scrollTo(left, top)
+      }
     },
     ...mapActions({
       setScrollBarHeight: 'clientState/setScrollBarHeight',

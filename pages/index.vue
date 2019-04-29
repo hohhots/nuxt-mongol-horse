@@ -15,17 +15,6 @@
     <div class="container"><MonInput />&nbsp;Hello</div>
     <div class="container"><MonInput />&nbsp;Hello</div>
     <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
   </div>
 </template>
 
