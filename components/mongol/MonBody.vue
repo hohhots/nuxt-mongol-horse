@@ -58,6 +58,13 @@ export default {
     this.body = document.body
     this._resizeEl()
 
+    // if scrollbar x disappeared after mon div rotated
+    const cWHeight = this._getWindowContentHeight()
+    if (this.windowContentHeight < cWHeight) {
+      this._setBodyContentHeight(this.bodyContentHeight + this.scrollBarHeight)
+      this.windowContentHeight = cWHeight
+    }
+
     this.$refs.measure.style.width = 0
     this.$refs.measure.style.zIndex = -9999
   },
