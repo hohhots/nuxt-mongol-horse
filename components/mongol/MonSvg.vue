@@ -20,6 +20,9 @@ export default {
   mounted() {
     this._initState()
   },
+  updated() {
+    this._initState()
+  },
   methods: {
     _initState() {
       this.height =
@@ -28,7 +31,6 @@ export default {
       this.width =
         this.$refs.svg.viewBox.baseVal.height ||
         util.getComputedStyle(this.$refs.svg, 'height')
-      console.log(this.height, ' - dddddddd - ', this.width)
     }
   }
 }
