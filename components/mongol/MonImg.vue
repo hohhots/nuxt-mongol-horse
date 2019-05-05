@@ -1,9 +1,9 @@
 <template>
-  <div>Mongol Icon</div>
+  <img />
 </template>
 
 <script>
 export default {}
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped></style>

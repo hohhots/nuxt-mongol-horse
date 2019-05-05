@@ -1,105 +1,18 @@
 <template>
   <div>
-           1956  
-             
-             
-          2010  3 
-              
-             
-              324 
-         13.85       
-             
-              
-              
-             
-           
-              
-              
-               
-               
-              
-               
-              
-               
-             19 
-              
-              
-                 
-              
-      
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
-    <div class="container"><MonInput />&nbsp;Hello</div>
+               
+               19
+        
+    <div>
+      <img
+        style="border:none;max-width:100%;margin:8px 0"
+        src="~assets/images/logo.jpg"
+        width="200px"
+      />
+    </div>
+    <div class="container">
+      <mon-search />
+    </div>
   </div>
 </template>
 
@@ -107,7 +20,7 @@
 export default {}
 </script>
 
-<style>
+<style scoped>
 .container {
   margin: 0 auto;
   display: flex;
