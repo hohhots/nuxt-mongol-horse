@@ -14,37 +14,36 @@
 
 @font-face {
   font-family: 'chagan';
-  src: url('~assets/fonts/chagan/chagan.eot');
-  src: url('~assets/fonts/chagan/chagan.eot?#iefix') format('embedded-opentype'),
-    url('~assets/fonts/chagan/chagan.woff2') format('woff2'),
-    url('~assets/fonts/chagan/chagan.woff') format('woff'),
-    url('~assets/fonts/chagan/chagan.ttf') format('truetype'),
-    url('~assets/fonts/chagan/chagan.svg#chagan') format('svg');
+  src: url('/fonts/chagan/chagan.eot');
+  src: url('/fonts/chagan/chagan.eot?#iefix') format('embedded-opentype'),
+    url('/fonts/chagan/chagan.woff2') format('woff2'),
+    url('/fonts/chagan/chagan.woff') format('woff'),
+    url('/fonts/chagan/chagan.ttf') format('truetype'),
+    url('/fonts/chagan/chagan.svg#chagan') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'garchag';
-  src: url('~assets/fonts/garchag/garchag.eot');
-  src: url('~assets/fonts/garchag/garchag.eot?#iefix')
-      format('embedded-opentype'),
-    url('~assets/fonts/garchag/garchag.woff2') format('woff2'),
-    url('~assets/fonts/garchag/garchag.woff') format('woff'),
-    url('~assets/fonts/garchag/garchag.ttf') format('truetype'),
-    url('~assets/fonts/garchag/garchag.svg#garchag') format('svg');
+  src: url('/fonts/garchag/garchag.eot');
+  src: url('/fonts/garchag/garchag.eot?#iefix') format('embedded-opentype'),
+    url('/fonts/garchag/garchag.woff2') format('woff2'),
+    url('/fonts/garchag/garchag.woff') format('woff'),
+    url('/fonts/garchag/garchag.ttf') format('truetype'),
+    url('/fonts/garchag/garchag.svg#garchag') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'hawang';
-  src: url('~assets/fonts/hawang/hawang.eot');
-  src: url('~assets/fonts/hawang/hawang.eot?#iefix') format('embedded-opentype'),
-    url('~assets/fonts/hawang/hawang.woff2') format('woff2'),
-    url('~assets/fonts/hawang/hawang.woff') format('woff'),
-    url('~assets/fonts/hawang/hawang.ttf') format('truetype'),
-    url('~assets/fonts/hawang/hawang.svg#hawang') format('svg');
+  src: url('/fonts/hawang/hawang.eot');
+  src: url('/fonts/hawang/hawang.eot?#iefix') format('embedded-opentype'),
+    url('/fonts/hawang/hawang.woff2') format('woff2'),
+    url('/fonts/hawang/hawang.woff') format('woff'),
+    url('/fonts/hawang/hawang.ttf') format('truetype'),
+    url('/fonts/hawang/hawang.svg#hawang') format('svg');
   font-weight: normal;
   font-style: normal;
 }
