@@ -28,16 +28,8 @@ export default {
   },
   methods: {
     _initState() {
-      this.height =
-        util.getComputedStyle(this.$refs.img, 'width') +
-        util.getComputedStyle(this.$refs.img, 'margin-left') +
-        util.getComputedStyle(this.$refs.img, 'margin-right') +
-        'px'
-      this.width =
-        util.getComputedStyle(this.$refs.img, 'height') +
-        util.getComputedStyle(this.$refs.img, 'margin-top') +
-        util.getComputedStyle(this.$refs.img, 'margin-bottom') +
-        'px'
+      this.height = util.getComputedStyle(this.$refs.img, 'width') + 'px'
+      this.width = util.getComputedStyle(this.$refs.img, 'height') + 'px'
     }
   }
 }

@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import ResizeObserver from 'resize-observer-polyfill'
+
 import { mapActions } from 'vuex'
 
 import util from '@/util/util.js'
@@ -113,13 +115,16 @@ export default {
       this.body.style.width = util.getBodyWidth(this.rotatorHeight) + 'px'
       this.html.style.width = util.getHtmlWidth() + 'px'
     },
+    _resizeAll() {
+      this.windowContentHeight = this._getWindowContentHeight()
+      // When window zooms, window state will change
+      this.$browserConfig.setBrowserState()
+      this._initState()
+      this._resizeEl()
+    },
     _setEvents() {
       window.onresize = () => {
-        this.windowContentHeight = this._getWindowContentHeight()
-        // When window zooms, window state will change
-        this.$browserConfig.setBrowserState()
-        this._initState()
-        this._resizeEl()
+        this._resizeAll()
       }
 
       window.onwheel = e => {
@@ -133,6 +138,12 @@ export default {
 
         window.scrollTo(left, top)
       }
+
+      const ro = new ResizeObserver((entries, observer) => {
+        this._resizeAll()
+      })
+
+      ro.observe(this.$refs.mvbody)
     },
     ...mapActions({
       setScrollBarHeight: 'clientState/setScrollBarHeight',
