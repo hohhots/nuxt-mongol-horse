@@ -5,13 +5,6 @@
 </template>
 
 <style>
-*,
-*:before,
-*:after {
-  /* box-sizing: border-box; */
-  margin: 0;
-}
-
 @font-face {
   font-family: 'chagan';
   src: url('/fonts/chagan/chagan.eot');
@@ -48,9 +41,24 @@
   font-style: normal;
 }
 
-html {
+*,
+*:before,
+*:after {
+  /* box-sizing: border-box; */
+  margin: 0;
   font-family: 'chagan', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
     'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 20px;
+  line-height: 25px;
+}
+
+p,
+input,
+span {
+  cursor: vertical-text;
+}
+
+html {
   font-size: 16px;
   word-spacing: 1px;
   line-height: 1.5em;

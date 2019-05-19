@@ -41,6 +41,7 @@ div {
   display: inline-block;
   margin: 0;
   padding: 0;
+  cursor: pointer;
 }
 svg {
   -webkit-transform-origin: left top;

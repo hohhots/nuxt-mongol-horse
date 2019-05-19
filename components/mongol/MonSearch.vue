@@ -3,7 +3,22 @@
     <form>
       <div class="container">
         <div class="inputc">
-          <div class="input"></div>
+          <input
+            class="input"
+            maxlength="2048"
+            name="q"
+            type="search"
+            aria-autocomplete="both"
+            aria-haspopup="false"
+            autocapitalize="off"
+            autocomplete="off"
+            autocorrect="off"
+            role="combobox"
+            spellcheck="false"
+            title
+            value
+            aria-label="Search"
+          />
         </div>
         <button>
           <div class="siconc">
@@ -40,14 +55,21 @@ button {
   border-radius: 0 20px 20px 0;
   padding-left: 8px;
   padding-right: 8px;
-  background-color: #3b78e7;
-  border: 1px solid #3367d6;
+  background-color: #fff;
+  border: 1px solid #dfe1e5;
+  border-left: 0px;
   margin: -1px;
   outline: none;
   flex: 0 0 auto;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  color: #3b78e7;
+}
+button:hover {
+  background-color: #3b78e7;
+  border: 1px solid #3367d6;
+  color: #fff;
 }
 svg {
   -webkit-transform-origin: left top;
@@ -94,11 +116,9 @@ svg {
   -webkit-tap-highlight-color: transparent;
   width: 100%;
   height: 25px;
-  cursor: vertical-text;
 }
 .siconc {
   background: none;
-  color: #fff;
   height: 24px;
   width: 24px;
   margin: auto;

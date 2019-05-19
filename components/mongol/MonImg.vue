@@ -27,9 +27,8 @@ export default {
     this._initState()
   },
   methods: {
-    _initState() {
+    _initState(s) {
       this.height = util.getComputedStyle(this.$refs.img, 'width') + 'px'
-      this.width = util.getComputedStyle(this.$refs.img, 'height') + 'px'
     }
   }
 }
