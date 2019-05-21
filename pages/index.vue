@@ -13,7 +13,7 @@
 
     <div class="books">
       <h1>
-        <span>  1</span>
+        <a class="title-link" href="/book/1">  1</a>
       </h1>
       <div class="preview">
         <span>
@@ -24,7 +24,7 @@
       </div>
       <hr />
       <h1>
-        <span>  2</span>
+        <a class="title-link" href="/book/2">  2</a>
       </h1>
       <div class="preview">
         <span>
@@ -35,7 +35,7 @@
       </div>
       <hr />
       <h1>
-        <span>  3</span>
+        <a class="title-link" href="/book/3">  3</a>
       </h1>
       <div class="preview">
         <span>
@@ -46,7 +46,7 @@
       </div>
       <hr />
       <h1>
-        <span>  4</span>
+        <a class="title-link" href="/book/4">  4</a>
       </h1>
       <div class="preview">
         <span>
