@@ -1,19 +1,10 @@
 <template>
   <div>
-    <div style="text-align:center;margin:0 auto 0;width:273.5px;line-height:0">
-      <mon-img
-        src="images/logo.jpg"
-        monstyle="border:none;max-width:100%;"
-        width="200px"
-      />
-    </div>
-    <div class="container">
-      <mon-search />
-    </div>
+    <mon-header />
 
     <div class="books">
       <h1>
-        <a class="title-link" href="/book/1">  1</a>
+        <nuxt-link to="/book/1">  1</nuxt-link>
       </h1>
       <div class="preview">
         <span>
@@ -24,7 +15,7 @@
       </div>
       <hr />
       <h1>
-        <a class="title-link" href="/book/2">  2</a>
+        <nuxt-link to="/book/2">  2</nuxt-link>
       </h1>
       <div class="preview">
         <span>
@@ -35,7 +26,7 @@
       </div>
       <hr />
       <h1>
-        <a class="title-link" href="/book/3">  3</a>
+        <nuxt-link to="/book/3">  3</nuxt-link>
       </h1>
       <div class="preview">
         <span>
@@ -46,7 +37,7 @@
       </div>
       <hr />
       <h1>
-        <a class="title-link" href="/book/4">  4</a>
+        <nuxt-link to="/book/4">  4</nuxt-link>
       </h1>
       <div class="preview">
         <span>

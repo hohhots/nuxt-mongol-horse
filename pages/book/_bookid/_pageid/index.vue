@@ -5,14 +5,20 @@
       <span>Image</span>
     </div>
     <div class="content">
-      <span>Text</span>
-      <img src="iamge" />
+      <span>( Text + {{ pageId }} )</span>
+      <span>( Image + {{ pageId }} )</span>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  data: function() {
+    return {
+      pageId: this.$route.params.pageid
+    }
+  }
+}
 </script>
 
 <style scoped></style>
