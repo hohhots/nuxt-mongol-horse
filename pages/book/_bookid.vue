@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <mon-header />
     <div>
       <nuxt-link :to="'/book/' + bookId"> </nuxt-link>
     </div>
@@ -23,10 +22,6 @@ export default {
       rootPath: this.$route.path,
       bookId: this.$route.params.bookid
     }
-  },
-  created: function() {
-    console.log(this.$route)
-    this.rootPath = this.$route.path
   }
 }
 </script>

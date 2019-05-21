@@ -1,5 +1,6 @@
 <template>
   <monBody>
+    <mon-header />
     <nuxt />
   </monBody>
 </template>

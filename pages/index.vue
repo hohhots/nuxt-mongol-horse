@@ -1,7 +1,5 @@
 <template>
   <div>
-    <mon-header />
-
     <div class="books">
       <h1>
         <nuxt-link to="/book/1">  1</nuxt-link>
