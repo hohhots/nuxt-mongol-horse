@@ -1,15 +1,17 @@
 <template>
   <div class="container">
-    <span>
-                 
-                 19
-          
-    </span>
+    <BookPreview />
   </div>
 </template>
 
 <script>
-export default {}
+import BookPreview from '@/components/books/BookPreview'
+
+export default {
+  components: {
+    BookPreview
+  }
+}
 </script>
 
 <style scoped></style>
