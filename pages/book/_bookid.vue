@@ -1,22 +1,17 @@
 <template>
   <div class="container">
-    <div>
-      <nuxt-link :to="'/book/' + bookId"> </nuxt-link>
-    </div>
-    <div>
-      <nuxt-link :to="rootPath + '/1'">  1</nuxt-link>
-      <nuxt-link :to="rootPath + '/2'">  2</nuxt-link>
-      <nuxt-link :to="rootPath + '/3'">  3</nuxt-link>
-      <nuxt-link :to="rootPath + '/4'">  4</nuxt-link>
-      <nuxt-link :to="rootPath + '/5'">  5</nuxt-link>
-    </div>
-
+    <Book />
     <nuxt-child />
   </div>
 </template>
 
 <script>
+import Book from '@/components/books/Book'
+
 export default {
+  components: {
+    Book
+  },
   data: function() {
     return {
       rootPath: this.$route.path,
@@ -26,4 +21,4 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped></style>

@@ -1,13 +1,13 @@
 <template>
-  <div>book/index.vue</div>
+  <div></div>
 </template>
 
 <script>
 export default {
-  fetch({ params, redirect }) {
+  fetch({ redirect }) {
     redirect(301, '/')
   }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped></style>
