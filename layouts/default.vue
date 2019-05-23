@@ -1,6 +1,16 @@
 <template>
   <monBody>
-    <mon-header />
+    <div>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+    </div>
+    <section class="main-header">
+      <mon-header />
+    </section>
+    <div>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+    </div>
     <nuxt />
   </monBody>
 </template>

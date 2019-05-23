@@ -1,9 +1,11 @@
 <template>
   <div>
-    <div>Book Name</div>
-    <div>Book preview</div>
-    <div>Total pages</div>
+    <div>Name</div>
+    <div>Author</div>
     <div>Written date</div>
+    <div>Total pages</div>
+    <div>typing persons</div>
+    <div>preview</div>
   </div>
 </template>
 
@@ -11,4 +13,4 @@
 export default {}
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped></style>

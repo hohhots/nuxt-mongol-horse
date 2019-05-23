@@ -1,9 +1,28 @@
 <template>
-  <div>admin:</div>
+  <div>
+    <section class="new-book">
+      <MonButton></MonButton>
+    </section>
+    <section class="existing-books">
+      <BookList />
+    </section>
+  </div>
 </template>
 
 <script>
-export default {}
+import BookList from '@/components/books/BookList'
+
+export default {
+  components: {
+    BookList
+  }
+}
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.new-book {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+</style>
