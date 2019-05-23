@@ -41,7 +41,6 @@ export default {
 
 .input-control label {
   display: block;
-  font-weight: bold;
 }
 
 .input-control input,

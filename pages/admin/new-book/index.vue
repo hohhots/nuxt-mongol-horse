@@ -18,19 +18,21 @@
         ></MonInputControl
       >
 
-      <MonInputControl v-model="editedBook.content" control-type="textarea"
+      <MonInputControl v-model="editedBook.preview" control-type="textarea"
         ></MonInputControl
       >
 
-      <MonButton type="submit"></MonButton>
+      <div class="new-book">
+        <MonButton type="submit"></MonButton>
 
-      <MonButton
-        type="button"
-        style="margin-left: 10px"
-        btn-style="cancel"
-        @click="onCancel"
-        ></MonButton
-      >
+        <MonButton
+          type="button"
+          style="margin-left: 10px"
+          btn-style="cancel"
+          @click="onCancel"
+          ></MonButton
+        >
+      </div>
     </form>
   </div>
 </template>
@@ -45,8 +47,7 @@ export default {
         writtenDate: '',
         totalPages: '',
         typingPersons: '',
-        preview: '',
-        image: ''
+        preview: ''
       }
     }
   },
@@ -54,7 +55,9 @@ export default {
     onSave() {
       console.log(this.editedBook)
     },
-    onCancel() {}
+    onCancel() {
+      this.$router.push('/admin')
+    }
   }
 }
 </script>

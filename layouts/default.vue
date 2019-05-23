@@ -65,7 +65,8 @@
 
 p,
 input,
-span {
+span,
+textarea {
   cursor: vertical-text;
 }
 

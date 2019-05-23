@@ -10,7 +10,9 @@
       :style="{ width: getContainerHeight + 'px' }"
     >
       <div ref="mvbody" class="mv-body">
-        <slot />
+        <div class="slot-container">
+          <slot />
+        </div>
       </div>
     </div>
     <div id="mv-measure" ref="measure" class="measure"></div>
@@ -169,6 +171,12 @@ export default {
   transform: rotate(-90deg) rotateY(180deg);
 }
 
+.mv-body {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
 .measure {
   position: absolute;
   opacity: 1;
@@ -178,5 +186,15 @@ export default {
   width: 100%;
   height: 100%;
   z-index: 10000;
+}
+
+.slot-container {
+  width: 100%;
+}
+
+@media only screen and (min-height: 600px) {
+  .slot-container {
+    width: 80%;
+  }
 }
 </style>
