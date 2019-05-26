@@ -1,9 +1,24 @@
 <template>
-  <div>admin book id:</div>
+  <div class="admin-book-page">
+    <section>
+      <Book />
+    </section>
+    <section class="update-book-page">
+      <AdminNewBookForm />
+    </section>
+  </div>
 </template>
 
 <script>
-export default {}
+import Book from '@/components/books/Book'
+import AdminNewBookForm from '@/components/admin/AdminNewBookForm'
+
+export default {
+  components: {
+    Book,
+    AdminNewBookForm
+  }
+}
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped></style>

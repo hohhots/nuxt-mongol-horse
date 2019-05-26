@@ -11,12 +11,6 @@ import Book from '@/components/books/Book'
 export default {
   components: {
     Book
-  },
-  data: function() {
-    return {
-      rootPath: this.$route.path,
-      bookId: this.$route.params.bookid
-    }
   }
 }
 </script>
