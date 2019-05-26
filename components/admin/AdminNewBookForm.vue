@@ -67,4 +67,10 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.new-book {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+</style>
