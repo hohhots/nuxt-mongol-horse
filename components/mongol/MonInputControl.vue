@@ -6,12 +6,14 @@
     <input
       v-if="controlType === 'input'"
       v-bind="$attrs"
+      :placeholder="placeholder"
       :value="value"
       @input="$emit('input', $event.target.value)"
     />
     <textarea
       v-if="controlType === 'textarea'"
       rows="10"
+      :placeholder="placeholder"
       :value="value"
       @input="$emit('input', $event.target.value)"
     ></textarea>
@@ -22,6 +24,10 @@
 export default {
   name: 'MonInputControl',
   props: {
+    placeholder: {
+      type: String,
+      default: ''
+    },
     controlType: {
       type: String,
       default: 'input'
@@ -36,22 +42,28 @@ export default {
 
 <style scoped>
 .input-control {
-  margin: 10px 0;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 30px 0;
+  align-items: center;
 }
 
 .input-control label {
-  display: block;
+  width: 15%;
 }
 
 .input-control input,
 .input-control textarea {
-  display: block;
-  width: 100%;
+  width: 85%;
   box-sizing: border-box;
   font: inherit;
   border: 1px solid #ccc;
   padding: 5px;
   color: #545454;
+}
+
+.input-control textarea {
+  width: 100%;
 }
 
 .input-control input:focus,

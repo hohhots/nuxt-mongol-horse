@@ -1,22 +1,29 @@
 <template>
   <form @submit.prevent="onSave">
-    <MonInputControl v-model="editedBook.name"></MonInputControl>
+    <MonInputControl v-model="editedBook.name" placeholder=""
+      ></MonInputControl
+    >
 
-    <MonInputControl v-model="editedBook.author"></MonInputControl>
+    <MonInputControl v-model="editedBook.author" placeholder=""
+      ></MonInputControl
+    >
 
-    <MonInputControl v-model="editedBook.writtenDate"
+    <MonInputControl v-model="editedBook.writtenDate" placeholder=""
       ></MonInputControl
     >
 
-    <MonInputControl v-model="editedBook.totalPages"
+    <MonInputControl v-model="editedBook.totalPages" placeholder=""
       ></MonInputControl
     >
 
-    <MonInputControl v-model="editedBook.typingPersons"
+    <MonInputControl v-model="editedBook.typingPersons" placeholder=""
       ></MonInputControl
     >
 
-    <MonInputControl v-model="editedBook.preview" control-type="textarea"
+    <MonInputControl
+      v-model="editedBook.preview"
+      control-type="textarea"
+      placeholder=""
       ></MonInputControl
     >
 
