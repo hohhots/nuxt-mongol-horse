@@ -1,7 +1,9 @@
 <template>
   <div>
     <section class="new-book">
-      <MonButton></MonButton>
+      <nuxt-link to="/admin/new-book">
+        <MonButton></MonButton>
+      </nuxt-link>
     </section>
     <section class="existing-books">
       <BookList />

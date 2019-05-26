@@ -28,11 +28,11 @@
     >
 
     <div class="new-book">
-      <MonButton type="submit"></MonButton>
+      <MonButton type="submit" style="width: 70px"></MonButton>
 
       <MonButton
         type="button"
-        style="margin-left: 10px"
+        style="width: 70px"
         btn-style="cancel"
         @click="onCancel"
         ></MonButton
