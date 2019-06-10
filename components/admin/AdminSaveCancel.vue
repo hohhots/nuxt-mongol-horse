@@ -1,8 +1,12 @@
 <template>
   <div class="new-book">
-    <MonButton type="submit"></MonButton>
+    <MonButton type="submit" width="70px"></MonButton>
 
-    <MonButton type="button" btn-style="cancel" @click="$emit('onCancel')"
+    <MonButton
+      type="button"
+      width="70px"
+      btn-style="cancel"
+      @click="$emit('onCancel')"
       ></MonButton
     >
   </div>

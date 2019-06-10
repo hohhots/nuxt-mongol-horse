@@ -1,5 +1,11 @@
 <template>
-  <button class="button" :class="btnStyle" v-bind="$attrs" v-on="$listeners">
+  <button
+    class="button"
+    :class="btnStyle"
+    :style="'width: ' + width"
+    v-bind="$attrs"
+    v-on="$listeners"
+  >
     <slot />
   </button>
 </template>
@@ -8,6 +14,10 @@
 export default {
   name: 'MonButton',
   props: {
+    width: {
+      type: String,
+      default: '0'
+    },
     btnStyle: {
       type: String,
       default: ''
