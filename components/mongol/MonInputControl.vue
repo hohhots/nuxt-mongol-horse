@@ -59,6 +59,7 @@ export default {
   font: inherit;
   border: 1px solid #ccc;
   padding: 5px;
+  background-color: #e8e8e8;
   color: #545454;
 }
 
