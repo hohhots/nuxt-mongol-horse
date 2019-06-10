@@ -27,23 +27,18 @@
       ></MonInputControl
     >
 
-    <div class="new-book">
-      <MonButton type="submit" style="width: 70px"></MonButton>
-
-      <MonButton
-        type="button"
-        style="width: 70px"
-        btn-style="cancel"
-        @click="onCancel"
-        ></MonButton
-      >
-    </div>
+    <AdminSaveCancel @onCancel="onCancel"></AdminSaveCancel>
   </form>
 </template>
 
 <script>
+import AdminSaveCancel from '@/components/admin/AdminSaveCancel'
+
 export default {
   name: 'AdminNewBookForm',
+  components: {
+    AdminSaveCancel
+  },
   data: function() {
     return {
       editedBook: {
