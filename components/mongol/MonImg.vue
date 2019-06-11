@@ -21,14 +21,14 @@ export default {
     }
   },
   mounted() {
-    this._initState()
-  },
-  updated() {
-    this._initState()
+    this.$refs.img.onload = () => {
+      this._initState()
+    }
   },
   methods: {
     _initState(s) {
       this.height = util.getComputedStyle(this.$refs.img, 'width') + 'px'
+      this.width = util.getComputedStyle(this.$refs.img, 'height') + 'px'
     }
   }
 }

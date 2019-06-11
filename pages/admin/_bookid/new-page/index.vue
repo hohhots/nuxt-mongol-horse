@@ -2,7 +2,9 @@
   <form method="post" enctype="multipart/form-data">
     <h1 class="new-page-title"></h1>
     <div class="upload">
-      <div ref="preview"></div>
+      <div ref="preview">
+        <mon-img v-if="imgsrc" :src="imgsrc" width="800px" />
+      </div>
       <div class="label">
         <input
           id="fileInput"
@@ -59,13 +61,9 @@ export default {
     },
     setImage() {
       this.image = this.$refs.image.files[0]
-      console.log(this.image)
       const reader = new FileReader()
       reader.onload = e => {
         this.imgsrc = e.target.result
-        this.$refs.preview.innerHTML =
-          "<img src='" + this.imgsrc + "' width='600px' />"
-        console.log(this.imgsrc)
       }
       reader.readAsDataURL(this.image)
     }

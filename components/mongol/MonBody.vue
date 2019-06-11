@@ -110,7 +110,6 @@ export default {
       this._setBodyContentHeight(this.$browserConfig.bodyContentHeight)
     },
     _resizeEl() {
-      console.log('resize')
       this.html.removeAttribute('style')
       this.rotatorHeight = util.getComputedStyle(this.$refs.rotator, 'height')
 
