@@ -2,7 +2,7 @@
   <div>
     <section class="new-book">
       <nuxt-link to="/admin/new-book">
-        <MonButton></MonButton>
+        <mon-button></mon-button>
       </nuxt-link>
     </section>
     <section class="existing-books">

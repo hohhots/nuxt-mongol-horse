@@ -1,13 +1,13 @@
 <template>
   <div class="new-book">
-    <MonButton type="submit" width="70px"></MonButton>
+    <mon-button type="submit" width="70px"></mon-button>
 
-    <MonButton
+    <mon-button
       type="button"
       width="70px"
       btn-style="cancel"
       @click="$emit('onCancel')"
-      ></MonButton
+      ></mon-button
     >
   </div>
 </template>

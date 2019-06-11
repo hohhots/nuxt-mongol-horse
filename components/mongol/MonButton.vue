@@ -16,7 +16,7 @@ export default {
   props: {
     width: {
       type: String,
-      default: '0'
+      default: 'auto'
     },
     btnStyle: {
       type: String,
