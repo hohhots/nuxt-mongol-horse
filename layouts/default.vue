@@ -1,19 +1,29 @@
 <template>
   <monBody>
     <div>
-      <p>&nbsp;</p>
-      <p>&nbsp;</p>
+      <p />
+      <p />
     </div>
     <section class="main-header">
-      <mon-header />
+      <Header />
     </section>
     <div>
-      <p>&nbsp;</p>
-      <p>&nbsp;</p>
+      <p />
+      <p />
     </div>
     <nuxt />
   </monBody>
 </template>
+
+<script>
+import Header from '@/components/common/Header'
+
+export default {
+  components: {
+    Header
+  }
+}
+</script>
 
 <style>
 @font-face {
