@@ -23,8 +23,8 @@
                 class="path1"
               ></path>
             </mon-svg>
+            <span class="upload-caption">{{ uploadText }}</span>
           </figure>
-          <span class="upload-caption">{{ msg.upload }}</span>
         </label>
       </div>
     </div>
@@ -47,12 +47,14 @@ export default {
   },
   data: function() {
     return {
-      msg: {
-        upload: 'ᠳᠡᠪᠰᠢᠭᠦᠯᠦᠶ᠎ᠡ \\ ᠰᠤᠯᠢᠶ᠎ᠠ'
-      },
       text: '',
       image: {},
       imgsrc: ''
+    }
+  },
+  computed: {
+    uploadText() {
+      return this.imgsrc ? 'ᠰᠤᠯᠢᠶ᠎ᠠ' : 'ᠳᠡᠪᠰᠢᠭᠦᠯᠦᠶ᠎ᠡ'
     }
   },
   methods: {
@@ -72,11 +74,16 @@ export default {
 </script>
 
 <style scoped>
+figure {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .new-page-title {
   margin-top: 20px;
   display: flex;
   justify-content: center;
-  align-content: center;
+  align-items: center;
   font-size: 25px;
 }
 .fileinput {
