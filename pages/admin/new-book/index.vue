@@ -1,16 +1,16 @@
 <template>
   <div>
     <dir class="new-book"></dir>
-    <AdminNewBookForm />
+    <AdminNewBook />
   </div>
 </template>
 
 <script>
-import AdminNewBookForm from '@/components/admin/AdminNewBookForm'
+import AdminNewBook from '@/components/admin/AdminNewBook'
 
 export default {
   components: {
-    AdminNewBookForm
+    AdminNewBook
   },
   data: function() {
     return {

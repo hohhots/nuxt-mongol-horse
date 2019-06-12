@@ -1,17 +1,17 @@
 <template>
   <div class="admin-book-page">
     <section class="update-book-page">
-      <AdminNewBookForm />
+      <AdminNewBook />
     </section>
   </div>
 </template>
 
 <script>
-import AdminNewBookForm from '@/components/admin/AdminNewBookForm'
+import AdminNewBook from '@/components/admin/AdminNewBook'
 
 export default {
   components: {
-    AdminNewBookForm
+    AdminNewBook
   }
 }
 </script>

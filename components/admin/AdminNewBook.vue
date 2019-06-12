@@ -35,7 +35,7 @@
 import AdminSaveCancel from '@/components/admin/AdminSaveCancel'
 
 export default {
-  name: 'AdminNewBookForm',
+  name: 'AdminNewBook',
   components: {
     AdminSaveCancel
   },
