@@ -55,7 +55,7 @@ export default {
   },
   computed: {
     uploadText() {
-      return this.imgsrc ? 'ᠰᠤᠯᠢᠶ᠎ᠠ' : 'ᠳᠡᠪᠰᠢᠭᠦᠯᠦᠶ᠎ᠡ'
+      return !this.imgsrc ? 'ᠳᠡᠪᠰᠢᠭᠦᠯᠦᠶ᠎ᠡ' : 'ᠰᠤᠯᠢᠶ᠎ᠠ'
     }
   },
   methods: {

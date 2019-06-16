@@ -1,26 +1,19 @@
 <template>
   <monBody>
-    <div>
-      <p />
-      <p />
-    </div>
-    <section class="main-header">
-      <Header />
-    </section>
-    <div>
-      <p />
-      <p />
-    </div>
+    <Header />
     <nuxt />
+    <Footer />
   </monBody>
 </template>
 
 <script>
 import Header from '@/components/common/Header'
+import Footer from '@/components/common/Footer'
 
 export default {
   components: {
-    Header
+    Header,
+    Footer
   }
 }
 </script>

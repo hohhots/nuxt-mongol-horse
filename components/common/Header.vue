@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <header>
     <div style="text-align:center;margin:0 auto 0;width:273.5px;line-height:0">
       <nuxt-link :to="homeUrl">
         <mon-img src="/images/logo.jpg" width="200px" />
@@ -8,7 +8,7 @@
     <div class="container">
       <mon-search />
     </div>
-  </div>
+  </header>
 </template>
 
 <script>
@@ -27,6 +27,11 @@ export default {
 </script>
 
 <style scoped>
+header {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
 .container {
   margin: 0 auto;
   display: flex;
