@@ -1,8 +1,8 @@
 <template>
   <footer>
-    {{ company }}
+    <span>{{ company }}</span>
     <p />
-    {{ contact }}
+    <span>{{ contact }}</span>
   </footer>
 </template>
 
@@ -10,7 +10,8 @@
 export default {
   data() {
     return {
-      company: 'ᠦᠪᠦᠷ ᠮᠤᠩᠭ᠋ᠤᠯ ᠤᠨ ᠮᠤᠩᠭᠤᠯ ᠮᠤᠷᠢ    ',
+      company:
+        'ᠦᠪᠦᠷ ᠮᠤᠩᠭ᠋ᠤᠯ ᠤᠨ ᠮᠤᠩᠭᠤᠯ ᠮᠤᠷᠢ ᠡᠷᠡᠬᠦᠯ ᠮᠡᠨᠳᠤ ᠶᠢᠨ    ',
       contact: 'ᠬᠣᠯᠪᠤᠭ᠎ᠠ ᠄ 086-13804749201'
     }
   },
@@ -38,5 +39,10 @@ footer {
   padding-top: 20px;
   padding-bottom: 20px;
   border-top: 1px solid #cfcfcf;
+}
+
+footer > span {
+  line-height: 3rem;
+  cursor: vertical-text;
 }
 </style>

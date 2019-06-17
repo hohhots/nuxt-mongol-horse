@@ -6,17 +6,17 @@
       </nuxt-link>
     </section>
     <section class="existing-books">
-      <BookList />
+      <BooksList />
     </section>
   </div>
 </template>
 
 <script>
-import BookList from '@/components/books/BookList'
+import BooksList from '@/components/books/BooksList'
 
 export default {
   components: {
-    BookList
+    BooksList
   }
 }
 </script>

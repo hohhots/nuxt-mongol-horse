@@ -1,17 +1,17 @@
 <template>
   <div>
     <div class="book-list">
-      <BookList />
+      <BooksList />
     </div>
   </div>
 </template>
 
 <script>
-import BookList from '@/components/books/BookList'
+import BooksList from '@/components/books/BooksList'
 
 export default {
   components: {
-    BookList
+    BooksList
   }
 }
 </script>
