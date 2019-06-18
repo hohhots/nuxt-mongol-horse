@@ -43,19 +43,25 @@
          19     
       </span>
     </div>
-    <div class="pages-number">
-      <span v-if="prePage" class="pre">
-        <nuxt-link :to="path + '?page=' + prePage">《</nuxt-link>
-      </span>
-      <span v-for="num in totalPagesNum" :key="num" class="number">
-        <nuxt-link :to="path + '?page=' + (startPage + parseInt(num))">{{
-          startPage + parseInt(num)
-        }}</nuxt-link>
-      </span>
-      <span class="next">
-        <nuxt-link :to="path + '?page=' + nextPage">》ᠬᠤᠢᠢᠨᠠᠬᠢ</nuxt-link>
-      </span>
-    </div>
+    <no-ssr>
+      <div class="pages-number">
+        <span v-if="!isFirstPage" class="pre">
+          <nuxt-link :to="path + '?page=' + prePage">《</nuxt-link>
+        </span>
+        <span v-for="num in pagesCount" :key="num" class="number">
+          <template v-if="pageID !== pageNum(num)">
+            <nuxt-link :to="path + '?page=' + pageNum(num)">
+              {{ pageNum(num) }}
+            </nuxt-link>
+          </template>
+
+          <template v-if="pageID === pageNum(num)">{{ pageNum(num) }}</template>
+        </span>
+        <span v-if="!isLastPage" class="next">
+          <nuxt-link :to="path + '?page=' + nextPage">》ᠬᠤᠢᠢᠨᠠᠬᠢ</nuxt-link>
+        </span>
+      </div>
+    </no-ssr>
   </div>
 </template>
 
@@ -63,7 +69,9 @@
 export default {
   data() {
     return {
-      totalPagesNum: 10,
+      totalPages: 20,
+      pagesCount: 10,
+      booksPerPage: 10,
       pageID: 1,
       path: '/'
     }
@@ -81,6 +89,9 @@ export default {
       if (this.pageID > 6) {
         num = this.pageID - 6
       }
+      if (num + this.pagesCount > this.totalPages) {
+        num = this.totalPages - this.pagesCount
+      }
       return num
     },
     prePage() {
@@ -88,17 +99,39 @@ export default {
     },
     nextPage() {
       return this.pageID + 1
+    },
+    isFirstPage() {
+      return this.pageID === 1
+    },
+    isLastPage() {
+      return this.totalPages <= this.pageID
     }
   },
   watch: {
     $route(to, from) {
-      console.log(this.$route)
+      this.init()
+    }
+  },
+  beforeCreate() {
+    const p = parseInt(this.$route.query.page)
+    if (p > this.totalPages || p < 1) {
+      this.$router.push('/')
+    }
+  },
+  beforeMount() {
+    this.init()
+  },
+  methods: {
+    init() {
       this.path = this.$route.path
       let id = this.$route.query.page
       if (!id) {
         id = 1
       }
       this.pageID = parseInt(id)
+    },
+    pageNum(num) {
+      return this.startPage + parseInt(num)
     }
   }
 }
