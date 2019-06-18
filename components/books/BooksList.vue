@@ -48,11 +48,11 @@
         <span v-if="!isFirstPage" class="pre">
           <nuxt-link :to="path + '?page=' + prePage">《</nuxt-link>
         </span>
-        <span v-for="num in pagesCount" :key="num" class="number">
+        <span v-for="num in pagesCountInPerPage" :key="num" class="number">
           <template v-if="pageID !== pageNum(num)">
-            <nuxt-link :to="path + '?page=' + pageNum(num)">
-              {{ pageNum(num) }}
-            </nuxt-link>
+            <nuxt-link :to="path + '?page=' + pageNum(num)">{{
+              pageNum(num)
+            }}</nuxt-link>
           </template>
 
           <template v-if="pageID === pageNum(num)">{{ pageNum(num) }}</template>
@@ -69,8 +69,8 @@
 export default {
   data() {
     return {
-      totalPages: 20,
-      pagesCount: 10,
+      totalBooks: 201,
+      pagesCountInPerPage: 10,
       booksPerPage: 10,
       pageID: 1,
       path: '/'
@@ -84,13 +84,16 @@ export default {
       }
       return path
     },
+    totalPages() {
+      return Math.ceil(this.totalBooks / this.booksPerPage)
+    },
     startPage() {
       let num = 0
       if (this.pageID > 6) {
         num = this.pageID - 6
       }
-      if (num + this.pagesCount > this.totalPages) {
-        num = this.totalPages - this.pagesCount
+      if (num + this.pagesCountInPerPage > this.totalPages) {
+        num = this.totalPages - this.pagesCountInPerPage
       }
       return num
     },
@@ -112,23 +115,18 @@ export default {
       this.init()
     }
   },
-  beforeCreate() {
-    const p = parseInt(this.$route.query.page)
+  beforeMount() {
+    const p = parseInt(this.$route.query.page) || 1
     if (p > this.totalPages || p < 1) {
       this.$router.push('/')
     }
-  },
-  beforeMount() {
+
     this.init()
   },
   methods: {
     init() {
       this.path = this.$route.path
-      let id = this.$route.query.page
-      if (!id) {
-        id = 1
-      }
-      this.pageID = parseInt(id)
+      this.pageID = parseInt(this.$route.query.page) || 1
     },
     pageNum(num) {
       return this.startPage + parseInt(num)
