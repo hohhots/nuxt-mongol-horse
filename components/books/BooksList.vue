@@ -48,14 +48,20 @@
         <span v-if="!isFirstPage" class="pre">
           <nuxt-link :to="path + '?page=' + prePage">《</nuxt-link>
         </span>
-        <span v-for="num in pagesCountInPerPage" :key="num" class="number">
-          <template v-if="pageID !== pageNum(num)">
+        <span
+          v-for="num in pagesCountInPerPage"
+          :key="num"
+          :class="{ number: pageExist(num) }"
+        >
+          <template v-if="!isCurrentPage(num) && pageExist(num)">
             <nuxt-link :to="path + '?page=' + pageNum(num)">{{
               pageNum(num)
             }}</nuxt-link>
           </template>
 
-          <template v-if="pageID === pageNum(num)">{{ pageNum(num) }}</template>
+          <template v-if="isCurrentPage(num) && pageExist(num)">{{
+            pageNum(num)
+          }}</template>
         </span>
         <span v-if="!isLastPage" class="next">
           <nuxt-link :to="path + '?page=' + nextPage">》ᠬᠤᠢᠢᠨᠠᠬᠢ</nuxt-link>
@@ -69,7 +75,7 @@
 export default {
   data() {
     return {
-      totalBooks: 201,
+      totalBooks: 131,
       pagesCountInPerPage: 10,
       booksPerPage: 10,
       pageID: 1,
@@ -119,9 +125,9 @@ export default {
     const p = parseInt(this.$route.query.page) || 1
     if (p > this.totalPages || p < 1) {
       this.$router.push('/')
+    } else {
+      this.init()
     }
-
-    this.init()
   },
   methods: {
     init() {
@@ -130,6 +136,13 @@ export default {
     },
     pageNum(num) {
       return this.startPage + parseInt(num)
+    },
+    isCurrentPage(num) {
+      return this.pageID === this.pageNum(num)
+    },
+    pageExist(num) {
+      console.log(this.startPage)
+      return num >= 1 - this.startPage
     }
   }
 }
