@@ -21,9 +21,9 @@
             </nuxt-link>
           </template>
 
-          <template v-if="isCurrentPage(num) && pageExist(num)">{{
-            pageNum(num)
-          }}</template>
+          <template v-if="isCurrentPage(num) && pageExist(num)">
+            {{ pageNum(num) }}
+          </template>
         </span>
         <span v-if="!isLastPage" class="next">
           <nuxt-link :to="bookLink + '/' + nextPage">》ᠬᠤᠢᠢᠨᠠᠬᠢ</nuxt-link>
@@ -117,21 +117,21 @@ export default {
               'http://b.hiphotos.baidu.com/image/pic/item/fc1f4134970a304e0c381653dbc8a786c9175c04.jpg',
             content:
               '10                                                   1.       '
+          },
+          {
+            id: '334',
+            image:
+              'http://c.hiphotos.baidu.com/image/pic/item/5243fbf2b211931352ceb3196f380cd790238d8e.jpg',
+            content:
+              '11 2019                    2019  3    16             '
+          },
+          {
+            id: '634',
+            image:
+              'http://c.hiphotos.baidu.com/image/pic/item/7acb0a46f21fbe09a9cc8fbd61600c338644ad8d.jpg',
+            content:
+              '12   70                                        '
           }
-          // {
-          //   id: '334',
-          //   image:
-          //     'http://c.hiphotos.baidu.com/image/pic/item/5243fbf2b211931352ceb3196f380cd790238d8e.jpg',
-          //   content:
-          //     '11 2019                    2019  3    16             '
-          // },
-          // {
-          //   id: '634',
-          //   image:
-          //     'http://c.hiphotos.baidu.com/image/pic/item/7acb0a46f21fbe09a9cc8fbd61600c338644ad8d.jpg',
-          //   content:
-          //     '12   70                                        '
-          // }
         ]
       }
     }
@@ -177,10 +177,13 @@ export default {
   },
   beforeMount() {
     console.log(this.$route)
-    const path = this.$route.path
     const pageid = this.$route.params.pageid
-    const bookPath = path.substring(0, path.length - (pageid.length + 1))
-    if (pageid > this.totalPages || pageid < 1) {
+    if (
+      pageid &&
+      (parseInt(pageid) > this.totalPages || parseInt(pageid) < 1)
+    ) {
+      const path = this.$route.path
+      const bookPath = path.substring(0, path.length - (pageid.length + 1))
       this.$router.push(bookPath)
     } else {
       this.init()
