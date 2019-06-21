@@ -6,6 +6,7 @@
       </nuxt-link>
     </div>
     <no-ssr>
+      <pages-number />
       <div class="pages-number">
         <span v-if="!isFirstPage" class="pre">
           <nuxt-link :to="bookLink + '/' + prePage">《</nuxt-link>
@@ -21,9 +22,9 @@
             </nuxt-link>
           </template>
 
-          <template v-if="isCurrentPage(num) && pageExist(num)">
-            {{ pageNum(num) }}
-          </template>
+          <template v-if="isCurrentPage(num) && pageExist(num)">{{
+            pageNum(num)
+          }}</template>
         </span>
         <span v-if="!isLastPage" class="next">
           <nuxt-link :to="bookLink + '/' + nextPage">》ᠬᠤᠢᠢᠨᠠᠬᠢ</nuxt-link>
@@ -34,11 +35,16 @@
 </template>
 
 <script>
+import PagesNumber from '@/components/common/PagesNumber'
+
 export default {
+  components: {
+    PagesNumber
+  },
   data() {
     return {
       pagesCountInPerPage: 10,
-      pageID: 1,
+      pageID: 0,
       path: '',
       book: {
         title: ' ',
@@ -164,7 +170,7 @@ export default {
       return this.pageID + 1
     },
     isFirstPage() {
-      return this.pageID === 1
+      return this.pageID <= 1
     },
     isLastPage() {
       return this.totalPages <= this.pageID
@@ -172,27 +178,33 @@ export default {
   },
   watch: {
     $route(to, from) {
-      this.init()
+      if (!this.redirect()) {
+        this.init()
+      }
     }
   },
   beforeMount() {
-    console.log(this.$route)
-    const pageid = this.$route.params.pageid
-    if (
-      pageid &&
-      (parseInt(pageid) > this.totalPages || parseInt(pageid) < 1)
-    ) {
-      const path = this.$route.path
-      const bookPath = path.substring(0, path.length - (pageid.length + 1))
-      this.$router.push(bookPath)
-    } else {
+    if (!this.redirect()) {
       this.init()
     }
   },
   methods: {
     init() {
       this.path = this.$route.path
-      this.pageID = parseInt(this.$route.params.pageid) || 1
+      this.pageID = parseInt(this.$route.params.pageid) || 0
+    },
+    redirect() {
+      const pageid = this.$route.params.pageid
+      if (
+        pageid &&
+        (parseInt(pageid) > this.totalPages || parseInt(pageid) < 1)
+      ) {
+        const path = this.$route.path
+        const bookPath = path.substring(0, path.length - (pageid.length + 1))
+        this.$router.push(bookPath)
+        return true
+      }
+      return false
     },
     pageNum(num) {
       return this.startPage + parseInt(num)
