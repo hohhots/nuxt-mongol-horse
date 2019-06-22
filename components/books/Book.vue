@@ -2,34 +2,15 @@
   <div>
     <div class="title">
       <nuxt-link :to="bookLink">
-        <h1> </h1>
+        <h1>{{ book.title }}</h1>
       </nuxt-link>
     </div>
     <no-ssr>
-      <pages-number />
-      <div class="pages-number">
-        <span v-if="!isFirstPage" class="pre">
-          <nuxt-link :to="bookLink + '/' + prePage">《</nuxt-link>
-        </span>
-        <span
-          v-for="num in pagesCountInPerPage"
-          :key="num"
-          :class="{ number: pageExist(num) }"
-        >
-          <template v-if="!isCurrentPage(num) && pageExist(num)">
-            <nuxt-link :to="bookLink + '/' + pageNum(num)">
-              <span class="num">{{ pageNum(num) }}</span>
-            </nuxt-link>
-          </template>
-
-          <template v-if="isCurrentPage(num) && pageExist(num)">{{
-            pageNum(num)
-          }}</template>
-        </span>
-        <span v-if="!isLastPage" class="next">
-          <nuxt-link :to="bookLink + '/' + nextPage">》ᠬᠤᠢᠢᠨᠠᠬᠢ</nuxt-link>
-        </span>
-      </div>
+      <pages-number
+        :items-count="totalPages"
+        :page-id="parseInt(this.$route.params.pageid) || firstPageId"
+        :base-path="basePath()"
+      />
     </no-ssr>
   </div>
 </template>
@@ -43,9 +24,7 @@ export default {
   },
   data() {
     return {
-      pagesCountInPerPage: 10,
-      pageID: 0,
-      path: '',
+      firstPageId: 0,
       book: {
         title: ' ',
         author: '',
@@ -152,47 +131,17 @@ export default {
         path = '/admin'
       }
       return path + '/' + this.$route.params.bookid
-    },
-    startPage() {
-      let num = 0
-      if (this.pageID > 6) {
-        num = this.pageID - 6
-      }
-      if (num + this.pagesCountInPerPage > this.totalPages) {
-        num = this.totalPages - this.pagesCountInPerPage
-      }
-      return num
-    },
-    prePage() {
-      return this.pageID - 1
-    },
-    nextPage() {
-      return this.pageID + 1
-    },
-    isFirstPage() {
-      return this.pageID <= 1
-    },
-    isLastPage() {
-      return this.totalPages <= this.pageID
     }
   },
   watch: {
     $route(to, from) {
-      if (!this.redirect()) {
-        this.init()
-      }
+      this.redirect()
     }
   },
   beforeMount() {
-    if (!this.redirect()) {
-      this.init()
-    }
+    this.redirect()
   },
   methods: {
-    init() {
-      this.path = this.$route.path
-      this.pageID = parseInt(this.$route.params.pageid) || 0
-    },
     redirect() {
       const pageid = this.$route.params.pageid
       if (
@@ -202,18 +151,12 @@ export default {
         const path = this.$route.path
         const bookPath = path.substring(0, path.length - (pageid.length + 1))
         this.$router.push(bookPath)
-        return true
       }
-      return false
     },
-    pageNum(num) {
-      return this.startPage + parseInt(num)
-    },
-    isCurrentPage(num) {
-      return this.pageID === this.pageNum(num)
-    },
-    pageExist(num) {
-      return num >= 1 - this.startPage
+    basePath() {
+      const path = this.$route.path
+      const last = path.substring(1).indexOf('/') + 2
+      return path.substring(0, last) + this.$route.params.bookid + '/'
     }
   }
 }
@@ -226,24 +169,5 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.pages-number {
-  margin-top: 3rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 3rem;
-}
-.number,
-.pre,
-.next {
-  font-size: 1.2rem;
-  margin-left: 1rem;
-}
-.pre {
-  margin-right: 2rem;
-}
-.next {
-  margin-left: 2rem;
 }
 </style>

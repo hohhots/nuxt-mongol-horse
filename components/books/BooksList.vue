@@ -9,17 +9,18 @@
           <span>{{ book.preview }}</span>
         </div>
       </div>
+      <pages-number />
       <div class="pages-number">
-        <span v-if="!isFirstPage" class="pre">
-          <nuxt-link :to="path + '?page=' + prePage">《</nuxt-link>
+        <span v-if="!isFirstPage()" class="pre">
+          <nuxt-link :to="basePath + '?page=' + prePage()">《</nuxt-link>
         </span>
         <span
-          v-for="num in pagesCountInPerPage"
+          v-for="num in selectablePagesNum"
           :key="num"
           :class="{ number: pageExist(num) }"
         >
           <template v-if="!isCurrentPage(num) && pageExist(num)">
-            <nuxt-link :to="path + '?page=' + pageNum(num)">{{
+            <nuxt-link :to="basePath + '?page=' + pageNum(num)">{{
               pageNum(num)
             }}</nuxt-link>
           </template>
@@ -28,8 +29,10 @@
             pageNum(num)
           }}</template>
         </span>
-        <span v-if="!isLastPage" class="next">
-          <nuxt-link :to="path + '?page=' + nextPage">》ᠬᠤᠢᠢᠨᠠᠬᠢ</nuxt-link>
+        <span v-if="!isLastPage()" class="next">
+          <nuxt-link :to="basePath + '?page=' + nextPage()"
+            >》ᠬᠤᠢᠢᠨᠠᠬᠢ</nuxt-link
+          >
         </span>
       </div>
     </no-ssr>
@@ -37,13 +40,20 @@
 </template>
 
 <script>
+import PagesNumber from '@/components/common/PagesNumber'
+
 export default {
+  components: {
+    PagesNumber
+  },
   data() {
     return {
-      totalBooks: 131,
-      pagesCountInPerPage: 10,
+      totalItems: 131,
+      itemsPerPage: 10,
+      firstPageId: 1,
+      selectablePagesNum: 10,
       pageID: 1,
-      path: '/',
+      basePath: '/',
       books: [
         {
           id: 1,
@@ -116,33 +126,18 @@ export default {
       }
       return path
     },
-    booksPerPage() {
-      return 10
-    },
     totalPages() {
-      return Math.ceil(this.totalBooks / this.booksPerPage)
+      return Math.ceil(this.totalItems / this.itemsPerPage)
     },
     startPage() {
       let num = 0
       if (this.pageID > 6) {
         num = this.pageID - 6
       }
-      if (num + this.pagesCountInPerPage > this.totalPages) {
-        num = this.totalPages - this.pagesCountInPerPage
+      if (num + this.selectablePagesNum > this.totalPages) {
+        num = this.totalPages - this.selectablePagesNum
       }
       return num
-    },
-    prePage() {
-      return this.pageID - 1
-    },
-    nextPage() {
-      return this.pageID + 1
-    },
-    isFirstPage() {
-      return this.pageID === 1
-    },
-    isLastPage() {
-      return this.totalPages <= this.pageID
     }
   },
   watch: {
@@ -151,17 +146,17 @@ export default {
     }
   },
   beforeMount() {
-    const p = parseInt(this.$route.query.page) || 1
-    if (p > this.totalPages || p < 1) {
-      this.$router.push('/')
-    } else {
-      this.init()
-    }
+    this.init()
   },
   methods: {
     init() {
-      this.path = this.$route.path
-      this.pageID = parseInt(this.$route.query.page) || 1
+      const p = parseInt(this.$route.query.page)
+      if (p > this.totalPages || p < 1) {
+        this.$router.push(this.$route.path)
+        return
+      }
+      this.basePath = this.$route.path
+      this.pageID = p || 1
     },
     pageNum(num) {
       return this.startPage + parseInt(num)
@@ -171,6 +166,18 @@ export default {
     },
     pageExist(num) {
       return num >= 1 - this.startPage
+    },
+    prePage() {
+      return this.pageID - 1
+    },
+    nextPage() {
+      return this.pageID + 1
+    },
+    isFirstPage() {
+      return this.pageID === this.firstPageId
+    },
+    isLastPage() {
+      return this.totalPages <= this.pageID
     }
   }
 }
