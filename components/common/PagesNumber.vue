@@ -14,9 +14,9 @@
         </nuxt-link>
       </template>
 
-      <template v-if="isCurrentPage(num) && pageExist(num)">{{
-        pageNum(num)
-      }}</template>
+      <template v-if="isCurrentPage(num) && pageExist(num)">
+        {{ pageNum(num) }}
+      </template>
     </span>
     <span v-if="!isLastPage()" class="next">
       <nuxt-link :to="basePath + nextPage()">》ᠬᠤᠢᠢᠨᠠᠬᠢ</nuxt-link>
@@ -31,7 +31,7 @@ export default {
       type: Number,
       default: 0
     },
-    itemsPerPage: {
+    itemsPerpage: {
       type: Number,
       default: 1
     },
@@ -54,7 +54,7 @@ export default {
   },
   computed: {
     totalPages() {
-      return Math.ceil(this.itemsCount / this.itemsPerPage)
+      return Math.ceil(this.itemsCount / this.itemsPerpage)
     },
     startPage() {
       let num = 0

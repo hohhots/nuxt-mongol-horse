@@ -9,32 +9,12 @@
           <span>{{ book.preview }}</span>
         </div>
       </div>
-      <pages-number />
-      <div class="pages-number">
-        <span v-if="!isFirstPage()" class="pre">
-          <nuxt-link :to="basePath + '?page=' + prePage()">《</nuxt-link>
-        </span>
-        <span
-          v-for="num in selectablePagesNum"
-          :key="num"
-          :class="{ number: pageExist(num) }"
-        >
-          <template v-if="!isCurrentPage(num) && pageExist(num)">
-            <nuxt-link :to="basePath + '?page=' + pageNum(num)">{{
-              pageNum(num)
-            }}</nuxt-link>
-          </template>
-
-          <template v-if="isCurrentPage(num) && pageExist(num)">{{
-            pageNum(num)
-          }}</template>
-        </span>
-        <span v-if="!isLastPage()" class="next">
-          <nuxt-link :to="basePath + '?page=' + nextPage()"
-            >》ᠬᠤᠢᠢᠨᠠᠬᠢ</nuxt-link
-          >
-        </span>
-      </div>
+      <pages-number
+        :items-count="totalItems"
+        :items-perpage="itemsPerPage"
+        :page-id="parseInt(this.$route.query.page) || firstPageId"
+        :base-path="basePath()"
+      />
     </no-ssr>
   </div>
 </template>
@@ -49,11 +29,8 @@ export default {
   data() {
     return {
       totalItems: 131,
-      itemsPerPage: 10,
+      itemsPerPage: 5,
       firstPageId: 1,
-      selectablePagesNum: 10,
-      pageID: 1,
-      basePath: '/',
       books: [
         {
           id: 1,
@@ -128,16 +105,6 @@ export default {
     },
     totalPages() {
       return Math.ceil(this.totalItems / this.itemsPerPage)
-    },
-    startPage() {
-      let num = 0
-      if (this.pageID > 6) {
-        num = this.pageID - 6
-      }
-      if (num + this.selectablePagesNum > this.totalPages) {
-        num = this.totalPages - this.selectablePagesNum
-      }
-      return num
     }
   },
   watch: {
@@ -151,33 +118,12 @@ export default {
   methods: {
     init() {
       const p = parseInt(this.$route.query.page)
-      if (p > this.totalPages || p < 1) {
+      if ((p && p > this.totalPages) || p < 1) {
         this.$router.push(this.$route.path)
-        return
       }
-      this.basePath = this.$route.path
-      this.pageID = p || 1
     },
-    pageNum(num) {
-      return this.startPage + parseInt(num)
-    },
-    isCurrentPage(num) {
-      return this.pageID === this.pageNum(num)
-    },
-    pageExist(num) {
-      return num >= 1 - this.startPage
-    },
-    prePage() {
-      return this.pageID - 1
-    },
-    nextPage() {
-      return this.pageID + 1
-    },
-    isFirstPage() {
-      return this.pageID === this.firstPageId
-    },
-    isLastPage() {
-      return this.totalPages <= this.pageID
+    basePath() {
+      return '/?page='
     }
   }
 }
@@ -189,24 +135,5 @@ export default {
   border-bottom: 1px solid #cfcfcf;
   padding-top: 10px;
   padding-bottom: 10px;
-}
-.pages-number {
-  margin-top: 3rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 3rem;
-}
-.number,
-.pre,
-.next {
-  font-size: 1.2rem;
-  margin-left: 1rem;
-}
-.pre {
-  margin-right: 2rem;
-}
-.next {
-  margin-left: 2rem;
 }
 </style>
