@@ -2,9 +2,9 @@
   <div class="book-list">
     <no-ssr>
       <div v-for="book in books" :key="book.id" class="book">
-        <h1>
+        <h3>
           <nuxt-link :to="bookLink + '/' + book.id">{{ book.title }}</nuxt-link>
-        </h1>
+        </h3>
         <div class="preview">
           <span>{{ book.preview }}</span>
         </div>
@@ -130,10 +130,26 @@ export default {
 </script>
 
 <style scoped>
+h3 {
+  padding: 5px 0 5px 0;
+  font-weight: normal;
+}
+h3 > a:link {
+  text-decoration: none;
+  color: #1a0dab;
+}
+h3 > a:hover {
+  text-decoration: underline;
+}
+h3 > a:visited {
+  color: #609;
+}
 .book {
-  margin-bottom: 30px;
-  border-bottom: 1px solid #cfcfcf;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  margin-top: 0;
+  margin-bottom: 26px;
+}
+.preview {
+  line-height: 2rem;
+  text-align: left;
 }
 </style>

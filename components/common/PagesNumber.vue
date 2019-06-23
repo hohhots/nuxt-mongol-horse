@@ -117,17 +117,23 @@ export default {
   margin-left: 0;
 }
 
-.number > a,
-.pre > a,
-.next > a {
+.number > a:link,
+.pre > a:link,
+.next > a:link {
   text-decoration: none;
-  color: blue;
+  color: #1a0dab;
 }
 
 .number > a:hover,
 .pre > a:hover,
 .next > a:hover {
   text-decoration: underline;
+}
+
+.number > a:visited,
+.pre > a:visited,
+.next > a:visited {
+  color: #609;
 }
 
 .num-only {
