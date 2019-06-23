@@ -15,7 +15,7 @@
       </template>
 
       <template v-if="isCurrentPage(num) && pageExist(num)">
-        {{ pageNum(num) }}
+        <span class="num-only">{{ pageNum(num) }}</span>
       </template>
     </span>
     <span v-if="!isLastPage()" class="next">
@@ -103,18 +103,49 @@ export default {
   height: 3rem;
 }
 
+.num,
+.num-only,
 .number,
 .pre,
 .next {
+  cursor: pointer;
   font-size: 1.2rem;
-  margin-left: 1rem;
+  margin-left: 0.7rem;
 }
 
 .pre {
-  margin-right: 2rem;
+  margin-left: 0;
 }
 
-.next {
-  margin-left: 2rem;
+.number > a,
+.pre > a,
+.next > a {
+  text-decoration: none;
+  color: blue;
+}
+
+.number > a:hover,
+.pre > a:hover,
+.next > a:hover {
+  text-decoration: underline;
+}
+
+.num-only {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: default;
+  color: black;
+}
+
+.num-only:after {
+  position: absolute;
+  content: ' ';
+  bottom: -1rem;
+  border: 2px solid red;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
 }
 </style>

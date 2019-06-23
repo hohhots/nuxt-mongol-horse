@@ -29,7 +29,7 @@ export default {
   data() {
     return {
       totalItems: 131,
-      itemsPerPage: 5,
+      itemsPerPage: 10,
       firstPageId: 1,
       books: [
         {
