@@ -13,7 +13,7 @@
     >
 
     <MonInputControl v-model="editedBook.totalPages" placeholder=""
-      ></MonInputControl
+      >ᠨᠡᠶᠢᠲᠡ</MonInputControl
     >
 
     <MonInputControl v-model="editedBook.typingPersons" placeholder=""

@@ -95,7 +95,7 @@ export default {
 
 <style scoped>
 .pages-number {
-  margin-top: 3rem;
+  margin-top: 2rem;
   margin-bottom: 2rem;
   display: flex;
   justify-content: center;
@@ -115,25 +115,6 @@ export default {
 
 .pre {
   margin-left: 0;
-}
-
-.number > a:link,
-.pre > a:link,
-.next > a:link {
-  text-decoration: none;
-  color: #1a0dab;
-}
-
-.number > a:hover,
-.pre > a:hover,
-.next > a:hover {
-  text-decoration: underline;
-}
-
-.number > a:visited,
-.pre > a:visited,
-.next > a:visited {
-  color: #609;
 }
 
 .num-only {

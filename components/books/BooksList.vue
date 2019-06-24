@@ -134,16 +134,7 @@ h3 {
   padding: 5px 0 5px 0;
   font-weight: normal;
 }
-h3 > a:link {
-  text-decoration: none;
-  color: #1a0dab;
-}
-h3 > a:hover {
-  text-decoration: underline;
-}
-h3 > a:visited {
-  color: #609;
-}
+
 .book {
   margin-top: 0;
   margin-bottom: 26px;

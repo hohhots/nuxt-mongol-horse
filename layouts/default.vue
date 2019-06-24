@@ -92,4 +92,18 @@ body {
   border: 2px solid #933;
   padding: 2px;
 }
+
+a:link {
+  cursor: pointer;
+  text-decoration: none;
+  color: #1a0dab;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:visited {
+  color: #609;
+}
 </style>

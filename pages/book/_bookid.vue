@@ -15,4 +15,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.container {
+  padding: 15px;
+}
+</style>
