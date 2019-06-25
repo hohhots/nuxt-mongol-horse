@@ -11,8 +11,18 @@ import util from '@/util/util.js'
 export default {
   inheritAttrs: false,
   props: {
-    src: String,
-    monstyle: String
+    state: {
+      type: Boolean,
+      default: true
+    },
+    src: {
+      type: String,
+      default: ''
+    },
+    monstyle: {
+      type: String,
+      default: ''
+    }
   },
   data() {
     return {
@@ -22,6 +32,11 @@ export default {
   },
   mounted() {
     this.$refs.img.onload = () => {
+      this._initState()
+    }
+  },
+  watch: {
+    state(newv, oldv) {
       this._initState()
     }
   },

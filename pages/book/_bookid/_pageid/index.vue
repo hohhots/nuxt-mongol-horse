@@ -1,25 +1,30 @@
 <template>
   <div class="container">
     <div class="types">
-      <span>Text</span>
-      <span>Image</span>
+      <mon-button class="item" @click="toggle(true)">ᠦᠰᠦᠭᠯᠡᠯ</mon-button>
+      <mon-button class="item" @click="toggle(false)">ᠵᠢᠷᠤᠬᠯᠠᠯ</mon-button>
     </div>
     <div class="content">
-      <span>{{ book.content[pageId - 1].content }}</span>
-      <mon-img :src="book.content[pageId - 1].image" />
+      <span v-show="displayText">{{ book.content[pageId - 1].content }}</span>
+      <div class="img-container">
+        <mon-img v-show="!displayText" :src="imgSrc" :state="!displayText" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import MonImg from '@/components/mongol/MonImg'
+import MonButton from '@/components/mongol/MonButton'
 
 export default {
   components: {
-    MonImg
+    MonImg,
+    MonButton
   },
   data: function() {
     return {
+      displayText: true,
       pageId: this.$route.params.pageid,
       book: {
         title: ' ',
@@ -32,7 +37,7 @@ export default {
           {
             id: '123',
             image:
-              'https://tse3-mm.cn.bing.net/th?id=OIP.AmMPLEYrqjWptFmkwrRdnwHaE7&w=286&h=190&c=7&o=5&dpr=1.5&pid=1.7',
+              'https://upload.wikimedia.org/wikipedia/commons/3/3f/Fronalpstock_big.jpg',
             content:
               '1                                                   1.       '
           },
@@ -116,8 +121,36 @@ export default {
         ]
       }
     }
+  },
+  computed: {
+    imgSrc() {
+      return this.book.content[this.pageId - 1].image
+    }
+  },
+  methods: {
+    toggle(state) {
+      this.displayText = state
+    }
   }
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.types {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.item {
+  margin: 0 1rem 1rem 1rem;
+}
+.img-container {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+</style>
