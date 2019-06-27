@@ -63,7 +63,7 @@ export default {
     }
 
     this.$refs.measure.style.width = 0
-    this.$refs.measure.style.zIndex = -9999
+    this.$refs.measure.style.zIndex = -99999
 
     this._setEvents()
   },
@@ -144,6 +144,7 @@ export default {
         this._resizeAll()
       })
 
+      ro.observe(this.$refs.measure)
       ro.observe(this.$refs.mvbody)
     },
     ...mapActions({
