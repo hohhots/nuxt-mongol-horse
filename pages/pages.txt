@@ -1,0 +1,14 @@
+/ or /book
+  booklist.vue
+/book/bookid
+  book.vue
+
+/admin
+  booklist
+/admin/new-book
+  new-book
+/admin/bookid
+  edit-book
+/admin/bookid/pageid
+  edit-page or new-page
+  

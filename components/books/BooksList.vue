@@ -3,7 +3,7 @@
     <no-ssr>
       <div v-for="book in books" :key="book.id" class="book">
         <h3>
-          <nuxt-link :to="bookLink + '/' + book.id">{{ book.title }}</nuxt-link>
+          <nuxt-link :to="baseUrl + '/' + book.id">{{ book.title }}</nuxt-link>
         </h3>
         <div class="preview">
           <span>{{ book.preview }}</span>
@@ -13,7 +13,7 @@
         :items-count="totalItems"
         :items-perpage="itemsPerPage"
         :page-id="parseInt(this.$route.query.page) || firstPageId"
-        :base-path="basePath()"
+        :base-path="pagenumUrl()"
       />
     </no-ssr>
   </div>
@@ -96,12 +96,17 @@ export default {
     }
   },
   computed: {
-    bookLink() {
-      let path = '/book'
-      if (this.$route.path.indexOf('/admin') > -1) {
-        path = '/admin'
+    baseUrl() {
+      const b = '/book'
+      const a = '/admin'
+      const path = this.$route.path
+      const secondSlash = path.substring(1).indexOf('/')
+      if (path === a) {
+        return a
+      } else if (secondSlash > -1 && path.substring(0, secondSlash + 1) === a) {
+        return a
       }
-      return path
+      return b
     },
     totalPages() {
       return Math.ceil(this.totalItems / this.itemsPerPage)
@@ -122,8 +127,15 @@ export default {
         this.$router.push(this.$route.path)
       }
     },
-    basePath() {
-      return '/?page='
+    pagenumUrl() {
+      const p = '/?page='
+      const bu = this.baseUrl
+      if (bu === '/book') {
+        return p
+      }
+      if (bu === '/admin') {
+        return bu + p
+      }
     }
   }
 }
