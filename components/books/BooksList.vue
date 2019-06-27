@@ -20,12 +20,14 @@
 </template>
 
 <script>
+import gVariables from '@/mixins/globalVariables.js'
 import PagesNumber from '@/components/common/PagesNumber'
 
 export default {
   components: {
     PagesNumber
   },
+  mixins: [gVariables],
   data() {
     return {
       totalItems: 131,
@@ -96,18 +98,6 @@ export default {
     }
   },
   computed: {
-    baseUrl() {
-      const b = '/book'
-      const a = '/admin'
-      const path = this.$route.path
-      const secondSlash = path.substring(1).indexOf('/')
-      if (path === a) {
-        return a
-      } else if (secondSlash > -1 && path.substring(0, secondSlash + 1) === a) {
-        return a
-      }
-      return b
-    },
     totalPages() {
       return Math.ceil(this.totalItems / this.itemsPerPage)
     }
@@ -130,10 +120,10 @@ export default {
     pagenumUrl() {
       const p = '/?page='
       const bu = this.baseUrl
-      if (bu === '/book') {
+      if (bu === this.bookUrl) {
         return p
       }
-      if (bu === '/admin') {
+      if (bu === this.adminUrl) {
         return bu + p
       }
     }

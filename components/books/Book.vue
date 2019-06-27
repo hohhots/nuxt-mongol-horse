@@ -16,12 +16,14 @@
 </template>
 
 <script>
+import globalVariables from '@/mixins/globalVariables.js'
 import PagesNumber from '@/components/common/PagesNumber'
 
 export default {
   components: {
     PagesNumber
   },
+  mixins: [globalVariables],
   data() {
     return {
       firstPageId: 0,
@@ -126,11 +128,7 @@ export default {
       return this.book.content.length
     },
     bookLink() {
-      let path = '/book'
-      if (this.$route.path.indexOf('admin') > -1) {
-        path = '/admin'
-      }
-      return path + '/' + this.$route.params.bookid
+      return this.bookUrl + '/' + this.$route.params.bookid
     }
   },
   watch: {
