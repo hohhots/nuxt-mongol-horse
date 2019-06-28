@@ -1,6 +1,6 @@
 <template>
   <div>
-    <dir class="new-book"></dir>
+    <div class="new-book"></div>
     <AdminNewBook />
   </div>
 </template>
@@ -40,5 +40,6 @@ export default {
   display: flex;
   justify-content: center;
   align-content: center;
+  margin-bottom: 2rem;
 }
 </style>

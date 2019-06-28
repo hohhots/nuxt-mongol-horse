@@ -1,6 +1,6 @@
 <template>
   <form method="post" enctype="multipart/form-data">
-    <h1 class="new-page-title"></h1>
+    <h1 v-if="!isEditPage" class="new-page-title"></h1>
     <div class="upload">
       <div ref="preview">
         <mon-img v-if="imgsrc" :src="imgsrc" width="800px" />
@@ -50,10 +50,17 @@ export default {
     return {
       text: '',
       image: {},
-      imgsrc: ''
+      imgsrc: '',
+      page: {}
     }
   },
   computed: {
+    isEditPage() {
+      if (this.page.id) {
+        return true
+      }
+      return false
+    },
     uploadText() {
       return !this.imgsrc ? 'ᠳᠡᠪᠰᠢᠭᠦᠯᠦᠶ᠎ᠡ' : 'ᠰᠤᠯᠢᠶ᠎ᠠ'
     }

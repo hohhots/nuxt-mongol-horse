@@ -1,9 +1,15 @@
 <template>
-  <div>admin page id:</div>
+  <AdminPage />
 </template>
 
 <script>
-export default {}
+import AdminPage from '@/components/admin/AdminPage'
+
+export default {
+  components: {
+    AdminPage
+  }
+}
 </script>
 
 <style lang="scss" scoped></style>

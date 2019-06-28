@@ -128,7 +128,7 @@ export default {
       return this.book.content.length
     },
     bookLink() {
-      return this.bookUrl + '/' + this.$route.params.bookid
+      return this.baseUrl + '/' + this.$route.params.bookid
     }
   },
   watch: {

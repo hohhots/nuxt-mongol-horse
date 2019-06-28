@@ -1,14 +1,24 @@
+book group
+
 / or /book
-  booklist.vue
+  /pages/index.vue
+  
 /book/bookid
   book.vue
 
+--------------------------------------------
+
+admin group
+
 /admin
-  booklist
+  /admin/index.vue
+
 /admin/new-book
-  new-book
+  /admin/new-book/index.vue
+
 /admin/bookid
-  edit-book
+  /admin/_bookid.vue and /admin/_bookid/index.vue
+
 /admin/bookid/pageid
-  edit-page or new-page
+  /admin/_bookid.vue and /admin/_bookid/_pageid/index.vue
   
