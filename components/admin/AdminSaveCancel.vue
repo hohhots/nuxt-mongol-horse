@@ -1,14 +1,20 @@
 <template>
-  <div class="new-book">
-    <mon-button type="submit" width="70px"></mon-button>
+  <div class="buttons">
+    <div class="sava-cancel">
+      <mon-button type="submit" width="70px"></mon-button>
 
-    <mon-button
-      type="button"
-      width="70px"
-      btn-style="cancel"
-      @click="$emit('onCancel')"
-      ></mon-button
-    >
+      <mon-button
+        type="button"
+        width="70px"
+        btn-style="cancel"
+        @click="$emit('onCancel')"
+        ></mon-button
+      >
+    </div>
+
+    <div v-if="$route.params.bookid" class="new-page">
+      <mon-button type="button" width="70px"></mon-button>
+    </div>
   </div>
 </template>
 
@@ -20,9 +26,21 @@ export default {}
 MonButton {
   width: 70px;
 }
-.new-book {
+.buttons,
+.sava-cancel,
+.new-page {
   display: flex;
   justify-content: space-evenly;
-  align-items: center;
+}
+.buttons {
+  flex-flow: column;
+}
+.sava-cancel {
+  align-items: unset;
+}
+.new-page {
+  border-top: 1px dashed #cfcfcf;
+  padding-top: 49px;
+  margin-top: 2rem;
 }
 </style>

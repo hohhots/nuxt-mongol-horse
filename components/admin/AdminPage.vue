@@ -1,6 +1,10 @@
 <template>
   <form method="post" enctype="multipart/form-data">
-    <h1 v-if="!isEditPage" class="new-page-title"></h1>
+    <div class="new-page-title">
+      <mon-button v-if="$route.params.bookid" type="button" width="70px"
+        ></mon-button
+      >
+    </div>
     <div class="upload">
       <div ref="preview">
         <mon-img v-if="imgsrc" :src="imgsrc" width="800px" />
@@ -89,10 +93,12 @@ figure {
 }
 .new-page-title {
   margin-top: 20px;
+  margin-bottom: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 25px;
+  border-bottom: 1px dashed #cfcfcf;
+  padding-bottom: 2rem;
 }
 .fileinput {
   display: none;
