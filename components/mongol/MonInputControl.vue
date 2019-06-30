@@ -8,6 +8,7 @@
       v-bind="$attrs"
       :placeholder="placeholder"
       :value="value"
+      :disabled="disabled === 'true'"
       @input="$emit('input', $event.target.value)"
     />
     <textarea
@@ -35,6 +36,10 @@ export default {
     value: {
       type: String,
       default: ''
+    },
+    disabled: {
+      type: String,
+      default: 'false'
     }
   }
 }
