@@ -1,7 +1,11 @@
 <template>
   <form method="post" enctype="multipart/form-data">
     <div class="new-page-title">
-      <mon-button v-if="$route.params.bookid" type="button" width="70px"
+      <mon-button
+        v-if="$route.params.bookid"
+        type="button"
+        width="70px"
+        btn-style="new"
         ></mon-button
       >
     </div>

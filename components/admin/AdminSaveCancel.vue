@@ -13,7 +13,9 @@
     </div>
 
     <div v-if="$route.params.bookid" class="new-page">
-      <mon-button type="button" width="70px"></mon-button>
+      <mon-button type="button" width="70px" btn-style="new"
+        ></mon-button
+      >
     </div>
   </div>
 </template>
