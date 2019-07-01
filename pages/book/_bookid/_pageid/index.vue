@@ -1,13 +1,14 @@
 <template>
   <div class="container">
     <div class="types">
-      <mon-button class="item" @click="toggle(true)">ᠦᠰᠦᠭᠯᠡᠯ</mon-button>
-      <mon-button class="item" @click="toggle(false)">ᠵᠢᠷᠤᠬᠯᠠᠯ</mon-button>
+      <mon-button class="item" @click="toggle(0)">ᠦᠰᠦᠭᠯᠡᠯ</mon-button>
+      <mon-button class="item" @click="toggle(1)">ᠵᠢᠷᠤᠬᠯᠠᠯ</mon-button>
+      <mon-button class="item" @click="toggle(2)"></mon-button>
     </div>
     <div class="content">
       <span v-show="displayText">{{ book.content[pageId - 1].content }}</span>
       <div class="img-container">
-        <mon-img v-show="!displayText" :src="imgSrc" :state="!displayText" />
+        <mon-img v-show="displayImage" :src="imgSrc" :state="displayImage" />
       </div>
     </div>
   </div>
@@ -25,6 +26,7 @@ export default {
   data: function() {
     return {
       displayText: true,
+      displayImage: false,
       pageId: this.$route.params.pageid,
       book: {
         title: ' ',
@@ -129,7 +131,16 @@ export default {
   },
   methods: {
     toggle(state) {
-      this.displayText = state
+      this.displayText = true
+      this.displayImage = false
+      if (state === 1) {
+        this.displayText = false
+        this.displayImage = true
+      }
+      if (state === 2) {
+        this.displayText = true
+        this.displayImage = true
+      }
     }
   }
 }
@@ -149,6 +160,7 @@ export default {
   display: flex;
   justify-content: center;
   margin: 0;
+  margin-top: 2rem;
   padding: 0;
   width: 100%;
   height: 100%;
