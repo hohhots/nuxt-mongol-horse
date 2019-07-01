@@ -10,12 +10,12 @@
     >
       <template v-if="!isCurrentPage(num) && pageExist(num)">
         <nuxt-link :to="basePath + pageNum(num)">
-          <span class="num">{{ pageNum(num) }}</span>
+          <mon-horizon class="num">{{ pageNum(num) }}</mon-horizon>
         </nuxt-link>
       </template>
 
       <template v-if="isCurrentPage(num) && pageExist(num)">
-        <span class="num-only">{{ pageNum(num) }}</span>
+        <mon-horizon class="num-only">{{ pageNum(num) }}</mon-horizon>
       </template>
     </span>
     <span v-if="!isLastPage()" class="next">
@@ -117,6 +117,10 @@ export default {
   margin-left: 0;
 }
 
+.num:hover {
+  text-decoration: overline;
+}
+
 .num-only {
   position: relative;
   display: flex;
@@ -129,7 +133,7 @@ export default {
 .num-only:after {
   position: absolute;
   content: ' ';
-  bottom: -1rem;
+  right: -1.5rem;
   border: 2px solid red;
   border-radius: 50%;
   width: 10px;
