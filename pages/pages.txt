@@ -23,4 +23,6 @@ admin group --------------------------------------------
 
 /admin/bookid/pageid
   /admin/_bookid.vue and /admin/_bookid/_pageid/index.vue
-  
+
+/admin/bookid/pageid/new-page
+  /admin/_bookid/_pageid/new-page/index.vue

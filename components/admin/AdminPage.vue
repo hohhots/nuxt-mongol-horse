@@ -1,8 +1,9 @@
 <template>
   <form method="post" enctype="multipart/form-data">
     <div class="new-page-title">
+      <span v-if="!editExistingPage"></span>
       <mon-button
-        v-if="$route.params.bookid"
+        v-if="editExistingPage"
         type="button"
         width="70px"
         btn-style="new"
@@ -36,15 +37,19 @@
         </label>
       </div>
     </div>
-    <MonInputControl v-model="text" control-type="textarea" placeholder=""
-      ></MonInputControl
-    >
+    <MonInputControl
+      v-model="text"
+      control-type="textarea"
+      placeholder=""
+    ></MonInputControl>
 
     <AdminSaveCancel @onCancel="onCancel"></AdminSaveCancel>
   </form>
 </template>
 
 <script>
+import globalVariables from '@/mixins/globalVariables.js'
+
 import AdminSaveCancel from '@/components/admin/AdminSaveCancel'
 import MonInputControl from '@/components/mongol/MonInputControl'
 
@@ -54,6 +59,7 @@ export default {
     AdminSaveCancel,
     MonInputControl
   },
+  mixins: [globalVariables],
   data: function() {
     return {
       image: {},

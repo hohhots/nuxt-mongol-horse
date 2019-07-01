@@ -2,7 +2,8 @@ export default {
   data() {
     return {
       bookUrl: '/book',
-      adminUrl: '/admin'
+      adminUrl: '/admin',
+      newPage: 'new-page'
     }
   },
   computed: {
@@ -17,6 +18,18 @@ export default {
         return a
       }
       return b
+    },
+    editExistingPage() {
+      const bookid = this.$route.params.bookid
+      const pageid = this.$route.params.pageid
+      let newpage = false
+      if (this.$route.path.indexOf(this.newPage) > -1) {
+        newpage = true
+      }
+      if ((bookid && !pageid) || (pageid && !newpage)) {
+        return true
+      }
+      return false
     }
   }
 }

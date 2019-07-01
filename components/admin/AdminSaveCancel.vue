@@ -12,7 +12,7 @@
       >
     </div>
 
-    <div v-if="$route.params.bookid" class="new-page">
+    <div v-if="editExistingPage" class="new-page">
       <mon-button type="button" width="70px" btn-style="new"
         ></mon-button
       >
@@ -21,7 +21,11 @@
 </template>
 
 <script>
-export default {}
+import globalVariables from '@/mixins/globalVariables.js'
+
+export default {
+  mixins: [globalVariables]
+}
 </script>
 
 <style scoped>
