@@ -11,7 +11,7 @@
     </div>
     <div class="upload">
       <div ref="preview">
-        <mon-img v-if="imgsrc" :src="imgsrc" width="800px" />
+        <mon-img v-if="imgsrc" :src="imgsrc" />
       </div>
       <div class="label">
         <input
@@ -56,18 +56,29 @@ export default {
   },
   data: function() {
     return {
-      text: '',
       image: {},
-      imgsrc: '',
-      page: {}
+      bookid: this.$route.params.bookid,
+      pageid: this.$route.params.pageid,
+      page: {
+        image:
+          'https://tse1-mm.cn.bing.net/th?id=OIP.-gowfhfxvRh4oroB3437UwHaLH&w=129&h=190&c=7&o=5&dpr=1.5&pid=1.7',
+        content:
+          '2 2019                    2019  3    16             '
+      }
     }
   },
   computed: {
-    isEditPage() {
-      if (this.page.id) {
-        return true
+    imgsrc() {
+      if (this.page.image) {
+        return this.page.image
       }
-      return false
+      return ''
+    },
+    text() {
+      if (this.page.content) {
+        return this.page.content
+      }
+      return ''
     },
     uploadText() {
       return !this.imgsrc ? 'ᠳᠡᠪᠰᠢᠭᠦᠯᠦᠶ᠎ᠡ' : 'ᠰᠤᠯᠢᠶ᠎ᠠ'

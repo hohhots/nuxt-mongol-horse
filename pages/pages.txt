@@ -1,14 +1,16 @@
-book group
+book group --------------------------------------------
 
 / or /book
   /pages/index.vue
   
 /book/bookid
-  book.vue
+  /book/_bookid.vue and /book/_bookid/index.vue
 
---------------------------------------------
+/book/bookid/pageid
+  /book/_bookid.vue and /book/_bookid/_pageid/index.vue
+  
 
-admin group
+admin group --------------------------------------------
 
 /admin
   /admin/index.vue
