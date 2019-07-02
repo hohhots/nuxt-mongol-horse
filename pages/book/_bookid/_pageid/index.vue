@@ -1,9 +1,15 @@
 <template>
   <div class="container">
     <div class="types">
-      <mon-button class="item" @click="toggle(0)">ᠦᠰᠦᠭᠯᠡᠯ</mon-button>
-      <mon-button class="item" @click="toggle(1)">ᠵᠢᠷᠤᠬᠯᠠᠯ</mon-button>
-      <mon-button class="item" @click="toggle(2)"></mon-button>
+      <mon-button class="item" width="70px" @click="toggle(0)"
+        >ᠦᠰᠦᠭᠯᠡᠯ</mon-button
+      >
+      <mon-button class="item" width="70px" @click="toggle(1)"
+        >ᠵᠢᠷᠤᠬᠯᠠᠯ</mon-button
+      >
+      <mon-button class="item" width="70px" @click="toggle(2)"
+        ></mon-button
+      >
     </div>
     <div class="content">
       <span v-show="displayText">{{ book.content[pageId - 1].content }}</span>
