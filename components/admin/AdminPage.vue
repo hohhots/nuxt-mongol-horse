@@ -6,7 +6,7 @@
         v-if="editExistingPage"
         type="button"
         width="70px"
-        btn-style="new"
+        @click="onPreNewPage"
         ></mon-button
       >
     </div>
@@ -43,7 +43,10 @@
       placeholder=""
     ></MonInputControl>
 
-    <AdminSaveCancel @onCancel="onCancel"></AdminSaveCancel>
+    <AdminSaveCancel
+      @onCancel="onCancel"
+      @newPage="onNextNewPage"
+    ></AdminSaveCancel>
   </form>
 </template>
 
@@ -63,8 +66,6 @@ export default {
   data: function() {
     return {
       image: {},
-      bookid: this.$route.params.bookid,
-      pageid: this.$route.params.pageid,
       page: {
         image:
           'https://tse1-mm.cn.bing.net/th?id=OIP.-gowfhfxvRh4oroB3437UwHaLH&w=129&h=190&c=7&o=5&dpr=1.5&pid=1.7',
@@ -74,6 +75,12 @@ export default {
     }
   },
   computed: {
+    bookid() {
+      return this.$route.params.bookid
+    },
+    pageid() {
+      return this.$route.params.pageid
+    },
     imgsrc() {
       if (this.page.image) {
         return this.page.image
@@ -101,6 +108,18 @@ export default {
         this.imgsrc = e.target.result
       }
       reader.readAsDataURL(this.image)
+    },
+    onPreNewPage() {
+      this.$router.push(
+        `${this.baseUrl}/${this.bookid}/${this.pageid}/${this.newPage}`
+      )
+    },
+    onNextNewPage() {
+      this.$router.push(
+        `${this.baseUrl}/${this.bookid}/${parseInt(this.pageid) + 1}/${
+          this.newPage
+        }`
+      )
     }
   }
 }

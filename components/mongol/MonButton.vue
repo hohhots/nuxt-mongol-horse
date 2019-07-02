@@ -37,7 +37,9 @@ export default {
 }
 
 .button:hover,
-.button:active {
+.button:active,
+.cancel:hover,
+.cancel:active {
   background-color: rgb(51, 51, 51);
   border: 1px solid black;
 }
@@ -53,31 +55,5 @@ export default {
   color: #ccc;
   background-color: white;
   border: 1px solid transparent;
-}
-
-.cancel {
-  background-color: red;
-  color: white;
-  border: 1px solid transparent;
-}
-
-.cancel:hover,
-.cancel:active {
-  background-color: salmon;
-  border: 1px solid transparent;
-  color: white;
-}
-
-.new {
-  background-color: #999;
-  color: black;
-  border: 1px solid transparent;
-}
-
-.new:hover,
-.new:active {
-  background-color: #ccc;
-  border: 1px solid transparent;
-  color: #666;
 }
 </style>

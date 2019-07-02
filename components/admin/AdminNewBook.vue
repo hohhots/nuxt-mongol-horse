@@ -30,11 +30,12 @@
       ></MonInputControl
     >
 
-    <AdminSaveCancel @onCancel="onCancel"></AdminSaveCancel>
+    <AdminSaveCancel @cancel="onCancel" @newPage="onNewPage"></AdminSaveCancel>
   </form>
 </template>
 
 <script>
+import gVariables from '@/mixins/globalVariables.js'
 import AdminSaveCancel from '@/components/admin/AdminSaveCancel'
 
 export default {
@@ -42,6 +43,7 @@ export default {
   components: {
     AdminSaveCancel
   },
+  mixins: [gVariables],
   data: function() {
     return {
       editedBook: {
@@ -141,6 +143,12 @@ export default {
     }
   },
   computed: {
+    bookid() {
+      return this.$route.params.bookid
+    },
+    pageid() {
+      return this.$route.params.pageid
+    },
     totalPages() {
       return '' + this.editedBook.content.length
     }
@@ -151,6 +159,12 @@ export default {
     },
     onCancel() {
       this.$router.push('/admin')
+    },
+    onNewPage() {
+      const pageid = this.pageid || 1
+      this.$router.push(
+        `${this.baseUrl}/${this.bookid}/${pageid}/${this.newPage}`
+      )
     }
   }
 }

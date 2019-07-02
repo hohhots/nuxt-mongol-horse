@@ -3,17 +3,13 @@
     <div class="sava-cancel">
       <mon-button type="submit" width="70px"></mon-button>
 
-      <mon-button
-        type="button"
-        width="70px"
-        btn-style="cancel"
-        @click="$emit('onCancel')"
+      <mon-button type="button" width="70px" @click="$emit('cancel')"
         ></mon-button
       >
     </div>
 
     <div v-if="editExistingPage" class="new-page">
-      <mon-button type="button" width="70px" btn-style="new"
+      <mon-button type="button" width="70px" @click="$emit('newPage')"
         ></mon-button
       >
     </div>
@@ -29,7 +25,7 @@ export default {
 </script>
 
 <style scoped>
-MonButton {
+mon-button {
   width: 70px;
 }
 .buttons,
