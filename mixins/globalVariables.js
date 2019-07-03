@@ -3,7 +3,10 @@ export default {
     return {
       bookUrl: '/book',
       adminUrl: '/admin',
-      newPage: 'new-page'
+      newPage: 'new-page',
+      monText: {
+        newPage: ''
+      }
     }
   },
   computed: {

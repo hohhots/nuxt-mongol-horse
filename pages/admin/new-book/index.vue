@@ -14,19 +14,12 @@ export default {
   },
   data: function() {
     return {
-      editedBook: {
-        name: '',
-        author: '',
-        writtenDate: '',
-        totalPages: '',
-        typingPersons: '',
-        preview: ''
-      }
+      newBook: {}
     }
   },
   methods: {
     onSave() {
-      console.log(this.editedBook)
+      console.log(this.newBook)
     },
     onCancel() {
       this.$router.push('/admin')

@@ -2,13 +2,6 @@
   <form method="post" enctype="multipart/form-data">
     <div class="new-page-title">
       <span v-if="!editExistingPage"></span>
-      <mon-button
-        v-if="editExistingPage"
-        type="button"
-        width="70px"
-        @click="onPreNewPage"
-        ></mon-button
-      >
     </div>
     <div class="upload">
       <div ref="preview">
@@ -51,6 +44,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import globalVariables from '@/mixins/globalVariables.js'
 
 import AdminSaveCancel from '@/components/admin/AdminSaveCancel'
@@ -65,16 +59,13 @@ export default {
   mixins: [globalVariables],
   data: function() {
     return {
-      image: {},
-      page: {
-        image:
-          'https://tse1-mm.cn.bing.net/th?id=OIP.-gowfhfxvRh4oroB3437UwHaLH&w=129&h=190&c=7&o=5&dpr=1.5&pid=1.7',
-        content:
-          '2 2019                    2019  3    16             '
-      }
+      image: {}
     }
   },
   computed: {
+    page() {
+      return this.getPage()(this.$route.params.pageid, this.editExistingPage)
+    },
     bookid() {
       return this.$route.params.bookid
     },
@@ -98,6 +89,9 @@ export default {
     }
   },
   methods: {
+    ...mapGetters({
+      getPage: 'books/getPage'
+    }),
     onCancel() {
       console.log('canceld!')
     },
@@ -109,17 +103,10 @@ export default {
       }
       reader.readAsDataURL(this.image)
     },
-    onPreNewPage() {
-      this.$router.push(
-        `${this.baseUrl}/${this.bookid}/${this.pageid}/${this.newPage}`
-      )
-    },
     onNextNewPage() {
-      this.$router.push(
-        `${this.baseUrl}/${this.bookid}/${parseInt(this.pageid) + 1}/${
-          this.newPage
-        }`
-      )
+      const p = parseInt(this.pageid) + 1
+      console.log(`${this.baseUrl}/${this.bookid}/${p}/${this.newPage}`)
+      // this.$router.push(`${this.baseUrl}/${this.bookid}/${p}/${this.newPage}`)
     }
   }
 }
