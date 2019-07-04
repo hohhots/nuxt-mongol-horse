@@ -105,8 +105,7 @@ export default {
     },
     onNextNewPage() {
       const p = parseInt(this.pageid) + 1
-      console.log(`${this.baseUrl}/${this.bookid}/${p}/${this.newPage}`)
-      // this.$router.push(`${this.baseUrl}/${this.bookid}/${p}/${this.newPage}`)
+      this.$router.push(`${this.baseUrl}/${this.bookid}/${p}/${this.newPage}`)
     }
   }
 }

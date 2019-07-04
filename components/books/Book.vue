@@ -55,11 +55,13 @@ export default {
       const pageid = this.$route.params.pageid
       if (
         pageid &&
-        (parseInt(pageid) > this.totalPages || parseInt(pageid) < 1)
+        // edit existing page
+        ((parseInt(pageid) > this.totalPages && this.editExistingPage) ||
+          // add new page
+          (parseInt(pageid) > this.totalPages + 1 && !this.editExistingPage) ||
+          parseInt(pageid) < 1)
       ) {
-        const path = this.$route.path
-        const bookPath = path.substring(0, path.length - (pageid.length + 1))
-        this.$router.push(bookPath)
+        this.$router.push(this.baseUrl + '/' + this.$route.params.bookid)
       }
     },
     basePath() {
