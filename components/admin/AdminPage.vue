@@ -44,7 +44,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import globalVariables from '@/mixins/globalVariables.js'
 
 import AdminSaveCancel from '@/components/admin/AdminSaveCancel'
@@ -57,15 +56,18 @@ export default {
     MonInputControl
   },
   mixins: [globalVariables],
+  props: {
+    page: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data: function() {
     return {
       image: {}
     }
   },
   computed: {
-    page() {
-      return this.getPage()(this.$route.params.pageid, this.editExistingPage)
-    },
     bookid() {
       return this.$route.params.bookid
     },
@@ -89,9 +91,6 @@ export default {
     }
   },
   methods: {
-    ...mapGetters({
-      getPage: 'books/getPage'
-    }),
     onCancel() {
       console.log('canceld!')
     },

@@ -20,8 +20,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 import gVariables from '@/mixins/globalVariables.js'
 import PagesNumber from '@/components/common/PagesNumber'
 
@@ -30,6 +28,12 @@ export default {
     PagesNumber
   },
   mixins: [gVariables],
+  props: {
+    books: {
+      type: Array,
+      default: () => {}
+    }
+  },
   data() {
     return {
       totalItems: 131,
@@ -40,14 +44,6 @@ export default {
   computed: {
     totalPages() {
       return Math.ceil(this.totalItems / this.itemsPerPage)
-    },
-    books() {
-      return this.getBooksPreview()(this.$route.query.page)
-    }
-  },
-  watch: {
-    $route(to, from) {
-      this.init()
     }
   },
   beforeMount() {
@@ -69,10 +65,7 @@ export default {
       if (bu === this.adminUrl) {
         return bu + p
       }
-    },
-    ...mapGetters({
-      getBooksPreview: 'books/getBooksPreview'
-    })
+    }
   }
 }
 </script>
