@@ -29,19 +29,18 @@ export default {
 <style scoped>
 .button {
   font: inherit;
-  background-color: black;
+  background-color: #3971c6;
   color: white;
   padding: 5px;
   cursor: pointer;
-  border: 1px solid black;
+  border: 0;
 }
 
 .button:hover,
 .button:active,
 .cancel:hover,
 .cancel:active {
-  background-color: rgb(51, 51, 51);
-  border: 1px solid black;
+  background-color: #06f;
 }
 
 .inverted {

@@ -1,21 +1,26 @@
 <template>
   <div>
     <div class="new-book"></div>
-    <AdminNewBook />
+    <AdminNewBook :book="book" />
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 import AdminNewBook from '@/components/admin/AdminNewBook'
 
 export default {
   components: {
     AdminNewBook
   },
-  data: function() {
-    return {
-      newBook: {}
-    }
+  computed: {
+    ...mapState({
+      book: state => state.books.book
+    })
+  },
+  async fetch({ store, params }) {
+    await store.dispatch('books/fetchBook', params.bookid)
   },
   methods: {
     onSave() {

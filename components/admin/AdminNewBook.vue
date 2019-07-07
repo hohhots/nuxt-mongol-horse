@@ -1,30 +1,30 @@
 <template>
   <form @submit.prevent="onSave">
-    <MonInputControl v-model="editedBook.title" placeholder=""
+    <MonInputControl v-model="book.title" placeholder=""
       ></MonInputControl
     >
 
-    <MonInputControl v-model="editedBook.author" placeholder=""
+    <MonInputControl v-model="book.author" placeholder=""
       ></MonInputControl
     >
 
-    <MonInputControl v-model="editedBook.writtenDate" placeholder=""
+    <MonInputControl v-model="book.writtenDate" placeholder=""
       ></MonInputControl
     >
 
-    <MonInputControl
+    <!-- <MonInputControl
       v-model="totalPages"
       placeholder=""
       disabled="true"
       >ᠨᠡᠶᠢᠲᠡ</MonInputControl
-    >
+    >-->
 
-    <MonInputControl v-model="editedBook.typers" placeholder=""
+    <MonInputControl v-model="book.typers" placeholder=""
       ></MonInputControl
     >
 
     <MonInputControl
-      v-model="editedBook.preview"
+      v-model="book.preview"
       control-type="textarea"
       placeholder=""
       ></MonInputControl
@@ -35,8 +35,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 import gVariables from '@/mixins/globalVariables.js'
 import AdminSaveCancel from '@/components/admin/AdminSaveCancel'
 
@@ -46,9 +44,10 @@ export default {
     AdminSaveCancel
   },
   mixins: [gVariables],
-  data: function() {
-    return {
-      editedBook: this.getBook()(this.$route.params.bookid)
+  props: {
+    book: {
+      type: Object,
+      default: () => {}
     }
   },
   computed: {
@@ -57,15 +56,9 @@ export default {
     },
     pageid() {
       return this.$route.params.pageid
-    },
-    totalPages() {
-      return '' + this.editedBook.content.length
     }
   },
   methods: {
-    ...mapGetters({
-      getBook: 'books/getBook'
-    }),
     onSave() {
       console.log(this.editedBook)
     },

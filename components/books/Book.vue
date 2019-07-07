@@ -16,8 +16,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 import globalVariables from '@/mixins/globalVariables.js'
 import PagesNumber from '@/components/common/PagesNumber'
 
@@ -26,15 +24,18 @@ export default {
     PagesNumber
   },
   mixins: [globalVariables],
+  props: {
+    book: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data() {
     return {
       firstPageId: 0
     }
   },
   computed: {
-    book() {
-      return this.getBook()(this.$route.params.bookid)
-    },
     totalPages() {
       return this.book.content.length
     },
@@ -68,10 +69,7 @@ export default {
       const path = this.$route.path
       const last = path.substring(1).indexOf('/') + 2
       return path.substring(0, last) + this.$route.params.bookid + '/'
-    },
-    ...mapGetters({
-      getBook: 'books/getBook'
-    })
+    }
   }
 }
 </script>

@@ -28,18 +28,12 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
-  computed: {
-    book() {
-      return this.getBook()(this.$route.params.bookid)
+  props: {
+    book: {
+      type: Object,
+      default: () => {}
     }
-  },
-  methods: {
-    ...mapGetters({
-      getBook: 'books/getBook'
-    })
   }
 }
 </script>

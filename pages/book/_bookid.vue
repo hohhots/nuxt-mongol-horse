@@ -1,16 +1,26 @@
 <template>
   <div class="container">
-    <Book />
+    <Book :book="book" />
     <nuxt-child />
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 import Book from '@/components/books/Book'
 
 export default {
   components: {
     Book
+  },
+  computed: {
+    ...mapState({
+      book: state => state.books.book
+    })
+  },
+  async fetch({ store, params }) {
+    await store.dispatch('books/fetchBook', params.bookid)
   }
 }
 </script>
