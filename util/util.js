@@ -9,14 +9,17 @@ const util = {
   // get body full Width when has content width
   getBodyWidth(contentWidth) {
     const body = document.body
+    const boxSizing = util.getComputedStyle(body, 'box-sizing').toLowerCase()
+
+    if (boxSizing === 'content-box') {
+      return contentWidth
+    }
+
     const leftBorderWidth = util.getComputedStyle(body, 'border-left-width')
     const rightBorderWidth = util.getComputedStyle(body, 'border-right-width')
     const leftPadding = util.getComputedStyle(body, 'padding-left')
     const rightPadding = util.getComputedStyle(body, 'padding-right')
-    const boxSizing = util.getComputedStyle(body, 'box-sizing').toLowerCase()
-    if (boxSizing === 'content-box') {
-      return contentWidth
-    }
+
     return (
       contentWidth +
       leftBorderWidth +
@@ -47,14 +50,17 @@ const util = {
   getHtmlWidth() {
     const contentWidth = this.getBodyFullWidth()
     const html = document.documentElement
+    const boxSizing = util.getComputedStyle(html, 'box-sizing').toLowerCase()
+
+    if (boxSizing === 'content-box') {
+      return contentWidth
+    }
+
     const leftBorderWidth = util.getComputedStyle(html, 'border-left-width')
     const rightBorderWidth = util.getComputedStyle(html, 'border-right-width')
     const leftPadding = util.getComputedStyle(html, 'padding-left')
     const rightPadding = util.getComputedStyle(html, 'padding-right')
-    const boxSizing = util.getComputedStyle(html, 'box-sizing').toLowerCase()
-    if (boxSizing === 'content-box') {
-      return contentWidth
-    }
+
     return (
       contentWidth +
       leftBorderWidth +

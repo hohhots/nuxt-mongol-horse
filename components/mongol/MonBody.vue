@@ -29,7 +29,6 @@ export default {
     return {
       html: '',
       body: '',
-      windowContentHeight: 0,
       bodyContentHeight: 0,
       rotatorHeight: 0
     }
@@ -37,7 +36,6 @@ export default {
   mounted() {
     this.html = document.documentElement
     this.body = document.body
-    this._resizeEl()
 
     this.$refs.measure.style.width = 0
     this.$refs.measure.style.zIndex = -99999
@@ -50,13 +48,9 @@ export default {
     },
 
     _getWindowContentHeight() {
-      return util.getComputedStyle(
-        document.getElementById('mv-measure'),
-        'height'
-      )
+      return util.getComputedStyle(this.$refs.measure, 'height')
     },
     _initState() {
-      console.log(this.$browserConfig.bodyContentHeight)
       this._setBodyContentHeight(this.$browserConfig.bodyContentHeight)
     },
     _resizeEl() {
@@ -68,15 +62,11 @@ export default {
     },
     _resizeAll() {
       // When window zooms, window state will change
-      this.$browserConfig.setBrowserState()
+      this.$browserConfig.setBrowserState(this._getWindowContentHeight())
       this._initState()
       this._resizeEl()
     },
     _setEvents() {
-      window.onresize = () => {
-        this._resizeAll()
-      }
-
       window.onwheel = e => {
         let left = window.pageXOffset
         const top = window.pageYOffset

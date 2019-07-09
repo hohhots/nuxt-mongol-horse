@@ -37,7 +37,7 @@ const _setScrollBarHeight = () => {
   }
 }
 
-const _setHtmlContentHeight = () => {
+const _setHtmlContentHeight = windowContentHeight => {
   const html = document.documentElement
   const topMargin = util.getComputedStyle(html, 'margin-top')
   const bottomMargin = util.getComputedStyle(html, 'margin-bottom')
@@ -46,9 +46,7 @@ const _setHtmlContentHeight = () => {
   const topPadding = util.getComputedStyle(html, 'padding-top')
   const bottomPadding = util.getComputedStyle(html, 'padding-bottom')
 
-  html.style.height = '100%'
-  let htmlContentHeight = parseInt(util.getComputedStyle(html, 'height'))
-  htmlContentHeight -= topMargin + bottomMargin
+  let htmlContentHeight = windowContentHeight - (topMargin + bottomMargin)
 
   htmlContentHeight -=
     topBorderWidth + bottomBorderWidth + topPadding + bottomPadding
@@ -83,13 +81,11 @@ const _setBodyContentHeight = () => {
   _bodyContentHeight = bodyContentHeight
 }
 
-const _setBrowserState = () => {
+const _setBrowserState = windowContentHeight => {
   _setScrollBarHeight()
-  _setHtmlContentHeight()
+  _setHtmlContentHeight(windowContentHeight)
   _setBodyContentHeight()
 }
-
-_setBrowserState()
 
 Vue.prototype.$browserConfig = {
   setBrowserState: _setBrowserState,
