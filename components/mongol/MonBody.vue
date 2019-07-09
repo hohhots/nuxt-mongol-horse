@@ -2,12 +2,12 @@
   <div
     ref="container"
     class="mv-container"
-    :style="{ height: getContainerHeight + 'px', width: rotatorHeight + 'px' }"
+    :style="{ height: bodyContentHeight + 'px', width: rotatorHeight + 'px' }"
   >
     <div
       ref="rotator"
       class="mv-rotator"
-      :style="{ width: getContainerHeight + 'px' }"
+      :style="{ width: bodyContentHeight + 'px' }"
     >
       <div ref="mvbody" class="mv-body">
         <div class="slot-container">
@@ -22,8 +22,6 @@
 <script>
 import ResizeObserver from 'resize-observer-polyfill'
 
-import { mapActions } from 'vuex'
-
 import util from '@/util/util.js'
 
 export default {
@@ -32,35 +30,14 @@ export default {
       html: '',
       body: '',
       windowContentHeight: 0,
-      scrollBarHeight: 0,
       bodyContentHeight: 0,
-      rotatorHeight: 0,
-      mvbodyWidth: 0
+      rotatorHeight: 0
     }
-  },
-  computed: {
-    getContainerHeight() {
-      return this.bodyContentHeight > this.mvbodyWidth
-        ? this.bodyContentHeight
-        : this.mvbodyWidth
-    }
-  },
-  beforeMount() {
-    this.windowContentHeight = this._getWindowContentHeight()
-    // Just call when first load to initial state
-    this._initState()
   },
   mounted() {
     this.html = document.documentElement
     this.body = document.body
     this._resizeEl()
-
-    // if scrollbar x disappeared after mon div rotated
-    const cWHeight = this._getWindowContentHeight()
-    if (this.windowContentHeight < cWHeight) {
-      this._setBodyContentHeight(this.bodyContentHeight + this.scrollBarHeight)
-      this.windowContentHeight = cWHeight
-    }
 
     this.$refs.measure.style.width = 0
     this.$refs.measure.style.zIndex = -99999
@@ -70,43 +47,16 @@ export default {
   methods: {
     _setBodyContentHeight(height) {
       this.bodyContentHeight = height
-      this.setBodyContentHeight(height)
     },
-    _setScrollBarHeight(height) {
-      this.scrollBarHeight = height
-      this.setScrollBarHeight(height)
-    },
+
     _getWindowContentHeight() {
       return util.getComputedStyle(
         document.getElementById('mv-measure'),
         'height'
       )
     },
-    _getMvbodyWidth() {
-      const mvbody = this.$refs.mvbody
-      const leftBorderWidth = util.getComputedStyle(mvbody, 'border-left-width')
-      const rightBorderWidth = util.getComputedStyle(
-        mvbody,
-        'border-right-width'
-      )
-      const leftPadding = util.getComputedStyle(mvbody, 'padding-left')
-      const rightPadding = util.getComputedStyle(mvbody, 'padding-right')
-      const leftMargin = util.getComputedStyle(mvbody, 'margin-left')
-      const rightMargin = util.getComputedStyle(mvbody, 'margin-right')
-      const boxSizing = util
-        .getComputedStyle(mvbody, 'box-sizing')
-        .toLowerCase()
-      let width = util.getComputedStyle(mvbody, 'width')
-      width += leftMargin + rightMargin
-      if (boxSizing === 'border-box') {
-        return width
-      }
-
-      return (width +=
-        leftBorderWidth + rightBorderWidth + leftPadding + rightPadding)
-    },
     _initState() {
-      this._setScrollBarHeight(this.$browserConfig.scrollBarHeight)
+      console.log(this.$browserConfig.bodyContentHeight)
       this._setBodyContentHeight(this.$browserConfig.bodyContentHeight)
     },
     _resizeEl() {
@@ -117,7 +67,6 @@ export default {
       this.html.style.width = util.getHtmlWidth() + 'px'
     },
     _resizeAll() {
-      this.windowContentHeight = this._getWindowContentHeight()
       // When window zooms, window state will change
       this.$browserConfig.setBrowserState()
       this._initState()
@@ -146,11 +95,7 @@ export default {
 
       ro.observe(this.$refs.measure)
       ro.observe(this.$refs.mvbody)
-    },
-    ...mapActions({
-      setScrollBarHeight: 'clientState/setScrollBarHeight',
-      setBodyContentHeight: 'clientState/setBodyContentHeight'
-    })
+    }
   }
 }
 </script>
@@ -180,7 +125,7 @@ export default {
 .measure {
   position: absolute;
   opacity: 1;
-  background-color: #fff;
+  background-color: transparent;
   top: 0;
   left: 0;
   width: 100%;
