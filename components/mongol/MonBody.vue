@@ -22,14 +22,15 @@
 <script>
 import ResizeObserver from 'resize-observer-polyfill'
 
+import browser from '@/mixins/browser.js'
 import util from '@/util/util.js'
 
 export default {
+  mixins: [browser],
   data() {
     return {
       html: '',
       body: '',
-      bodyContentHeight: 0,
       rotatorHeight: 0
     }
   },
@@ -40,33 +41,22 @@ export default {
     this.$refs.measure.style.width = 0
     this.$refs.measure.style.zIndex = -99999
 
-    this._setEvents()
+    this.setEvents()
   },
   methods: {
-    _setBodyContentHeight(height) {
-      this.bodyContentHeight = height
-    },
-
-    _getWindowContentHeight() {
-      return util.getComputedStyle(this.$refs.measure, 'height')
-    },
-    _initState() {
-      this._setBodyContentHeight(this.$browserConfig.bodyContentHeight)
-    },
-    _resizeEl() {
+    resizeEl() {
       this.html.removeAttribute('style')
       this.rotatorHeight = util.getComputedStyle(this.$refs.rotator, 'height')
 
       this.body.style.width = util.getBodyWidth(this.rotatorHeight) + 'px'
       this.html.style.width = util.getHtmlWidth() + 'px'
     },
-    _resizeAll() {
+    resizeAll() {
       // When window zooms, window state will change
-      this.$browserConfig.setBrowserState(this._getWindowContentHeight())
-      this._initState()
-      this._resizeEl()
+      this.setBrowserState(util.getComputedStyle(this.$refs.measure, 'height'))
+      this.resizeEl()
     },
-    _setEvents() {
+    setEvents() {
       window.onwheel = e => {
         let left = window.pageXOffset
         const top = window.pageYOffset
@@ -80,7 +70,7 @@ export default {
       }
 
       const ro = new ResizeObserver((entries, observer) => {
-        this._resizeAll()
+        this.resizeAll()
       })
 
       ro.observe(this.$refs.measure)
