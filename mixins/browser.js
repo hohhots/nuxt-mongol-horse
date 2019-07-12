@@ -3,37 +3,11 @@ import util from '@/util/util.js'
 export default {
   data() {
     return {
-      scrollBarHeight: 0,
       htmlContentHeight: 0,
       bodyContentHeight: 0
     }
   },
   methods: {
-    setScrollBarHeight() {
-      // If is mobile, does nothing
-      if (!this.scrollBarHeight) {
-        return
-      }
-      // If is not mobile and window zoomed,
-      // need to calculate scrollbar height again
-
-      // Create the measurement node
-      const scrollDiv = document.createElement('div')
-
-      scrollDiv.style.width = '100px'
-      scrollDiv.style.height = '100px'
-      scrollDiv.style.overflow = 'scroll'
-      scrollDiv.style.position = 'absolute'
-      scrollDiv.style.top = '-9999px'
-      document.body.appendChild(scrollDiv)
-
-      // Get the scrollbar height
-      this.scrollBarHeight = scrollDiv.offsetHeight - scrollDiv.clientHeight
-
-      // Delete the DIV
-      document.body.removeChild(scrollDiv)
-    },
-
     setHtmlContentHeight(windowContentHeight) {
       const html = document.documentElement
       const topMargin = util.getComputedStyle(html, 'margin-top')
@@ -77,7 +51,6 @@ export default {
     },
 
     setBrowserState(windowContentHeight) {
-      this.setScrollBarHeight()
       this.setHtmlContentHeight(windowContentHeight)
       this.setBodyContentHeight()
     }
