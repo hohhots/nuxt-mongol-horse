@@ -4,7 +4,7 @@
       <nuxt-link :to="basePath + prePage()">《</nuxt-link>
     </span>
     <span
-      v-for="num in selectablePagesNum"
+      v-for="num in displayPagesRange"
       :key="num"
       :class="{ number: pageExist(num) }"
     >
@@ -47,7 +47,7 @@ export default {
       type: Number,
       default: 1
     },
-    selectablePagesNum: {
+    displayPagesRange: {
       type: Number,
       default: 10
     }
@@ -61,8 +61,8 @@ export default {
       if (this.pageId > 6) {
         num = this.pageId - 6
       }
-      if (num + this.selectablePagesNum > this.totalPages) {
-        num = this.totalPages - this.selectablePagesNum
+      if (num + this.displayPagesRange > this.totalPages) {
+        num = this.totalPages - this.displayPagesRange
       }
       return num
     }

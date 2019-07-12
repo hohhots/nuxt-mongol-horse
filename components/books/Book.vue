@@ -5,13 +5,11 @@
         <h1>{{ book.title }}</h1>
       </nuxt-link>
     </div>
-    <no-ssr>
-      <pages-number
-        :items-count="totalPages"
-        :page-id="parseInt(this.$route.params.pageid) || firstPageId"
-        :base-path="basePath()"
-      />
-    </no-ssr>
+    <pages-number
+      :items-count="totalPages"
+      :page-id="parseInt(this.$route.params.pageid) || firstPageId"
+      :base-path="basePath()"
+    />
   </div>
 </template>
 

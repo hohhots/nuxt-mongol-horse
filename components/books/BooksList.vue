@@ -1,21 +1,19 @@
 <template>
   <div class="book-list">
-    <no-ssr>
-      <div v-for="book in books" :key="book.id" class="book">
-        <h3>
-          <nuxt-link :to="baseUrl + '/' + book.id">{{ book.title }}</nuxt-link>
-        </h3>
-        <div class="preview">
-          <span>{{ book.preview }}</span>
-        </div>
+    <div v-for="book in books" :key="book.id" class="book">
+      <h3>
+        <nuxt-link :to="baseUrl + '/' + book.id">{{ book.title }}</nuxt-link>
+      </h3>
+      <div class="preview">
+        <span>{{ book.preview }}</span>
       </div>
-      <pages-number
-        :items-count="totalItems"
-        :items-perpage="itemsPerPage"
-        :page-id="parseInt(this.$route.query.page) || firstPageId"
-        :base-path="pagenumUrl()"
-      />
-    </no-ssr>
+    </div>
+    <pages-number
+      :items-count="totalItems"
+      :items-perpage="itemsPerPage"
+      :page-id="parseInt(this.$route.query.page) || firstPageId"
+      :base-path="pagenumUrl()"
+    />
   </div>
 </template>
 
