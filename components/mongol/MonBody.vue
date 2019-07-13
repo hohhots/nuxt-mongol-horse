@@ -48,8 +48,8 @@ export default {
       this.html.removeAttribute('style')
       this.rotatorHeight = util.getComputedStyle(this.$refs.rotator, 'height')
 
-      this.body.style.width = util.getBodyWidth(this.rotatorHeight) + 'px'
-      this.html.style.width = util.getHtmlWidth() + 'px'
+      this.body.style.width = this.getBodyWidth(this.rotatorHeight) + 'px'
+      this.html.style.width = this.getHtmlWidth() + 'px'
     },
     resizeAll() {
       // When window zooms, window state will change
@@ -62,7 +62,7 @@ export default {
         const top = window.pageYOffset
 
         left += e.deltaY
-        if (util.isFirefox()) {
+        if (this.isFirefox()) {
           left += e.deltaY * 24
         }
 

@@ -5,7 +5,7 @@ export default {
       adminUrl: '/admin',
       newPage: 'new-page',
       monText: {
-        newPage: ''
+        newBook: ''
       }
     }
   },
