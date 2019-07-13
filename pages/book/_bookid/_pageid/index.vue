@@ -1,15 +1,15 @@
 <template>
   <div class="container">
     <div class="types">
-      <mon-button class="item" width="70px" @click="toggle(0)"
-        >ᠦᠰᠦᠭᠯᠡᠯ</mon-button
-      >
-      <mon-button class="item" width="70px" @click="toggle(1)"
-        >ᠵᠢᠷᠤᠬᠯᠠᠯ</mon-button
-      >
-      <mon-button class="item" width="70px" @click="toggle(2)"
-        ></mon-button
-      >
+      <mon-button class="item" width="70px" @click="toggle(0)">{{
+        monText.text
+      }}</mon-button>
+      <mon-button class="item" width="70px" @click="toggle(1)">{{
+        monText.photo
+      }}</mon-button>
+      <mon-button class="item" width="70px" @click="toggle(2)">{{
+        monText.together
+      }}</mon-button>
     </div>
     <div class="content">
       <div class="img-container">
@@ -23,6 +23,7 @@
 <script>
 import { mapState } from 'vuex'
 
+import gv from '@/mixins/globalVariables.js'
 import MonImg from '@/components/mongol/MonImg'
 import MonButton from '@/components/mongol/MonButton'
 
@@ -31,6 +32,7 @@ export default {
     MonImg,
     MonButton
   },
+  mixins: [gv],
   data: function() {
     return {
       cmounted: false,

@@ -1,20 +1,16 @@
 <template>
   <footer>
-    <span>{{ company }}</span>
+    <span>{{ monText.company }}</span>
     <p />
-    <span>{{ contact }}</span>
+    <span>{{ monText.contact }}</span>
   </footer>
 </template>
 
 <script>
+import gv from '@/mixins/globalVariables.js'
+
 export default {
-  data() {
-    return {
-      company:
-        'ᠦᠪᠦᠷ ᠮᠤᠩᠭ᠋ᠤᠯ ᠤᠨ ᠮᠤᠩᠭᠤᠯ ᠮᠤᠷᠢ ᠡᠷᠡᠬᠦᠯ ᠮᠡᠨᠳᠤ ᠶᠢᠨ    ',
-      contact: 'ᠬᠣᠯᠪᠤᠭ᠎ᠠ ᠄ 086-13804749201'
-    }
-  },
+  mixins: [gv],
   computed: {
     homeUrl() {
       const admin = '/admin'

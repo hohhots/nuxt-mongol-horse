@@ -2,7 +2,7 @@
   <div>
     <section class="new-book">
       <nuxt-link to="/admin/new-book">
-        <mon-button></mon-button>
+        <mon-button>{{ monText.newBook }}</mon-button>
       </nuxt-link>
     </section>
     <section class="existing-books">
@@ -14,12 +14,14 @@
 <script>
 import { mapState } from 'vuex'
 
+import gv from '@/mixins/globalVariables.js'
 import BooksList from '@/components/books/BooksList'
 
 export default {
   components: {
     BooksList
   },
+  mixins: [gv],
   computed: {
     ...mapState({
       books: state => state.books.booksPreview

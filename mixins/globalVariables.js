@@ -5,7 +5,25 @@ export default {
       adminUrl: '/admin',
       newPage: 'new-page',
       monText: {
-        newBook: ''
+        newBook: '',
+        newPage: '',
+        bookTitle: '',
+        author: '',
+        writtenDate: '',
+        allPagesCount: 'ᠨᠡᠶᠢᠲᠡ',
+        typers: '',
+        preview: '',
+        content: '',
+        save: '',
+        cancel: '',
+        prePage: '',
+        nextPage: 'ᠬᠤᠢᠢᠨᠠᠬᠢ',
+        text: 'ᠦᠰᠦᠭᠯᠡᠯ',
+        photo: 'ᠵᠢᠷᠤᠬᠯᠠᠯ',
+        together: '',
+        company:
+          'ᠦᠪᠦᠷ ᠮᠤᠩᠭ᠋ᠤᠯ ᠤᠨ ᠮᠤᠩᠭᠤᠯ ᠮᠤᠷᠢ ᠡᠷᠡᠬᠦᠯ ᠮᠡᠨᠳᠤ ᠶᠢᠨ    ',
+        contact: 'ᠬᠣᠯᠪᠤᠭ᠎ᠠ ᠄ 086-13804749201'
       }
     }
   },

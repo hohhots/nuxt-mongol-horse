@@ -1,7 +1,7 @@
 <template>
   <form method="post" enctype="multipart/form-data">
     <div class="new-page-title">
-      <span v-if="!editExistingPage"></span>
+      <span v-if="!editExistingPage">{{ monText.newPage }}</span>
     </div>
     <div class="upload">
       <div ref="preview">
@@ -33,7 +33,7 @@
     <MonInputControl
       v-model="text"
       control-type="textarea"
-      placeholder=""
+      :placeholder="monText.content"
     ></MonInputControl>
 
     <AdminSaveCancel

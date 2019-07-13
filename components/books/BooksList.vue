@@ -18,14 +18,15 @@
 </template>
 
 <script>
-import gVariables from '@/mixins/globalVariables.js'
+import gv from '@/mixins/globalVariables.js'
+
 import PagesNumber from '@/components/common/PagesNumber'
 
 export default {
   components: {
     PagesNumber
   },
-  mixins: [gVariables],
+  mixins: [gv],
   props: {
     books: {
       type: Array,

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="new-book"></div>
+    <div class="new-book">{{ monText.newBook }}</div>
     <AdminNewBook :book="book" />
   </div>
 </template>
@@ -8,12 +8,14 @@
 <script>
 import { mapState } from 'vuex'
 
+import gv from '@/mixins/globalVariables.js'
 import AdminNewBook from '@/components/admin/AdminNewBook'
 
 export default {
   components: {
     AdminNewBook
   },
+  mixins: [gv],
   computed: {
     ...mapState({
       book: state => state.books.book

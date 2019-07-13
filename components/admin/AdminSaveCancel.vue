@@ -1,17 +1,17 @@
 <template>
   <div class="buttons">
     <div class="sava-cancel">
-      <mon-button type="submit" width="70px"></mon-button>
+      <mon-button type="submit" width="70px">{{ monText.save }}</mon-button>
 
-      <mon-button type="button" width="70px" @click="$emit('cancel')"
-        ></mon-button
-      >
+      <mon-button type="button" width="70px" @click="$emit('cancel')">
+        {{ monText.cancel }}
+      </mon-button>
     </div>
 
     <div v-if="editExistingPage" class="new-page">
-      <mon-button type="button" width="70px" @click="$emit('newPage')"
-        ></mon-button
-      >
+      <mon-button type="button" width="70px" @click="$emit('newPage')">{{
+        monText.newPage
+      }}</mon-button>
     </div>
   </div>
 </template>

@@ -1,33 +1,26 @@
 <template>
   <form @submit.prevent="onSave">
     <MonInputControl v-model="book.title" placeholder=""
-      ></MonInputControl
+      >{{ monText.bookTitle }}᠄</MonInputControl
     >
 
     <MonInputControl v-model="book.author" placeholder=""
-      ></MonInputControl
+      >{{ monText.author }}᠄</MonInputControl
     >
 
     <MonInputControl v-model="book.writtenDate" placeholder=""
-      ></MonInputControl
+      >{{ monText.writtenDate }}᠄</MonInputControl
     >
 
-    <!-- <MonInputControl
-      v-model="totalPages"
-      placeholder=""
-      disabled="true"
-      >ᠨᠡᠶᠢᠲᠡ</MonInputControl
-    >-->
-
     <MonInputControl v-model="book.typers" placeholder=""
-      ></MonInputControl
+      >{{ monText.typers }}᠄</MonInputControl
     >
 
     <MonInputControl
       v-model="book.preview"
       control-type="textarea"
       placeholder=""
-      ></MonInputControl
+      >{{ monText.preview }}᠄</MonInputControl
     >
 
     <AdminSaveCancel @cancel="onCancel" @newPage="onNewPage"></AdminSaveCancel>

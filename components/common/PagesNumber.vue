@@ -1,7 +1,7 @@
 <template>
   <div class="pages-number">
     <span v-if="!isFirstPage()" class="pre">
-      <nuxt-link :to="basePath + prePage()">《</nuxt-link>
+      <nuxt-link :to="basePath + prePage()">{{ monText.prePage }}《</nuxt-link>
     </span>
     <span
       v-for="num in displayPagesRange"
@@ -19,13 +19,18 @@
       </template>
     </span>
     <span v-if="!isLastPage()" class="next">
-      <nuxt-link :to="basePath + nextPage()">》ᠬᠤᠢᠢᠨᠠᠬᠢ</nuxt-link>
+      <nuxt-link :to="basePath + nextPage()"
+        >》{{ monText.nextPage }}</nuxt-link
+      >
     </span>
   </div>
 </template>
 
 <script>
+import gv from '@/mixins/globalVariables.js'
+
 export default {
+  mixins: [gv],
   props: {
     itemsCount: {
       type: Number,
