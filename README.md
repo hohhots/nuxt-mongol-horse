@@ -4,6 +4,8 @@ For detailed explanation on how things work, checkout [Nuxt.js docs](https://nux
 
 mongol horse document site using nuxt
 
+depends on graphql-yoga server with prisma in mongol-horse-prisma
+
 > My groovy Nuxt.js project
 
 ## Build Setup

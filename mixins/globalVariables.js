@@ -11,7 +11,7 @@ export default {
         author: '',
         writtenDate: '',
         allPagesCount: 'ᠨᠡᠶᠢᠲᠡ',
-        typers: '',
+        typers: 'ᠰᠢᠪᠡᠭᠴᠢ',
         preview: '',
         content: '',
         save: '',
