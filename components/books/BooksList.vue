@@ -9,7 +9,7 @@
       </div>
     </div>
     <pages-number
-      :items-count="totalItems"
+      :items-count="totalBooks"
       :items-perpage="itemsPerPage"
       :page-id="parseInt(this.$route.query.page) || firstPageId"
       :base-path="pagenumUrl()"
@@ -18,6 +18,9 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
+import settings from '../../settings.js'
 import gv from '@/mixins/globalVariables.js'
 
 import PagesNumber from '@/components/common/PagesNumber'
@@ -35,14 +38,16 @@ export default {
   },
   data() {
     return {
-      totalItems: 131,
-      itemsPerPage: 10,
+      itemsPerPage: settings.itemsPerPage,
       firstPageId: 1
     }
   },
   computed: {
+    ...mapState({
+      totalBooks: state => state.books.totalBooks
+    }),
     totalPages() {
-      return Math.ceil(this.totalItems / this.itemsPerPage)
+      return Math.ceil(this.totalBooks / settings.itemsPerPage)
     }
   },
   beforeMount() {
