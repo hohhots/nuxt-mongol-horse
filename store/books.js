@@ -47,6 +47,9 @@ export const actions = {
           id
           pageNum
           content
+          postedBy{
+            name
+          }
         }
         postedBy{
           name
@@ -55,6 +58,7 @@ export const actions = {
     }`
 
     const { data } = await this.$axios.$post('/', { query })
+    // console.log(data)
     commit('SET_BOOK', data.book)
   },
   async fetchBooksPreview({ commit }, filters) {

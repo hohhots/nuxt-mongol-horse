@@ -1,21 +1,21 @@
 <template>
   <div class="container">
     <div class="types">
-      <mon-button class="item" width="70px" @click="toggle(0)">{{
-        monText.text
-      }}</mon-button>
-      <mon-button class="item" width="70px" @click="toggle(1)">{{
-        monText.photo
-      }}</mon-button>
-      <mon-button class="item" width="70px" @click="toggle(2)">{{
-        monText.together
-      }}</mon-button>
+      <mon-button class="item" width="70px" @click="toggle(0)">
+        {{ monText.text }}
+      </mon-button>
+      <mon-button class="item" width="70px" @click="toggle(1)">
+        {{ monText.photo }}
+      </mon-button>
+      <mon-button class="item" width="70px" @click="toggle(2)">
+        {{ monText.together }}
+      </mon-button>
     </div>
     <div class="content">
       <div class="img-container">
         <mon-img v-show="displayImage" :src="imgSrc()" :state="displayImage" />
       </div>
-      <span v-show="displayText">{{ book.content[pageId - 1].content }}</span>
+      <span v-show="displayText">{{ book.pages[pageId - 1].content }}</span>
     </div>
   </div>
 </template>
@@ -58,7 +58,7 @@ export default {
   methods: {
     imgSrc() {
       if (this.cmounted) {
-        return this.book.content[this.pageId - 1].image
+        return this.book.pages[this.pageId - 1].content
       }
       return ''
     },
