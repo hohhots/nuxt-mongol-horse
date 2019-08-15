@@ -15,12 +15,6 @@
     >
 
     <MonInputControl
-      v-model="book.postedBy.name"
-      :placeholder="monText.postedBy"
-      >{{ monText.postedBy }}᠄</MonInputControl
-    >
-
-    <MonInputControl
       v-model="book.preview"
       control-type="textarea"
       :placeholder="monText.preview"
@@ -36,7 +30,6 @@ import gVariables from '@/mixins/globalVariables.js'
 import AdminSaveCancel from '@/components/admin/AdminSaveCancel'
 
 export default {
-  name: 'AdminNewBook',
   components: {
     AdminSaveCancel
   },

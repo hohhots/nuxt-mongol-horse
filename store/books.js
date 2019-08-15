@@ -3,7 +3,8 @@ export const state = () => ({
   jwt: '',
   booksPreview: [],
   totalBooks: 0,
-  book: {
+  book: {},
+  newBook: {
     id: '',
     title: '',
     author: '',
@@ -118,7 +119,7 @@ export const getters = {
       if (!editExistingPage) {
         return state.newPage
       }
-      return state.book.content[pageid - 1]
+      return state.book.pages[pageid - 1]
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="new-book">{{ monText.newBook }}</div>
-    <AdminNewBook :book="book" />
+    <AdminNewBook :book="newBook" />
   </div>
 </template>
 
@@ -18,7 +18,7 @@ export default {
   mixins: [gv],
   computed: {
     ...mapState({
-      book: state => state.books.book
+      newBook: state => state.books.newBook
     })
   },
   async fetch({ store, params }) {
@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     onSave() {
-      console.log(this.newBook)
+      console.log('new book save')
     },
     onCancel() {
       this.$router.push('/admin')

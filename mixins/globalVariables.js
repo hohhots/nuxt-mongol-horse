@@ -18,6 +18,7 @@ export default {
         postedBy: 'ᠰᠢᠪᠡᠭᠴᠢ',
         preview: '',
         content: '',
+        select: 'ᠰᠤᠩᠭᠤᠶ᠎ᠠ',
         save: '',
         cancel: '',
         prePage: '',

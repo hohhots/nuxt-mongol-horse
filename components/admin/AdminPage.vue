@@ -25,7 +25,7 @@
                 d="M 0 3 L 0 29 L 32 29 L 32 3 Z M 30 27 L 2 27 L 2 5 L 30 5 Z M 22 10 C 22 11.65625 23.34375 13 25 13 C 26.65625 13 28 11.65625 28 10 C 28 8.34375 26.65625 7 25 7 C 23.34375 7 22 8.34375 22 10 Z M 28 25 L 4 25 L 10 9 L 18 19 L 22 16 Z M 28 25 "
               />
             </mon-svg>
-            <span class="upload-caption">{{ uploadText }}</span>
+            <span class="upload-caption">{{ monText.select }}</span>
           </figure>
         </label>
       </div>
@@ -50,7 +50,6 @@ import AdminSaveCancel from '@/components/admin/AdminSaveCancel'
 import MonInputControl from '@/components/mongol/MonInputControl'
 
 export default {
-  name: 'AdminPage',
   components: {
     AdminSaveCancel,
     MonInputControl
@@ -85,9 +84,6 @@ export default {
         return this.page.content
       }
       return ''
-    },
-    uploadText() {
-      return !this.imgsrc ? 'ᠳᠡᠪᠰᠢᠭᠦᠯᠦᠶ᠎ᠡ' : 'ᠰᠤᠯᠢᠶ᠎ᠠ'
     }
   },
   methods: {
