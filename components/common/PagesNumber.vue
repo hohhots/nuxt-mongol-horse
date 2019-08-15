@@ -86,7 +86,7 @@ export default {
       return this.pageId <= this.firstPageId
     },
     isLastPage() {
-      return this.totalPages === this.pageId
+      return this.totalPages <= this.pageId
     },
     prePage() {
       return this.pageId - 1
