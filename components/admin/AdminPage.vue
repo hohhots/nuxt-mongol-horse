@@ -31,12 +31,12 @@
       </div>
     </div>
 
-    <MonInputControl v-model="newPage.pageNum" :placeholder="monText.pageNum"
+    <MonInputControl v-model="myPage.pageNum" :placeholder="monText.pageNum"
       >{{ monText.pageNum }}᠄</MonInputControl
     >
 
     <MonInputControl
-      v-model="newPage.content"
+      v-model="myPage.content"
       control-type="textarea"
       :placeholder="monText.content"
       >{{ monText.content }}᠄</MonInputControl
@@ -71,7 +71,7 @@ export default {
   },
   data: function() {
     return {
-      newPage: {},
+      myPage: {},
       image: {}
     }
   },
@@ -102,25 +102,25 @@ export default {
   },
   methods: {
     setNewPage() {
-      this.newPage = { ...this.page }
-      this.newPage.pageNum = this.newPage.pageNum + ''
+      this.myPage = { ...this.page }
+      this.myPage.pageNum = this.myPage.pageNum + ''
     },
     async onSubmit() {
-      const bookId = `bookId: ${this.bookid}`
-      const pageId = `pageId: "${this.newPage.id}"`
-      const newPage = `pageNum: ${this.newPage.pageNum}
-              content: "${this.newPage.content}"`
+      const bookId = `bookId: "${this.bookid}"`
+      const pageId = `pageId: "${this.myPage.id}"`
+      const myPage = `pageNum: ${this.myPage.pageNum}
+              content: "${this.myPage.content}"`
       let query = `
             newPage(
               ${bookId}
-              ${newPage}
+              ${myPage}
             )`
 
-      if (this.newPage.id) {
+      if (this.myPage.id) {
         query = `
           updatePage( 
             ${pageId}
-            ${newPage}
+            ${myPage}
           )`
       }
 
@@ -131,7 +131,7 @@ export default {
           content
         }
       }`
-
+      console.log(query)
       const page = await this.$axios.$post(
         '/',
         { query },
