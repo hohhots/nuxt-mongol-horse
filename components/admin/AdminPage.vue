@@ -1,5 +1,5 @@
 <template>
-  <form method="post" enctype="multipart/form-data">
+  <form @submit.prevent="onSubmit">
     <div class="new-page-title">
       <span v-if="!editExistingPage">{{ monText.newPage }}</span>
     </div>
@@ -30,20 +30,28 @@
         </label>
       </div>
     </div>
+
+    <MonInputControl v-model="newPage.pageNum" :placeholder="monText.pageNum"
+      >{{ monText.pageNum }}᠄</MonInputControl
+    >
+
     <MonInputControl
-      v-model="text"
+      v-model="newPage.content"
       control-type="textarea"
       :placeholder="monText.content"
-    ></MonInputControl>
+      >{{ monText.content }}᠄</MonInputControl
+    >
 
     <AdminSaveCancel
-      @onCancel="onCancel"
+      @cancel="onCancel"
       @newPage="onNextNewPage"
     ></AdminSaveCancel>
   </form>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 import globalVariables from '@/mixins/globalVariables.js'
 
 import AdminSaveCancel from '@/components/admin/AdminSaveCancel'
@@ -63,10 +71,14 @@ export default {
   },
   data: function() {
     return {
+      newPage: {},
       image: {}
     }
   },
   computed: {
+    ...mapState({
+      jwt: state => state.user.jwt
+    }),
     bookid() {
       return this.$route.params.bookid
     },
@@ -78,17 +90,64 @@ export default {
         return this.page.image
       }
       return ''
-    },
-    text() {
-      if (this.page.content) {
-        return this.page.content
-      }
-      return ''
     }
   },
+  watch: {
+    $route(to, from) {
+      this.setNewPage()
+    }
+  },
+  beforeMount() {
+    this.setNewPage()
+  },
   methods: {
+    setNewPage() {
+      this.newPage = { ...this.page }
+      this.newPage.pageNum = this.newPage.pageNum + ''
+    },
+    async onSubmit() {
+      const bookId = `bookId: ${this.bookid}`
+      const pageId = `pageId: "${this.newPage.id}"`
+      const newPage = `pageNum: ${this.newPage.pageNum}
+              content: "${this.newPage.content}"`
+      let query = `
+            newPage(
+              ${bookId}
+              ${newPage}
+            )`
+
+      if (this.newPage.id) {
+        query = `
+          updatePage( 
+            ${pageId}
+            ${newPage}
+          )`
+      }
+
+      query = `mutation {
+        ${query}
+        {
+          pageNum
+          content
+        }
+      }`
+
+      const page = await this.$axios.$post(
+        '/',
+        { query },
+        {
+          headers: { Authorization: 'Bearer ' + this.jwt }
+        }
+      )
+
+      if (page.errors) {
+        alert(page.errors[0].message)
+      } else {
+        this.$router.push('/admin')
+      }
+    },
     onCancel() {
-      console.log('canceld!')
+      this.$router.push('/admin')
     },
     setImage() {
       this.image = this.$refs.image.files[0]

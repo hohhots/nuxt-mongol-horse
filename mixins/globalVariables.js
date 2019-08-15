@@ -15,6 +15,7 @@ export default {
         author: '',
         publishedAt: '',
         allPagesCount: 'ᠨᠡᠶᠢᠲᠡ',
+        pageNum: 'ᠳ᠋ᠤᠭᠠᠷ',
         postedBy: 'ᠰᠢᠪᠡᠭᠴᠢ',
         preview: '',
         content: '',

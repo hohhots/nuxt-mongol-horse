@@ -11,6 +11,7 @@ export const state = () => ({
   newPage: {
     id: '',
     image: '',
+    pageNum: '',
     content: ''
   }
 })
@@ -31,9 +32,6 @@ export const mutations = {
 
 export const actions = {
   async fetchBook({ state, commit }, bookid) {
-    if (state.book.id === bookid) {
-      return
-    }
     const query = `{
       book( bookId: "${bookid}") {
         id

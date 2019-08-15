@@ -85,10 +85,10 @@ export default {
       query = `mutation {
         ${query}
         {
-          id
-          postedBy{
-            name
-          }
+          title
+          author
+          publishedAt
+          preview
         }
       }`
       const book = await this.$axios.$post(
@@ -101,8 +101,9 @@ export default {
 
       if (book.errors) {
         alert(book.errors[0].message)
+      } else {
+        this.$router.push('/admin')
       }
-      this.$router.push('/admin')
     },
     onCancel() {
       this.$router.push('/admin')

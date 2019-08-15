@@ -58,7 +58,9 @@ export default {
   methods: {
     imgSrc() {
       if (this.cmounted) {
-        return this.book.pages[this.pageId - 1].content
+        return (
+          '/images/' + this.book.id + '/' + this.book.pages[this.pageId - 1].id
+        )
       }
       return ''
     },
