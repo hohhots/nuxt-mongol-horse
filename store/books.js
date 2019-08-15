@@ -1,17 +1,12 @@
 export const state = () => ({
-  user: {},
-  jwt: '',
   booksPreview: [],
   totalBooks: 0,
   book: {},
   newBook: {
-    id: '',
     title: '',
     author: '',
     publishedAt: '',
-    postedBy: '',
-    preview: '',
-    pages: []
+    preview: ''
   },
   newPage: {
     id: '',
@@ -21,10 +16,6 @@ export const state = () => ({
 })
 
 export const mutations = {
-  SET_USER_JWT(state, login) {
-    state.user = login.user
-    state.jwt = login.token
-  },
   SET_BOOK(state, book) {
     if (book) {
       state.book = book
@@ -39,27 +30,6 @@ export const mutations = {
 }
 
 export const actions = {
-  async login({ state, commit }, emailPassword) {
-    const query = `mutation {
-      login( 
-        email: "${emailPassword.email}"
-        password: "${emailPassword.password}"
-      ) {
-        token
-        user {
-          name
-          email
-        }
-      }
-    }`
-    const login = await this.$axios.$post('/', { query })
-
-    if (login.errors) {
-      alert(login.errors[0].message)
-      return
-    }
-    commit('SET_USER_JWT', login.data.login)
-  },
   async fetchBook({ state, commit }, bookid) {
     if (state.book.id === bookid) {
       return
@@ -90,7 +60,9 @@ export const actions = {
     commit('SET_BOOK', data.book)
   },
   async fetchBooksPreview({ commit }, filters) {
-    const sf = `skip:${filters.skip}, first:${filters.first}`
+    const sf = `skip:${filters.skip}, first:${
+      filters.first
+    }, orderBy:createdAt_DESC`
     const bookList = filters.filter
       ? `(filter:"${filters.filter}", ${sf})`
       : `(${sf})`
@@ -104,7 +76,6 @@ export const actions = {
         count
       }
     }`
-    // console.log(query)
 
     const { data } = await this.$axios.$post('/', { query })
 

@@ -1,21 +1,21 @@
 <template>
-  <form @submit.prevent="onSave">
-    <MonInputControl v-model="book.title" :placeholder="monText.bookTitle"
+  <form @submit.prevent="onSubmit">
+    <MonInputControl v-model="newBook.title" :placeholder="monText.bookTitle"
       >{{ monText.bookTitle }}᠄</MonInputControl
     >
 
-    <MonInputControl v-model="book.author" :placeholder="monText.author"
+    <MonInputControl v-model="newBook.author" :placeholder="monText.author"
       >{{ monText.author }}᠄</MonInputControl
     >
 
     <MonInputControl
-      v-model="book.publishedAt"
+      v-model="newBook.publishedAt"
       :placeholder="monText.publishedAt"
       >{{ monText.publishedAt }}᠄</MonInputControl
     >
 
     <MonInputControl
-      v-model="book.preview"
+      v-model="newBook.preview"
       control-type="textarea"
       :placeholder="monText.preview"
       >{{ monText.preview }}᠄</MonInputControl
@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 import gVariables from '@/mixins/globalVariables.js'
 import AdminSaveCancel from '@/components/admin/AdminSaveCancel'
 
@@ -40,7 +42,15 @@ export default {
       default: () => {}
     }
   },
+  data() {
+    return {
+      newBook: {}
+    }
+  },
   computed: {
+    ...mapState({
+      jwt: state => state.user.jwt
+    }),
     bookid() {
       return this.$route.params.bookid
     },
@@ -48,9 +58,51 @@ export default {
       return this.$route.params.pageid
     }
   },
+  beforeMount() {
+    this.newBook = { ...this.book }
+  },
   methods: {
-    onSave() {
-      console.log(this.editedBook)
+    async onSubmit() {
+      const id = `bookId: "${this.newBook.id}"`
+      const newBook = `title: "${this.newBook.title}"
+              author: "${this.newBook.author}"
+              publishedAt: "${this.newBook.publishedAt}"
+              preview: "${this.newBook.preview}"`
+
+      let query = `
+            newBook( 
+              ${newBook}
+            )`
+
+      if (this.newBook.id) {
+        query = `
+          updateBook( 
+            ${id}
+            ${newBook}
+          )`
+      }
+
+      query = `mutation {
+        ${query}
+        {
+          id
+          postedBy{
+            name
+          }
+        }
+      }`
+      const book = await this.$axios.$post(
+        '/',
+        { query },
+        {
+          headers: { Authorization: 'Bearer ' + this.jwt }
+        }
+      )
+
+      if (book.errors) {
+        alert(book.errors[0].message)
+      }
+      this.$router.push('/admin')
     },
     onCancel() {
       this.$router.push('/admin')
