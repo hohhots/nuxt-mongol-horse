@@ -9,7 +9,7 @@ export default {
         newPage: '',
         bookTitle: '',
         author: '',
-        writtenDate: '',
+        publishedAt: '',
         allPagesCount: 'ᠨᠡᠶᠢᠲᠡ',
         typers: 'ᠰᠢᠪᠡᠭᠴᠢ',
         preview: '',

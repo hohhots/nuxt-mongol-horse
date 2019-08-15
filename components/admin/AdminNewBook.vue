@@ -8,8 +8,8 @@
       >{{ monText.author }}᠄</MonInputControl
     >
 
-    <MonInputControl v-model="book.writtenDate" placeholder=""
-      >{{ monText.writtenDate }}᠄</MonInputControl
+    <MonInputControl v-model="book.publishedAt" placeholder=""
+      >{{ monText.publishedAt }}᠄</MonInputControl
     >
 
     <MonInputControl v-model="book.typers" placeholder=""

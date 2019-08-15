@@ -35,7 +35,7 @@ export default {
   },
   computed: {
     totalPages() {
-      return this.book.content.length
+      return this.book.pages.length
     },
     bookLink() {
       return this.baseUrl + '/' + this.$route.params.bookid

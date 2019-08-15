@@ -24,7 +24,6 @@ export default {
   watch: {
     async $route(to, from) {
       const itemsPerPage = settings.itemsPerPage
-
       const pageid = to.query.page ? parseInt(to.query.page) : 1
       const filter = ''
       const skip = (pageid - 1) * itemsPerPage

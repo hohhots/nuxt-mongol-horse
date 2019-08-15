@@ -9,16 +9,16 @@
       <div class="content">{{ book.author }}</div>
     </div>
     <div class="item">
-      <div class="title">{{ monText.writtenDate }}᠄</div>
-      <div class="content">{{ book.writtenDate }}</div>
+      <div class="title">{{ monText.publishedAt }}᠄</div>
+      <div class="content">{{ book.publishedAt }}</div>
     </div>
     <div class="item">
       <div class="title">{{ monText.allPagesCount }}᠄</div>
-      <div class="content">{{ book.content.length }}</div>
+      <div class="content">{{ book.pages.length }}</div>
     </div>
     <div class="item">
       <div class="title">{{ monText.typers }}᠄</div>
-      <div class="content">{{ book.typers }}</div>
+      <div class="content">{{ book.postedBy.name }}</div>
     </div>
     <div class="item">
       <div class="title">{{ monText.preview }}᠄</div>
