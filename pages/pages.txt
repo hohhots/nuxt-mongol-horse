@@ -8,15 +8,17 @@ book group --------------------------------------------
 
 /book/bookid/pageid
   /book/_bookid.vue and /book/_bookid/_pageid/index.vue
-  
+
+
+auth group  --------------------------------------------
+
+/auth
+  /auth/index.vue
 
 admin group --------------------------------------------
 
 /admin
   /admin/index.vue
-
-/admin/auth
-  /admin/auth/index.vue
 
 /admin/new-book
   /admin/new-book/index.vue
