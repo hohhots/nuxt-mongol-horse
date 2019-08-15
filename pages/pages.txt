@@ -15,6 +15,9 @@ admin group --------------------------------------------
 /admin
   /admin/index.vue
 
+/admin/auth
+  /admin/auth/index.vue
+
 /admin/new-book
   /admin/new-book/index.vue
 

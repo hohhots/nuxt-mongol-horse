@@ -1,25 +1,29 @@
 <template>
   <form @submit.prevent="onSave">
-    <MonInputControl v-model="book.title" placeholder=""
+    <MonInputControl v-model="book.title" :placeholder="monText.bookTitle"
       >{{ monText.bookTitle }}᠄</MonInputControl
     >
 
-    <MonInputControl v-model="book.author" placeholder=""
+    <MonInputControl v-model="book.author" :placeholder="monText.author"
       >{{ monText.author }}᠄</MonInputControl
     >
 
-    <MonInputControl v-model="book.publishedAt" placeholder=""
+    <MonInputControl
+      v-model="book.publishedAt"
+      :placeholder="monText.publishedAt"
       >{{ monText.publishedAt }}᠄</MonInputControl
     >
 
-    <MonInputControl v-model="book.typers" placeholder=""
-      >{{ monText.typers }}᠄</MonInputControl
+    <MonInputControl
+      v-model="book.postedBy.name"
+      :placeholder="monText.postedBy"
+      >{{ monText.postedBy }}᠄</MonInputControl
     >
 
     <MonInputControl
       v-model="book.preview"
       control-type="textarea"
-      placeholder=""
+      :placeholder="monText.preview"
       >{{ monText.preview }}᠄</MonInputControl
     >
 
@@ -68,10 +72,4 @@ export default {
 }
 </script>
 
-<style scoped>
-.new-book {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-}
-</style>
+<style scoped></style>

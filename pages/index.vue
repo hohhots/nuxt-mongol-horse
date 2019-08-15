@@ -9,7 +9,7 @@
 <script>
 import { mapState } from 'vuex'
 
-import settings from '../settings.js'
+import settings from '@/settings.js'
 import BooksList from '@/components/books/BooksList'
 
 export default {
