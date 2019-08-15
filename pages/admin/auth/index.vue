@@ -33,8 +33,8 @@ export default {
   },
   computed: {
     ...mapState({
-      user: state => state.books.user,
-      jwt: state => state.books.jwt
+      user: state => state.user.user,
+      jwt: state => state.user.jwt
     })
   },
   beforeMount() {
@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     async onSubmit() {
-      await this.$store.dispatch('books/login', {
+      await this.$store.dispatch('user/login', {
         email: this.email,
         password: this.password
       })
