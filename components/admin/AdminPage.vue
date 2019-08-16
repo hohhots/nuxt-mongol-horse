@@ -109,7 +109,7 @@ export default {
       const bookId = `bookId: "${this.bookid}"`
       const pageId = `pageId: "${this.myPage.id}"`
       const myPage = `pageNum: ${this.myPage.pageNum}
-              content: "${this.myPage.content}"`
+              content: """${this.myPage.content}"""`
       let query = `
             newPage(
               ${bookId}

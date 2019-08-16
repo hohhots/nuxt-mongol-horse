@@ -67,7 +67,7 @@ export default {
       const newBook = `title: "${this.newBook.title}"
               author: "${this.newBook.author}"
               publishedAt: "${this.newBook.publishedAt}"
-              preview: "${this.newBook.preview}"`
+              preview: """${this.newBook.preview}"""`
 
       let query = `
             newBook( 
