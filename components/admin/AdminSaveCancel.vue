@@ -3,15 +3,15 @@
     <div class="sava-cancel">
       <mon-button type="submit" width="70px">{{ monText.save }}</mon-button>
 
-      <mon-button type="button" width="70px" @click="$emit('cancel')">{{
-        monText.cancel
-      }}</mon-button>
+      <mon-button type="button" width="70px" @click="$emit('cancel')">
+        {{ monText.cancel }}
+      </mon-button>
     </div>
 
     <div v-if="isLastPage()" class="new-page">
-      <mon-button type="button" width="70px" @click="$emit('newPage')">
-        {{ monText.newPage }}
-      </mon-button>
+      <mon-button type="button" width="70px" @click="$emit('newPage')">{{
+        monText.newPage
+      }}</mon-button>
     </div>
   </div>
 </template>
@@ -34,7 +34,10 @@ export default {
       if (this.$route.path === settings.authPath) {
         return false
       }
-      if (this.$route.path.indexOf(settings.newBookPath) > -1) {
+      if (
+        this.$route.path.indexOf(settings.newBookPath) > -1 ||
+        this.$route.path.indexOf(settings.newPagePath) > -1
+      ) {
         return false
       }
       const pageId = parseInt(this.$route.params.pageid) || 0
