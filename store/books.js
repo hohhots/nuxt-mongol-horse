@@ -1,7 +1,8 @@
 export const state = () => ({
   booksPreview: [],
   totalBooks: 0,
-  book: {},
+  // need to reference default pages value.
+  book: { pages: [] },
   newBook: {
     title: '',
     author: '',
