@@ -1,7 +1,7 @@
 {
-  "name": "nuxt-mongol-horse",
+  "name": "mongolian-archive-system-of-mongol-horse",
   "version": "1.0.0",
-  "description": "My groovy Nuxt.js project",
+  "description": "mongolian archive system of mongol horse",
   "author": "brgd",
   "private": true,
   "scripts": {

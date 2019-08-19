@@ -22,7 +22,9 @@
     </div>
     <div class="item">
       <div class="title">{{ monText.preview }}᠄</div>
-      <div class="content">{{ book.preview }}</div>
+      <div class="content">
+        <pre>{{ book.preview }}</pre>
+      </div>
     </div>
   </div>
 </template>

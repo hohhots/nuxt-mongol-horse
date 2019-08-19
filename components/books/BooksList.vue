@@ -5,7 +5,7 @@
         <nuxt-link :to="baseUrl + '/' + book.id">{{ book.title }}</nuxt-link>
       </h3>
       <div class="preview">
-        <span>{{ book.preview }}</span>
+        <pre>{{ book.preview }}</pre>
       </div>
     </div>
     <pages-number

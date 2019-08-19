@@ -72,6 +72,7 @@ export default {
   data: function() {
     return {
       myPage: {},
+      imgsrc: '',
       image: {}
     }
   },
@@ -84,13 +85,13 @@ export default {
     },
     pageid() {
       return this.$route.params.pageid
-    },
-    imgsrc() {
-      if (this.page.image) {
-        return this.page.image
-      }
-      return ''
     }
+    // imgsrc() {
+    //   if (this.page.image) {
+    //     return this.page.image
+    //   }
+    //   return ''
+    // }
   },
   watch: {
     $route(to, from) {

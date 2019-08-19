@@ -3,15 +3,15 @@
     <div class="sava-cancel">
       <mon-button type="submit" width="70px">{{ monText.save }}</mon-button>
 
-      <mon-button type="button" width="70px" @click="$emit('cancel')">
-        {{ monText.cancel }}
-      </mon-button>
+      <mon-button type="button" width="70px" @click="$emit('cancel')">{{
+        monText.cancel
+      }}</mon-button>
     </div>
 
     <div v-if="isLastPage()" class="new-page">
-      <mon-button type="button" width="70px" @click="$emit('newPage')">{{
-        monText.newPage
-      }}</mon-button>
+      <mon-button type="button" width="70px" @click="$emit('newPage')">
+        {{ monText.newPage }}
+      </mon-button>
     </div>
   </div>
 </template>
@@ -19,6 +19,7 @@
 <script>
 import { mapState } from 'vuex'
 
+import settings from '@/settings.js'
 import globalVariables from '@/mixins/globalVariables.js'
 
 export default {
@@ -30,11 +31,14 @@ export default {
   },
   methods: {
     isLastPage() {
-      if (this.$route.path === '/auth') {
+      if (this.$route.path === settings.authPath) {
+        return false
+      }
+      if (this.$route.path.indexOf(settings.newBookPath) > -1) {
         return false
       }
       const pageId = parseInt(this.$route.params.pageid) || 0
-      return pageId === this.book.pages.length
+      return pageId >= this.book.pages.length
     }
   }
 }
