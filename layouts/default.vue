@@ -126,4 +126,8 @@ a:hover {
 a:visited {
   color: #609;
 }
+
+pre {
+  white-space: pre-wrap;
+}
 </style>
