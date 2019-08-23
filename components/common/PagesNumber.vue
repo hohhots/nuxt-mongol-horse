@@ -105,6 +105,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
   height: 3rem;
 }
 
