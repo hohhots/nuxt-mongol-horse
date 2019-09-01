@@ -23,14 +23,6 @@ export default {
   },
   async fetch({ store, params }) {
     await store.dispatch('books/fetchBook', params.bookid)
-  },
-  methods: {
-    onSave() {
-      console.log('new book save')
-    },
-    onCancel() {
-      this.$router.push('/admin')
-    }
   }
 }
 </script>

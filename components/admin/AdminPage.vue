@@ -132,7 +132,7 @@ export default {
           content
         }
       }`
-      console.log(query)
+
       const page = await this.$axios.$post(
         '/',
         { query },

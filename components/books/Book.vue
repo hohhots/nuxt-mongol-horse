@@ -35,7 +35,6 @@ export default {
   },
   computed: {
     totalPages() {
-      console.log('asdf - ', this.book)
       return this.book.pages.length
     },
     bookLink() {
