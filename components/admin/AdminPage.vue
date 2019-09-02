@@ -72,8 +72,7 @@ export default {
   data: function() {
     return {
       myPage: {},
-      imgsrc: '',
-      image: {}
+      imgsrc: ''
     }
   },
   computed: {
@@ -107,6 +106,10 @@ export default {
       this.myPage.pageNum = this.myPage.pageNum + ''
     },
     async onSubmit() {
+      if (!/^([1-9])([0-9]*)$/.test(this.myPage.pageNum)) {
+        alert('page number must be number!')
+        return
+      }
       const bookId = `bookId: "${this.bookid}"`
       const pageId = `pageId: "${this.myPage.id}"`
       const myPage = `pageNum: ${this.myPage.pageNum}
@@ -132,7 +135,6 @@ export default {
           content
         }
       }`
-
       const page = await this.$axios.$post(
         '/',
         { query },
@@ -144,19 +146,23 @@ export default {
       if (page.errors) {
         alert(page.errors[0].message)
       } else {
+        await this.uploadFile()
         this.$router.push('/admin')
       }
+    },
+    uploadFile() {
+      console.log('ddddd')
     },
     onCancel() {
       this.$router.push('/admin')
     },
     setImage() {
-      this.image = this.$refs.image.files[0]
+      const image = this.$refs.image.files[0]
       const reader = new FileReader()
       reader.onload = e => {
         this.imgsrc = e.target.result
       }
-      reader.readAsDataURL(this.image)
+      reader.readAsDataURL(image)
     },
     onNextNewPage() {
       const p = parseInt(this.pageid) + 1
