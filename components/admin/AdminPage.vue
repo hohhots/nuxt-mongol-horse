@@ -57,6 +57,8 @@ import globalVariables from '@/mixins/globalVariables.js'
 import AdminSaveCancel from '@/components/admin/AdminSaveCancel'
 import MonInputControl from '@/components/mongol/MonInputControl'
 
+import uploadFile from '@/graphql/UploadFile'
+
 export default {
   components: {
     AdminSaveCancel,
@@ -131,8 +133,7 @@ export default {
       query = `mutation {
         ${query}
         {
-          pageNum
-          content
+          id
         }
       }`
       const page = await this.$axios.$post(
@@ -146,12 +147,41 @@ export default {
       if (page.errors) {
         alert(page.errors[0].message)
       } else {
-        await this.uploadFile()
-        this.$router.push('/admin')
+        await this.uploadPhoto(page.data.newPage || page.data.updatePage)
+        // this.$router.push('/admin')
       }
     },
-    uploadFile() {
-      console.log('ddddd')
+    async uploadPhoto(page) {
+      const photo = this.$refs.image.files[0]
+      if (photo.size > 2000000) {
+        alert('Image must be smaller than 2M')
+        return
+      }
+      const p = await this.$apollo.mutate({
+        mutation: uploadFile,
+        variables: {
+          photo,
+          bookId: this.bookid,
+          pageId: page.id
+        },
+        context: {
+          headers: {
+            Authorization: 'Bearer ' + this.jwt
+          }
+        }
+        // update: (store, { data: { uploadPhoto } }) => {
+        //   const data = store.readQuery({ query: ALL_PHOTOS })
+
+        //   data.allPhotos.push(uploadPhoto)
+
+        //   store.writeQuery({ query: ALL_PHOTOS, data })
+        // }
+      })
+      if (p.errors) {
+        alert(p.errors[0].message)
+      } else {
+        alert('Ok!')
+      }
     },
     onCancel() {
       this.$router.push('/admin')

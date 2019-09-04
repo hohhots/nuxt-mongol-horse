@@ -43,7 +43,8 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    '@nuxtjs/apollo'
   ],
   /*
    ** Axios module configuration
@@ -51,6 +52,15 @@ export default {
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
     baseURL: 'http://localhost:4000'
+  },
+
+  apollo: {
+    includeNodeModules: true,
+    clientConfigs: {
+      default: {
+        httpEndpoint: 'http://localhost:4000'
+      }
+    }
   },
 
   /*
