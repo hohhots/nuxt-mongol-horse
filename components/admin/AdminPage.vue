@@ -5,7 +5,7 @@
     </div>
     <div class="upload">
       <div ref="preview">
-        <mon-img v-if="imgsrc" :src="imgsrc" />
+        <mon-img v-if="photo" :src="photo" />
       </div>
       <div class="label">
         <input
@@ -57,7 +57,7 @@ import globalVariables from '@/mixins/globalVariables.js'
 import AdminSaveCancel from '@/components/admin/AdminSaveCancel'
 import MonInputControl from '@/components/mongol/MonInputControl'
 
-import uploadFile from '@/graphql/UploadFile'
+import UploadPhoto from '@/graphql/UploadPhoto'
 
 export default {
   components: {
@@ -74,7 +74,7 @@ export default {
   data: function() {
     return {
       myPage: {},
-      imgsrc: ''
+      photo: ''
     }
   },
   computed: {
@@ -87,12 +87,6 @@ export default {
     pageid() {
       return this.$route.params.pageid
     }
-    // imgsrc() {
-    //   if (this.page.image) {
-    //     return this.page.image
-    //   }
-    //   return ''
-    // }
   },
   watch: {
     $route(to, from) {
@@ -158,7 +152,7 @@ export default {
         return
       }
       const p = await this.$apollo.mutate({
-        mutation: uploadFile,
+        mutation: UploadPhoto,
         variables: {
           photo,
           bookId: this.bookid,
@@ -177,6 +171,7 @@ export default {
         //   store.writeQuery({ query: ALL_PHOTOS, data })
         // }
       })
+
       if (p.errors) {
         alert(p.errors[0].message)
       } else {
@@ -188,9 +183,12 @@ export default {
     },
     setImage() {
       const image = this.$refs.image.files[0]
+      if (!image) {
+        return
+      }
       const reader = new FileReader()
       reader.onload = e => {
-        this.imgsrc = e.target.result
+        this.photo = e.target.result
       }
       reader.readAsDataURL(image)
     },
