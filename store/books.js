@@ -11,7 +11,7 @@ export const state = () => ({
   },
   newPage: {
     id: '',
-    image: '',
+    photo: '',
     pageNum: '',
     content: ''
   }

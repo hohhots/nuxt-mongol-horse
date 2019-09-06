@@ -5,7 +5,7 @@
     </div>
     <div class="upload">
       <div ref="preview">
-        <mon-img v-if="photo" :src="photo" />
+        <mon-img v-if="photoExist" :src="photoExist" />
       </div>
       <div class="label">
         <input
@@ -52,6 +52,7 @@
 <script>
 import { mapState } from 'vuex'
 
+import util from '@/util/util.js'
 import globalVariables from '@/mixins/globalVariables.js'
 
 import AdminSaveCancel from '@/components/admin/AdminSaveCancel'
@@ -74,7 +75,8 @@ export default {
   data: function() {
     return {
       myPage: {},
-      photo: ''
+      photo: '',
+      tempFile: ''
     }
   },
   computed: {
@@ -86,6 +88,12 @@ export default {
     },
     pageid() {
       return this.$route.params.pageid
+    },
+    photoExist() {
+      if (this.photo) {
+        return this.photo
+      }
+      return this.getPhotoUrl()
     }
   },
   watch: {
@@ -98,6 +106,7 @@ export default {
   },
   methods: {
     setNewPage() {
+      this.photo = ''
       this.myPage = { ...this.page }
       this.myPage.pageNum = this.myPage.pageNum + ''
     },
@@ -141,22 +150,17 @@ export default {
       if (page.errors) {
         alert(page.errors[0].message)
       } else {
-        await this.uploadPhoto(page.data.newPage || page.data.updatePage)
-        // this.$router.push('/admin')
+        await this.uploadPhoto(page.data)
       }
     },
     async uploadPhoto(page) {
-      const photo = this.$refs.image.files[0]
-      if (photo.size > 2000000) {
-        alert('Image must be smaller than 2M')
-        return
-      }
+      const paget = page.newPage || page.updatePage
       const p = await this.$apollo.mutate({
         mutation: UploadPhoto,
         variables: {
-          photo,
+          photo: this.tempFile,
           bookId: this.bookid,
-          pageId: page.id
+          pageId: paget.id
         },
         context: {
           headers: {
@@ -175,6 +179,7 @@ export default {
       if (p.errors) {
         alert(p.errors[0].message)
       } else {
+        this.$router.push(this.adminUrl + '/' + this.bookid)
         alert('Ok!')
       }
     },
@@ -186,6 +191,11 @@ export default {
       if (!image) {
         return
       }
+      if (image.size > 2000000) {
+        alert('Image must be smaller than 2M')
+        return
+      }
+      this.tempFile = image
       const reader = new FileReader()
       reader.onload = e => {
         this.photo = e.target.result
@@ -195,6 +205,24 @@ export default {
     onNextNewPage() {
       const p = parseInt(this.pageid) + 1
       this.$router.push(`${this.baseUrl}/${this.bookid}/${p}/${this.newPage}`)
+    },
+    getPhotoUrl() {
+      let url =
+        this.imagesUrl + this.bookUrl + '/' + this.bookid + '/' + this.myPage.id
+      if (this.bookid && this.myPage.id) {
+        let i
+        for (i = 0; i < this.imageTypes.length; i++) {
+          const fileUrl = url + '.' + this.imageTypes[i]
+          if (util.fileExistsInServer(fileUrl)) {
+            url = fileUrl
+            break
+          }
+        }
+        if (i !== this.imageTypes.length) {
+          return url
+        }
+      }
+      return ''
     }
   }
 }

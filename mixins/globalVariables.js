@@ -1,6 +1,8 @@
 export default {
   data() {
     return {
+      imageTypes: ['png', 'jpg'],
+      imagesUrl: '/images',
       bookUrl: '/book',
       adminUrl: '/admin',
       newPage: 'new-page',
