@@ -151,9 +151,14 @@ export default {
         alert(page.errors[0].message)
       } else {
         await this.uploadPhoto(page.data)
+        this.$router.push(this.adminUrl + '/' + this.bookid)
+        alert('Ok!')
       }
     },
     async uploadPhoto(page) {
+      if (!this.tempFile) {
+        return
+      }
       const paget = page.newPage || page.updatePage
       const p = await this.$apollo.mutate({
         mutation: UploadPhoto,
@@ -178,13 +183,10 @@ export default {
 
       if (p.errors) {
         alert(p.errors[0].message)
-      } else {
-        this.$router.push(this.adminUrl + '/' + this.bookid)
-        alert('Ok!')
       }
     },
     onCancel() {
-      this.$router.push('/admin')
+      this.$router.push(this.adminUrl + '/' + this.bookid)
     },
     setImage() {
       const image = this.$refs.image.files[0]
