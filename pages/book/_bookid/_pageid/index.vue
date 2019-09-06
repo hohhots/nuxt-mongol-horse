@@ -1,19 +1,19 @@
 <template>
   <div class="container">
     <div class="types">
-      <mon-button class="item" width="70px" @click="toggle(0)">{{
-        monText.text
-      }}</mon-button>
-      <mon-button class="item" width="70px" @click="toggle(1)">{{
-        monText.photo
-      }}</mon-button>
-      <mon-button class="item" width="70px" @click="toggle(2)">{{
-        monText.together
-      }}</mon-button>
+      <mon-button class="item" width="70px" @click="toggle(0)">
+        {{ monText.text }}
+      </mon-button>
+      <mon-button class="item" width="70px" @click="toggle(1)">
+        {{ monText.photo }}
+      </mon-button>
+      <mon-button class="item" width="70px" @click="toggle(2)">
+        {{ monText.together }}
+      </mon-button>
     </div>
     <div class="content">
       <div class="img-container">
-        <mon-img v-show="displayImage" :src="imgSrc()" :state="displayImage" />
+        <mon-img v-show="displayImage" :src="imgSrc" :state="displayImage" />
       </div>
       <pre v-show="displayText">{{ book.pages[pageId - 1].content }}</pre>
     </div>
@@ -35,6 +35,7 @@ export default {
   mixins: [gv],
   data: function() {
     return {
+      // cmounted: after page rendered flag, sure run on browser
       cmounted: false,
       displayText: true,
       displayImage: false,
@@ -44,7 +45,20 @@ export default {
   computed: {
     ...mapState({
       book: state => state.books.book
-    })
+    }),
+    imgSrc() {
+      if (this.cmounted) {
+        return this.getPhotoUrl(
+          this.imagesUrl +
+            this.bookUrl +
+            '/' +
+            this.book.id +
+            '/' +
+            this.book.pages[this.pageId - 1].id
+        )
+      }
+      return ''
+    }
   },
   async fetch({ store, params }) {
     await store.dispatch('books/fetchBook', params.bookid)
@@ -56,14 +70,6 @@ export default {
     this.cmounted = true
   },
   methods: {
-    imgSrc() {
-      if (this.cmounted) {
-        return (
-          '/images/' + this.book.id + '/' + this.book.pages[this.pageId - 1].id
-        )
-      }
-      return ''
-    },
     toggle(state) {
       this.displayText = true
       this.displayImage = false

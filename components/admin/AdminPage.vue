@@ -52,7 +52,6 @@
 <script>
 import { mapState } from 'vuex'
 
-import util from '@/util/util.js'
 import globalVariables from '@/mixins/globalVariables.js'
 
 import AdminSaveCancel from '@/components/admin/AdminSaveCancel'
@@ -93,7 +92,17 @@ export default {
       if (this.photo) {
         return this.photo
       }
-      return this.getPhotoUrl()
+      if (this.bookid && this.myPage.id) {
+        return this.getPhotoUrl(
+          this.imagesUrl +
+            this.bookUrl +
+            '/' +
+            this.bookid +
+            '/' +
+            this.myPage.id
+        )
+      }
+      return ''
     }
   },
   watch: {
@@ -207,24 +216,6 @@ export default {
     onNextNewPage() {
       const p = parseInt(this.pageid) + 1
       this.$router.push(`${this.baseUrl}/${this.bookid}/${p}/${this.newPage}`)
-    },
-    getPhotoUrl() {
-      let url =
-        this.imagesUrl + this.bookUrl + '/' + this.bookid + '/' + this.myPage.id
-      if (this.bookid && this.myPage.id) {
-        let i
-        for (i = 0; i < this.imageTypes.length; i++) {
-          const fileUrl = url + '.' + this.imageTypes[i]
-          if (util.fileExistsInServer(fileUrl)) {
-            url = fileUrl
-            break
-          }
-        }
-        if (i !== this.imageTypes.length) {
-          return url
-        }
-      }
-      return ''
     }
   }
 }
