@@ -44,6 +44,7 @@ export const actions = {
           id
           pageNum
           content
+          imageType
           postedBy{
             name
           }

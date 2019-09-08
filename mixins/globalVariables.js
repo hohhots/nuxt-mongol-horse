@@ -1,5 +1,3 @@
-import util from '@/util/util.js'
-
 export default {
   data() {
     return {
@@ -61,22 +59,6 @@ export default {
         return true
       }
       return false
-    }
-  },
-  methods: {
-    getPhotoUrl(url) {
-      let i
-      for (i = 0; i < this.imageTypes.length; i++) {
-        const fileUrl = url + '.' + this.imageTypes[i]
-        if (util.fileExistsInServer(fileUrl)) {
-          url = fileUrl
-          break
-        }
-      }
-      if (i !== this.imageTypes.length) {
-        return url
-      }
-      return ''
     }
   }
 }

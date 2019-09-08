@@ -13,7 +13,11 @@
     </div>
     <div class="content">
       <div class="img-container">
-        <mon-img v-show="displayImage" :src="imgSrc" :state="displayImage" />
+        <mon-img
+          v-show="displayImage && imgSrc"
+          :src="imgSrc"
+          :state="displayImage"
+        />
       </div>
       <pre v-show="displayText">{{ book.pages[pageId - 1].content }}</pre>
     </div>
@@ -47,15 +51,11 @@ export default {
       book: state => state.books.book
     }),
     imgSrc() {
-      if (this.cmounted) {
-        return this.getPhotoUrl(
-          this.imagesUrl +
-            this.bookUrl +
-            '/' +
-            this.book.id +
-            '/' +
-            this.book.pages[this.pageId - 1].id
-        )
+      const type = this.book.pages[this.pageId - 1].imageType
+      if (this.cmounted && type) {
+        return `${this.imagesUrl}${this.bookUrl}/${this.book.id}/${
+          this.book.pages[this.pageId - 1].id
+        }.${type}`
       }
       return ''
     }

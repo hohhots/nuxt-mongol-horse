@@ -51,14 +51,14 @@ export default {
    */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
-    baseURL: 'http://localhost:4000'
+    baseURL: 'http://192.168.3.18:4000'
   },
 
   apollo: {
     includeNodeModules: true,
     clientConfigs: {
       default: {
-        httpEndpoint: 'http://localhost:4000'
+        httpEndpoint: 'http://192.168.3.18:4000'
       }
     }
   },

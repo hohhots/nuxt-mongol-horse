@@ -5,14 +5,6 @@ const util = {
       return parseFloat(p)
     }
     return p
-  },
-  fileExistsInServer(fileUrl) {
-    const http = new XMLHttpRequest()
-
-    http.open('HEAD', fileUrl, false)
-    http.send()
-
-    return http.status !== 404
   }
 }
 

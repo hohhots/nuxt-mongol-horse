@@ -92,15 +92,10 @@ export default {
       if (this.photo) {
         return this.photo
       }
-      if (this.bookid && this.myPage.id) {
-        return this.getPhotoUrl(
-          this.imagesUrl +
-            this.bookUrl +
-            '/' +
-            this.bookid +
-            '/' +
-            this.myPage.id
-        )
+      const id = this.myPage.id
+      const type = this.myPage.imageType
+      if (this.myPage && type) {
+        return `${this.imagesUrl}${this.bookUrl}/${this.bookid}/${id}.${type}`
       }
       return ''
     }
