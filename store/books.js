@@ -1,8 +1,7 @@
 export const state = () => ({
-  booksPreview: [],
-  totalBooks: 0,
+  Books: [],
   // need to reference default pages value.
-  book: { pages: [] },
+  Book: { pages: [] },
   newBook: {
     title: '',
     author: '',
@@ -20,14 +19,11 @@ export const state = () => ({
 export const mutations = {
   SET_BOOK(state, book) {
     if (book) {
-      state.book = book
+      state.Book = book
     }
   },
-  SET_BOOKS_PREVIEW(state, booksPreview) {
-    state.booksPreview = booksPreview
-  },
-  SET_TOTAL_BOOKS(state, totalBooks) {
-    state.totalBooks = totalBooks
+  SET_BOOKS_PREVIEW(state, Books) {
+    state.Books = Books
   }
 }
 
@@ -58,7 +54,7 @@ export const actions = {
     const { data } = await this.$axios.$post('/', { query })
     commit('SET_BOOK', data.book)
   },
-  async fetchBooksPreview({ commit }, filters) {
+  async fetchBooks({ commit }, filters) {
     const sf = `skip:${filters.skip}, first:${
       filters.first
     }, orderBy:createdAt_DESC`
@@ -79,17 +75,19 @@ export const actions = {
     const { data } = await this.$axios.$post('/', { query })
 
     commit('SET_BOOKS_PREVIEW', data.bookList.books)
-    commit('SET_TOTAL_BOOKS', data.bookList.count)
   }
 }
 
 export const getters = {
+  getBooksNum(state) {
+    return state.Books.length
+  },
   getPage(state) {
     return (pageid, editExistingPage) => {
       if (!editExistingPage) {
         return state.newPage
       }
-      return state.book.pages[pageid - 1]
+      return state.Book.pages[pageid - 1]
     }
   }
 }

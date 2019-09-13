@@ -16,7 +16,7 @@ export default {
   },
   computed: {
     ...mapState({
-      book: state => state.books.book
+      book: state => state.books.Book
     })
   },
   async fetch({ store, params }) {

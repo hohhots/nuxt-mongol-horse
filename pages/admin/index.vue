@@ -25,7 +25,7 @@ export default {
   mixins: [gv],
   computed: {
     ...mapState({
-      books: state => state.books.booksPreview
+      books: state => state.books.Books
     })
   },
   watch: {
@@ -36,7 +36,7 @@ export default {
       const skip = (pageid - 1) * itemsPerPage
       const first = itemsPerPage
 
-      await this.$store.dispatch('books/fetchBooksPreview', {
+      await this.$store.dispatch('books/fetchBooks', {
         filter,
         skip,
         first
@@ -50,7 +50,7 @@ export default {
     const skip = (pageid - 1) * itemsPerPage
     const first = itemsPerPage
 
-    await store.dispatch('books/fetchBooksPreview', {
+    await store.dispatch('books/fetchBooks', {
       filter,
       skip,
       first

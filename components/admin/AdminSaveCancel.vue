@@ -3,15 +3,15 @@
     <div class="sava-cancel">
       <mon-button type="submit" width="70px">{{ monText.save }}</mon-button>
 
-      <mon-button type="button" width="70px" @click="$emit('cancel')">
-        {{ monText.cancel }}
-      </mon-button>
+      <mon-button type="button" width="70px" @click="$emit('cancel')">{{
+        monText.cancel
+      }}</mon-button>
     </div>
 
     <div v-if="isLastPage()" class="new-page">
-      <mon-button type="button" width="70px" @click="$emit('newPage')">{{
-        monText.newPage
-      }}</mon-button>
+      <mon-button type="button" width="70px" @click="$emit('newPage')">
+        {{ monText.newPage }}
+      </mon-button>
     </div>
   </div>
 </template>
@@ -26,7 +26,7 @@ export default {
   mixins: [globalVariables],
   computed: {
     ...mapState({
-      book: state => state.books.book
+      book: state => state.books.Book
     })
   },
   methods: {

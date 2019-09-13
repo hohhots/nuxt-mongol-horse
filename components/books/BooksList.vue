@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 import settings from '../../settings.js'
 import gv from '@/mixins/globalVariables.js'
@@ -43,8 +43,8 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      totalBooks: state => state.books.totalBooks
+    ...mapGetters({
+      totalBooks: 'books/getBooksNum'
     }),
     totalPages() {
       return Math.ceil(this.totalBooks / settings.itemsPerPage)
