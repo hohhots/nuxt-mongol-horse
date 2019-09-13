@@ -1,3 +1,5 @@
+import getBook from '@/graphql/Book'
+
 export const state = () => ({
   Books: [],
   // need to reference default pages value.
@@ -29,31 +31,17 @@ export const mutations = {
 
 export const actions = {
   async fetchBook({ state, commit }, bookid) {
-    const query = `{
-      book( bookId: "${bookid}") {
-        id
-        title
-        author
-        publishedAt
-        preview
-        pages{
-          id
-          pageNum
-          content
-          imageType
-          postedBy{
-            name
-          }
-        }
-        postedBy{
-          name
-        }
+    const apollo = this.app.apolloProvider.defaultClient
+    const { data } = await apollo.query({
+      query: getBook,
+      variables: {
+        bookId: bookid
       }
-    }`
+    })
 
-    const { data } = await this.$axios.$post('/', { query })
     commit('SET_BOOK', data.book)
   },
+
   async fetchBooks({ commit }, filters) {
     const sf = `skip:${filters.skip}, first:${
       filters.first
