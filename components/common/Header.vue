@@ -12,10 +12,12 @@
 </template>
 
 <script>
+import settings from '@/settings.js'
+
 export default {
   computed: {
     homeUrl() {
-      const admin = '/admin'
+      const admin = '/' + settings.admin
       const path = this.$route.path
       if (path === admin || path.indexOf(admin + '/') === 0) {
         return admin

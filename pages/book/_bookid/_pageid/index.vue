@@ -27,7 +27,8 @@
 <script>
 import { mapState } from 'vuex'
 
-import gv from '@/mixins/globalVariables.js'
+import settings from '@/settings.js'
+import gv from '@/mixins/common.js'
 import MonImg from '@/components/mongol/MonImg'
 import MonButton from '@/components/mongol/MonButton'
 
@@ -53,7 +54,7 @@ export default {
     imgSrc() {
       const type = this.book.pages[this.pageId - 1].imageType
       if (this.cmounted && type) {
-        return `${this.imagesUrl}${this.bookUrl}/${this.book.id}/${
+        return `/${settings.images}/${settings.book}/${this.book.id}/${
           this.book.pages[this.pageId - 1].id
         }.${type}`
       }

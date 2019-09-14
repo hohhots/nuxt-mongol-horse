@@ -9,6 +9,7 @@
 <script>
 import { mapState } from 'vuex'
 
+import settings from '@/settings.js'
 import Header from '@/components/common/Header'
 import Footer from '@/components/common/Footer'
 
@@ -26,8 +27,8 @@ export default {
   beforeMount() {
     // word admin length is 5, plus 1
     const admin = this.$route.path.substring(0, 6)
-    if (!this.user.email && !this.jwt && admin === '/admin') {
-      this.$router.push('/auth')
+    if (!this.user.email && !this.jwt && admin === '/' + settings.admin) {
+      this.$router.push('/' + settings.auth)
     }
   }
 }

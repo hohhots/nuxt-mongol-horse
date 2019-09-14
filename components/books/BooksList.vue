@@ -20,8 +20,8 @@
 <script>
 import { mapGetters } from 'vuex'
 
-import settings from '../../settings.js'
-import gv from '@/mixins/globalVariables.js'
+import settings from '@/settings.js'
+import gv from '@/mixins/common.js'
 
 import PagesNumber from '@/components/common/PagesNumber'
 
@@ -63,10 +63,10 @@ export default {
     pagenumUrl() {
       const p = '/?page='
       const bu = this.baseUrl
-      if (bu === this.bookUrl) {
+      if (bu === '/' + settings.book) {
         return p
       }
-      if (bu === this.adminUrl) {
+      if (bu === '/' + settings.admin) {
         return bu + p
       }
     }

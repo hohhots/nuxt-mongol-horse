@@ -15,7 +15,7 @@
 import { mapState } from 'vuex'
 
 import settings from '@/settings.js'
-import gv from '@/mixins/globalVariables.js'
+import gv from '@/mixins/common.js'
 import BooksList from '@/components/books/BooksList'
 
 export default {
@@ -30,6 +30,7 @@ export default {
   },
   watch: {
     async $route(to, from) {
+      console.log('route watch')
       const itemsPerPage = settings.itemsPerPage
       const pageid = to.query.page ? parseInt(to.query.page) : 1
       const filter = ''

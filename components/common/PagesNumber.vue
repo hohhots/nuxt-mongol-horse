@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import gv from '@/mixins/globalVariables.js'
+import gv from '@/mixins/common.js'
 
 export default {
   mixins: [gv],

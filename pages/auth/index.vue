@@ -17,7 +17,8 @@
 <script>
 import { mapState } from 'vuex'
 
-import gVariables from '@/mixins/globalVariables.js'
+import settings from '@/settings.js'
+import gVariables from '@/mixins/common.js'
 import AdminSaveCancel from '@/components/admin/AdminSaveCancel'
 
 export default {
@@ -53,7 +54,7 @@ export default {
     },
     redirect() {
       if (this.jwt) {
-        this.$router.push('/admin')
+        this.$router.push('/' + settings.admin)
       }
     }
   }

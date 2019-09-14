@@ -14,14 +14,14 @@
 </template>
 
 <script>
-import globalVariables from '@/mixins/globalVariables.js'
+import common from '@/mixins/common.js'
 import PagesNumber from '@/components/common/PagesNumber'
 
 export default {
   components: {
     PagesNumber
   },
-  mixins: [globalVariables],
+  mixins: [common],
   props: {
     book: {
       type: Object,

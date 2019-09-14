@@ -7,13 +7,14 @@
 </template>
 
 <script>
-import gv from '@/mixins/globalVariables.js'
+import settings from '@/settings.js'
+import gv from '@/mixins/common.js'
 
 export default {
   mixins: [gv],
   computed: {
     homeUrl() {
-      const admin = '/admin'
+      const admin = '/' + settings.admin
       const path = this.$route.path
       if (path === admin || path.indexOf(admin + '/') === 0) {
         return admin

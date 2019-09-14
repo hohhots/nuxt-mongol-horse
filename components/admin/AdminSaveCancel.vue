@@ -20,10 +20,10 @@
 import { mapState } from 'vuex'
 
 import settings from '@/settings.js'
-import globalVariables from '@/mixins/globalVariables.js'
+import common from '@/mixins/common.js'
 
 export default {
-  mixins: [globalVariables],
+  mixins: [common],
   computed: {
     ...mapState({
       book: state => state.books.Book
@@ -31,12 +31,12 @@ export default {
   },
   methods: {
     isLastPage() {
-      if (this.$route.path === settings.authPath) {
+      if (this.$route.path === '/' + settings.auth) {
         return false
       }
       if (
-        this.$route.path.indexOf(settings.newBookPath) > -1 ||
-        this.$route.path.indexOf(settings.newPagePath) > -1
+        this.$route.path.indexOf('/' + settings.newBook) > -1 ||
+        this.$route.path.indexOf('/' + settings.newPage) > -1
       ) {
         return false
       }

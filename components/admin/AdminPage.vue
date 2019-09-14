@@ -52,7 +52,8 @@
 <script>
 import { mapState } from 'vuex'
 
-import globalVariables from '@/mixins/globalVariables.js'
+import settings from '@/settings.js'
+import common from '@/mixins/common.js'
 
 import AdminSaveCancel from '@/components/admin/AdminSaveCancel'
 import MonInputControl from '@/components/mongol/MonInputControl'
@@ -64,7 +65,7 @@ export default {
     AdminSaveCancel,
     MonInputControl
   },
-  mixins: [globalVariables],
+  mixins: [common],
   props: {
     page: {
       type: Object,
@@ -95,7 +96,9 @@ export default {
       const id = this.myPage.id
       const type = this.myPage.imageType
       if (this.myPage && type) {
-        return `${this.imagesUrl}${this.bookUrl}/${this.bookid}/${id}.${type}`
+        return `/${settings.images}/${settings.book}/${
+          this.bookid
+        }/${id}.${type}`
       }
       return ''
     }
@@ -155,7 +158,7 @@ export default {
         alert(page.errors[0].message)
       } else {
         await this.uploadPhoto(page.data)
-        this.$router.push(this.adminUrl + '/' + this.bookid)
+        this.$router.push('/' + settings.admin + '/' + this.bookid)
         alert('Ok!')
       }
     },
@@ -190,7 +193,7 @@ export default {
       }
     },
     onCancel() {
-      this.$router.push(this.adminUrl + '/' + this.bookid)
+      this.$router.push('/' + settings.admin + '/' + this.bookid)
     },
     setImage() {
       const image = this.$refs.image.files[0]
@@ -210,7 +213,9 @@ export default {
     },
     onNextNewPage() {
       const p = parseInt(this.pageid) + 1
-      this.$router.push(`${this.baseUrl}/${this.bookid}/${p}/${this.newPage}`)
+      this.$router.push(
+        `${this.baseUrl}/${this.bookid}/${p}/${settings.newPage}`
+      )
     }
   }
 }

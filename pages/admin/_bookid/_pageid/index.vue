@@ -4,7 +4,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import globalVariables from '@/mixins/globalVariables.js'
+import common from '@/mixins/common.js'
 
 import AdminPage from '@/components/admin/AdminPage'
 
@@ -12,7 +12,7 @@ export default {
   components: {
     AdminPage
   },
-  mixins: [globalVariables],
+  mixins: [common],
   computed: {
     page() {
       return this.getPage()(this.$route.params.pageid, this.editExistingPage)

@@ -28,7 +28,8 @@
 <script>
 import { mapState } from 'vuex'
 
-import gVariables from '@/mixins/globalVariables.js'
+import settings from '@/settings.js'
+import gVariables from '@/mixins/common.js'
 import AdminSaveCancel from '@/components/admin/AdminSaveCancel'
 
 export default {
@@ -102,16 +103,16 @@ export default {
       if (book.errors) {
         alert(book.errors[0].message)
       } else {
-        this.$router.push('/admin')
+        this.$router.push('/' + settings.admin)
       }
     },
     onCancel() {
-      this.$router.push('/admin')
+      this.$router.push('/' + settings.admin)
     },
     onNewPage() {
       const pageid = this.pageid || 1
       this.$router.push(
-        `${this.baseUrl}/${this.bookid}/${pageid}/${this.newPage}`
+        `${this.baseUrl}/${this.bookid}/${pageid}/${settings.newPage}`
       )
     }
   }

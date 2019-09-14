@@ -8,7 +8,7 @@
 <script>
 import { mapState } from 'vuex'
 
-import gv from '@/mixins/globalVariables.js'
+import gv from '@/mixins/common.js'
 import AdminNewBook from '@/components/admin/AdminNewBook'
 
 export default {
@@ -20,10 +20,10 @@ export default {
     ...mapState({
       newBook: state => state.books.newBook
     })
-  },
-  async fetch({ store, params }) {
-    await store.dispatch('books/fetchBook', params.bookid)
   }
+  // async fetch({ store, params }) {
+  //   await store.dispatch('books/fetchBook', params.bookid)
+  // }
 }
 </script>
 

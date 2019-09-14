@@ -32,6 +32,10 @@ export const mutations = {
 
 export const actions = {
   async fetchBook({ state, commit }, bookid) {
+    if (!bookid) {
+      alert('Need book id for get book')
+      return
+    }
     const apollo = this.app.apolloProvider.defaultClient
     const { data } = await apollo.query({
       query: getBook,
