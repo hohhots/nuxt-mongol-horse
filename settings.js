@@ -5,4 +5,3 @@ export default {
   newBookPath: '/new-book',
   newPagePath: '/new-page'
 }
-// import Settings from './variables.js'

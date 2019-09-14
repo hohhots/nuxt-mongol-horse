@@ -1,4 +1,5 @@
 import getBook from '@/graphql/Book'
+import getBooks from '@/graphql/Books'
 
 export const state = () => ({
   Books: [],
@@ -43,24 +44,15 @@ export const actions = {
   },
 
   async fetchBooks({ commit }, filters) {
-    const sf = `skip:${filters.skip}, first:${
-      filters.first
-    }, orderBy:createdAt_DESC`
-    const bookList = filters.filter
-      ? `(filter:"${filters.filter}", ${sf})`
-      : `(${sf})`
-    const query = `{
-      bookList${bookList} {
-        books {
-          id
-          title
-          preview
-        }
-        count
+    const apollo = this.app.apolloProvider.defaultClient
+    const { data } = await apollo.query({
+      query: getBooks,
+      variables: {
+        filter: filters.filter,
+        skip: filters.skip,
+        first: filters.first
       }
-    }`
-
-    const { data } = await this.$axios.$post('/', { query })
+    })
 
     commit('SET_BOOKS_PREVIEW', data.bookList.books)
   }
