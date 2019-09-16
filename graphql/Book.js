@@ -13,9 +13,6 @@ export default gql`
         pageNum
         content
         imageType
-        postedBy {
-          name
-        }
       }
       postedBy {
         name

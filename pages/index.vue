@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 import settings from '@/settings.js'
 import BooksList from '@/components/books/BooksList'
@@ -17,8 +17,8 @@ export default {
     BooksList
   },
   computed: {
-    ...mapState({
-      books: state => state.books.Books
+    ...mapGetters({
+      books: 'books/getBooks'
     })
   },
   watch: {
