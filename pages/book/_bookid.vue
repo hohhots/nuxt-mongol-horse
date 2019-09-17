@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 import Book from '@/components/books/Book'
 
@@ -15,8 +15,8 @@ export default {
     Book
   },
   computed: {
-    ...mapState({
-      book: state => state.books.Book
+    ...mapGetters({
+      book: 'books/getBook'
     })
   },
   async fetch({ store, params }) {

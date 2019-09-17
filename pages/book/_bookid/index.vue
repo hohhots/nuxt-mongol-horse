@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 import BookPreview from '@/components/books/BookPreview'
 
@@ -14,12 +14,9 @@ export default {
     BookPreview
   },
   computed: {
-    ...mapState({
-      book: state => state.books.Book
+    ...mapGetters({
+      book: 'books/getBook'
     })
-  },
-  async fetch({ store, params }) {
-    await store.dispatch('books/fetchBook', params.bookid)
   }
 }
 </script>

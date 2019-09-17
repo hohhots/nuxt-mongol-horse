@@ -51,7 +51,6 @@ export default {
     }
   },
   beforeMount() {
-    console.log(this.books)
     this.init()
   },
   methods: {

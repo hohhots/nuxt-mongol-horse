@@ -21,21 +21,6 @@ export default {
       books: 'books/getBooks'
     })
   },
-  watch: {
-    async $route(to, from) {
-      const itemsPerPage = settings.itemsPerPage
-      const pageid = to.query.page ? parseInt(to.query.page) : 1
-      const filter = ''
-      const skip = (pageid - 1) * itemsPerPage
-      const first = itemsPerPage
-
-      await this.$store.dispatch('books/fetchBooks', {
-        filter,
-        skip,
-        first
-      })
-    }
-  },
   async fetch({ store, query }) {
     const itemsPerPage = settings.itemsPerPage
     const pageid = query.page ? parseInt(query.page) : 1

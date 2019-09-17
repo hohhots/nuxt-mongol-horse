@@ -1,10 +1,12 @@
+import _ from 'lodash'
+
 import getPage from '@/graphql/Page'
 import getBook from '@/graphql/Book'
 import getBooks from '@/graphql/Books'
 
 export const state = () => ({
   // current page display books
-  BookIDs: [],
+  BooksID: [],
   // need to reference default pages value.
   Book: { pages: [] },
   // current display book and page id
@@ -33,19 +35,25 @@ export const mutations = {
       // state.Book = book
     }
   },
+  SET_BOOKID(state, bookid) {
+    state.BookId = bookid
+  },
   SET_BOOK(state, book) {
-    if (book) {
-      state.Book = book
-    }
+    // only for add or update book property
+    const books = _.remove(state.BooksCache, function(n) {
+      return n.id !== book.id
+    })
+    books.push(book)
+    state.BooksCache = books
   },
   SET_BOOKS_PREVIEW(state, Books) {
-    state.BookIDs = []
+    state.BooksID = []
     for (let i = 0; i < Books.length; i++) {
       const book = Books[i]
       if (!existBookCache(state.BooksCache, book.id)) {
         state.BooksCache.push(book)
       }
-      state.BookIDs.push(book.id)
+      state.BooksID.push(book.id)
     }
   }
 }
@@ -63,7 +71,6 @@ export const actions = {
         pageId: pageid
       }
     })
-    console.log(data)
     commit('SET_PAGE', data.page)
   },
 
@@ -72,6 +79,15 @@ export const actions = {
       alert('Need book id for get book')
       return
     }
+
+    commit('SET_BOOKID', bookid)
+
+    const book = existBookCache(state.BooksCache, bookid)
+    // because fetchBook just for get more information, like all pages
+    if (book.pages) {
+      return
+    }
+
     const apollo = this.app.apolloProvider.defaultClient
     const { data } = await apollo.query({
       query: getBook,
@@ -100,7 +116,7 @@ export const actions = {
 
 export const getters = {
   getBooksNum(state) {
-    return state.BookIDs.length
+    return state.BooksID.length
   },
   getPage(state) {
     return (pageid, editExistingPage) => {
@@ -110,11 +126,19 @@ export const getters = {
       return state.Book.pages[pageid - 1]
     }
   },
+  getBook(state) {
+    const cache = state.BooksCache
+    for (let i = 0; i < cache.length; i++) {
+      if (cache[i].id === state.BookId) {
+        return cache[i]
+      }
+    }
+  },
   getBooks(state) {
     const books = []
     const cache = state.BooksCache
-    for (let i = 0; i < state.BookIDs.length; i++) {
-      const bookid = state.BookIDs[i]
+    for (let i = 0; i < state.BooksID.length; i++) {
+      const bookid = state.BooksID[i]
       for (let i = 0; i < cache.length; i++) {
         const book = cache[i]
         if (book.id === bookid) {
@@ -131,7 +155,7 @@ function existBookCache(cache, bookid) {
   for (let i = 0; i < cache.length; i++) {
     const book = cache[i]
     if (book.id === bookid) {
-      exist = true
+      exist = book
     }
   }
   return exist

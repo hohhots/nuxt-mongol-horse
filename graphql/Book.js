@@ -10,9 +10,9 @@ export default gql`
       preview
       pages {
         id
-        pageNum
-        content
-        imageType
+        # pageNum
+        # content
+        # imageType
       }
       postedBy {
         name
