@@ -7,8 +7,6 @@ import getBooks from '@/graphql/Books'
 export const state = () => ({
   // current page display books
   BooksID: [],
-  // need to reference default pages value.
-  Book: { pages: [] },
   // current display book and page id
   BookId: '',
   PageId: '',
@@ -16,7 +14,7 @@ export const state = () => ({
   BooksIDCacke: {},
   // global books and page local cache
   BooksCache: [],
-  pagesCache: [],
+  PagesCache: [],
 
   // model for new book and page
   newBook: {
@@ -33,9 +31,11 @@ export const state = () => ({
 
 export const mutations = {
   SET_PAGE(state, page) {
-    console.log('setPage - ', page)
-    if (page) {
-      // state.Book = book
+    const cpage = _.find(state.PagesCache, function(p) {
+      return page.id === p.id
+    })
+    if (!cpage) {
+      state.PagesCache.push(page)
     }
   },
   SET_PAGEID(state, pageid) {
@@ -49,11 +49,6 @@ export const mutations = {
   },
   SET_BOOK(state, book) {
     // only for add or update book property
-    // const books = _.remove(state.BooksCache, function(n) {
-    //   return n.id !== book.id
-    // })
-    // books.push(book)
-    // state.BooksCache = books
     const cbook = _.map(state.BooksCache, function(b) {
       if (b.id === book.id) {
         return _.assign(b, book)
@@ -80,16 +75,24 @@ export const mutations = {
 
 export const actions = {
   async fetchPage({ state, commit, getters }, pageid) {
-    console.log('fetchPage')
     if (!pageid) {
       alert('Need page id for get book')
       return
     }
 
     const book = getters.getBook
+    pageid = book.pages[pageid - 1].id
 
-    commit('SET_PAGEID', book.pages[pageid - 1].id)
+    commit('SET_PAGEID', pageid)
 
+    const cpage = _.find(state.PagesCache, function(p) {
+      return pageid === p.id
+    })
+    if (cpage) {
+      return cpage
+    }
+
+    console.log('fetchPage')
     const apollo = this.app.apolloProvider.defaultClient
     const { data } = await apollo.query({
       query: getPage,
@@ -153,20 +156,14 @@ export const getters = {
     return state.BooksID.length
   },
   getPage(state) {
-    return (pageid, editExistingPage) => {
-      if (!editExistingPage) {
-        return state.newPage
-      }
-      return state.Book.pages[pageid - 1]
-    }
+    return _.find(state.PagesCache, function(page) {
+      return state.PageId === page.id
+    })
   },
   getBook(state) {
-    const cache = state.BooksCache
-    for (let i = 0; i < cache.length; i++) {
-      if (cache[i].id === state.BookId) {
-        return cache[i]
-      }
-    }
+    return _.find(state.BooksCache, function(book) {
+      return state.BookId === book.id
+    })
   },
   getBooks(state) {
     const books = []

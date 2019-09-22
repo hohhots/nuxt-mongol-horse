@@ -19,7 +19,7 @@
           :state="displayImage"
         />
       </div>
-      <pre v-show="displayText">{{ book.pages[pageId - 1].content }}</pre>
+      <pre v-show="displayText">{{ page ? page.content : '' }}</pre>
     </div>
   </div>
 </template>
@@ -43,29 +43,32 @@ export default {
       // cmounted: after page rendered flag, sure run on browser
       cmounted: false,
       displayText: true,
-      displayImage: false,
-      pageId: this.$route.params.pageid
+      displayImage: false
     }
   },
   computed: {
     ...mapGetters({
-      book: 'books/getBook'
+      page: 'books/getPage'
     }),
     imgSrc() {
-      const type = this.book.pages[this.pageId - 1].imageType
+      if (!this.page) {
+        return ''
+      }
+      const type = this.page.imageType
       if (this.cmounted && type) {
-        return `/${settings.images}/${settings.book}/${this.book.id}/${
-          this.book.pages[this.pageId - 1].id
+        return `/${settings.images}/${settings.book}/${this.page.book.id}/${
+          this.page.id
         }.${type}`
       }
       return ''
     }
   },
   // await for fetchBook, so call fetchPage in beforeMount hook
-  async beforeMount(ss) {
-    await this.$store.dispatch('books/fetchPage', this.pageId)
+  async beforeMount() {
+    await this.$store.dispatch('books/fetchPage', this.$route.params.pageid)
   },
   mounted() {
+    // display image after content mounted
     this.cmounted = true
   },
   updated() {
