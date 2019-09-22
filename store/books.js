@@ -12,6 +12,8 @@ export const state = () => ({
   // current display book and page id
   BookId: '',
   PageId: '',
+  // url: booksID array
+  BooksIDCacke: {},
   // global books and page local cache
   BooksCache: [],
   pagesCache: [],
@@ -31,39 +33,63 @@ export const state = () => ({
 
 export const mutations = {
   SET_PAGE(state, page) {
+    console.log('setPage - ', page)
     if (page) {
       // state.Book = book
     }
   },
+  SET_PAGEID(state, pageid) {
+    state.PageId = pageid
+  },
   SET_BOOKID(state, bookid) {
     state.BookId = bookid
   },
+  SET_BOOKSID(state, booksid) {
+    state.BooksID = booksid
+  },
   SET_BOOK(state, book) {
     // only for add or update book property
-    const books = _.remove(state.BooksCache, function(n) {
-      return n.id !== book.id
+    // const books = _.remove(state.BooksCache, function(n) {
+    //   return n.id !== book.id
+    // })
+    // books.push(book)
+    // state.BooksCache = books
+    const cbook = _.map(state.BooksCache, function(b) {
+      if (b.id === book.id) {
+        return _.assign(b, book)
+      }
+      return b
     })
-    books.push(book)
-    state.BooksCache = books
+    if (!cbook.length) {
+      state.BooksCache.push(book)
+    }
   },
-  SET_BOOKS_PREVIEW(state, Books) {
+  SET_BOOKS_PREVIEW(state, books, skip) {
+    skip = skip || 0
     state.BooksID = []
-    for (let i = 0; i < Books.length; i++) {
-      const book = Books[i]
+    for (let i = 0; i < books.length; i++) {
+      const book = books[i]
       if (!existBookCache(state.BooksCache, book.id)) {
         state.BooksCache.push(book)
       }
       state.BooksID.push(book.id)
     }
+    state.BooksIDCacke[skip] = state.BooksID
   }
 }
 
 export const actions = {
-  async fetchPage({ state, commit }, pageid) {
+  async fetchPage({ state, commit, getters }, pageid) {
+    console.log('fetchPage')
     if (!pageid) {
       alert('Need page id for get book')
       return
     }
+
+    const book = getters.getBook
+
+    commit('SET_PAGEID', book.pages[pageid - 1].id)
+
     const apollo = this.app.apolloProvider.defaultClient
     const { data } = await apollo.query({
       query: getPage,
@@ -88,6 +114,7 @@ export const actions = {
       return
     }
 
+    console.log('fetchBook')
     const apollo = this.app.apolloProvider.defaultClient
     const { data } = await apollo.query({
       query: getBook,
@@ -99,7 +126,14 @@ export const actions = {
     commit('SET_BOOK', data.book)
   },
 
-  async fetchBooks({ commit }, filters) {
+  async fetchBooks({ state, commit }, filters) {
+    const booksId = state.BooksIDCacke[filters.skip]
+    if (booksId) {
+      commit('SET_BOOKSID', booksId)
+      return booksId
+    }
+
+    console.log('fetchBooks')
     const apollo = this.app.apolloProvider.defaultClient
     const { data } = await apollo.query({
       query: getBooks,
@@ -110,7 +144,7 @@ export const actions = {
       }
     })
 
-    commit('SET_BOOKS_PREVIEW', data.bookList.books)
+    commit('SET_BOOKS_PREVIEW', data.bookList.books, filters.skip)
   }
 }
 

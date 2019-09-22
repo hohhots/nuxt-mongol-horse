@@ -1,7 +1,12 @@
 <template>
   <div class="pages-number">
     <span v-if="!isFirstPage()" class="pre">
-      <nuxt-link :to="basePath + prePage()">{{ monText.prePage }}《</nuxt-link>
+      <nuxt-link :to="basePath + firstPageId">
+        <mon-horizon class="num">{{ firstPageId }}</mon-horizon>
+      </nuxt-link>
+    </span>
+    <span v-if="!isFirstPages()" class="pre">
+      <nuxt-link :to="basePath + prePages()">《《</nuxt-link>
     </span>
     <span
       v-for="num in displayPagesRange"
@@ -18,10 +23,13 @@
         <mon-horizon class="num-only">{{ pageNum(num) }}</mon-horizon>
       </template>
     </span>
+    <span v-if="!isLastPages()" class="next">
+      <nuxt-link :to="basePath + nextPages()">》》</nuxt-link>
+    </span>
     <span v-if="!isLastPage()" class="next">
-      <nuxt-link :to="basePath + nextPage()"
-        >》{{ monText.nextPage }}</nuxt-link
-      >
+      <nuxt-link :to="basePath + totalPages">
+        <mon-horizon class="num">{{ totalPages }}</mon-horizon>
+      </nuxt-link>
     </span>
   </div>
 </template>
@@ -83,16 +91,26 @@ export default {
       return num >= 1 - this.startPage
     },
     isFirstPage() {
-      return this.pageId <= this.firstPageId
+      // startPage start from -9
+      return this.firstPageId >= this.startPage
     },
     isLastPage() {
-      return this.totalPages <= this.pageId
+      // startPage start from -9
+      return this.totalPages === this.startPage + this.displayPagesRange
     },
-    prePage() {
-      return this.pageId - 1
+    isFirstPages() {
+      // startPage start from -9
+      return this.firstPageId >= this.startPage - this.displayPagesRange
     },
-    nextPage() {
-      return this.pageId + 1
+    isLastPages() {
+      // startPage start from -9
+      return this.totalPages < this.startPage + 2 * this.displayPagesRange
+    },
+    prePages() {
+      return this.pageId - this.displayPagesRange
+    },
+    nextPages() {
+      return this.pageId + this.displayPagesRange
     }
   }
 }
@@ -116,7 +134,8 @@ export default {
 .next {
   cursor: pointer;
   font-size: 1.2rem;
-  margin-left: 0.7rem;
+  margin-left: 0.3rem;
+  margin-right: 0.3rem;
 }
 
 .pre {

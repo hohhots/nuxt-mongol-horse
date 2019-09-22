@@ -63,10 +63,10 @@ export default {
         this.$router.push(this.baseUrl + '/' + this.$route.params.bookid)
       }
     },
+    // get base bookid url: /book/23sdff34/3 to /book/23sdff34/
     basePath() {
-      const path = this.$route.path
-      const last = path.substring(1).indexOf('/') + 2
-      return path.substring(0, last) + this.$route.params.bookid + '/'
+      const path = this.$route.path.split('/')
+      return '/' + path[1] + '/' + path[2] + '/'
     }
   }
 }

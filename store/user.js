@@ -33,3 +33,9 @@ export const actions = {
     commit('SET_USER_JWT', login.data.login)
   }
 }
+
+export const getters = {
+  loggedIn(state) {
+    return state.jwt ? 1 : 0
+  }
+}

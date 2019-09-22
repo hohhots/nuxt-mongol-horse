@@ -27,6 +27,8 @@ export default {
     select: 'ᠰᠤᠩᠭᠤᠶ᠎ᠠ',
     save: '',
     cancel: '',
+    head: 'ᠲᠡᠷᠢᠭᠦᠨ',
+    end: 'ᠰᠡᠭᠦᠯ',
     prePage: '',
     nextPage: 'ᠬᠤᠢᠢᠨᠠᠬᠢ',
     text: 'ᠦᠰᠦᠭᠯᠡᠯ',

@@ -1,15 +1,15 @@
 <template>
   <div class="container">
     <div class="types">
-      <mon-button class="item" width="70px" @click="toggle(0)">
-        {{ monText.text }}
-      </mon-button>
-      <mon-button class="item" width="70px" @click="toggle(1)">
-        {{ monText.photo }}
-      </mon-button>
-      <mon-button class="item" width="70px" @click="toggle(2)">
-        {{ monText.together }}
-      </mon-button>
+      <mon-button class="item" width="70px" @click="toggle(0)">{{
+        monText.text
+      }}</mon-button>
+      <mon-button class="item" width="70px" @click="toggle(1)">{{
+        monText.photo
+      }}</mon-button>
+      <mon-button class="item" width="70px" @click="toggle(2)">{{
+        monText.together
+      }}</mon-button>
     </div>
     <div class="content">
       <div class="img-container">
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 import settings from '@/settings.js'
 import gv from '@/mixins/common.js'
@@ -48,8 +48,8 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      book: state => state.books.Book
+    ...mapGetters({
+      book: 'books/getBook'
     }),
     imgSrc() {
       const type = this.book.pages[this.pageId - 1].imageType
@@ -61,8 +61,9 @@ export default {
       return ''
     }
   },
-  async fetch({ store, params }) {
-    await store.dispatch('books/fetchBook', params.bookid)
+  // await for fetchBook, so call fetchPage in beforeMount hook
+  async beforeMount(ss) {
+    await this.$store.dispatch('books/fetchPage', this.pageId)
   },
   mounted() {
     this.cmounted = true
