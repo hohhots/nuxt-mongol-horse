@@ -1,3 +1,5 @@
+import Login from '@/graphql/User'
+
 export const state = () => ({
   user: {},
   jwt: ''
@@ -12,19 +14,14 @@ export const mutations = {
 
 export const actions = {
   async login({ state, commit }, emailPassword) {
-    const query = `mutation {
-      login( 
-        email: "${emailPassword.email}"
-        password: "${emailPassword.password}"
-      ) {
-        token
-        user {
-          name
-          email
-        }
+    const apollo = this.app.apolloProvider.defaultClient
+    const login = await apollo.mutate({
+      mutation: Login,
+      variables: {
+        email: emailPassword.email,
+        password: emailPassword.password
       }
-    }`
-    const login = await this.$axios.$post('/', { query })
+    })
 
     if (login.errors) {
       alert(login.errors[0].message)

@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 import settings from '@/settings.js'
 import Header from '@/components/common/Header'
@@ -19,15 +19,13 @@ export default {
     Footer
   },
   computed: {
-    ...mapState({
-      user: state => state.user.user,
-      jwt: state => state.user.jwt
+    ...mapGetters({
+      loggedIn: 'user/loggedIn'
     })
   },
   beforeMount() {
-    // word admin length is 5, plus 1
-    const admin = this.$route.path.substring(0, 6)
-    if (!this.user.email && !this.jwt && admin === '/' + settings.admin) {
+    const admin = this.$route.path.indexOf('/' + settings.admin)
+    if (!this.loggedIn && !admin) {
       this.$router.push('/' + settings.auth)
     }
   }

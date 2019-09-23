@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 import settings from '@/settings.js'
 import gVariables from '@/mixins/common.js'
@@ -33,9 +33,8 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      user: state => state.user.user,
-      jwt: state => state.user.jwt
+    ...mapGetters({
+      loggedIn: 'user/loggedIn'
     })
   },
   beforeMount() {
@@ -53,7 +52,7 @@ export default {
       this.$router.push('/')
     },
     redirect() {
-      if (this.jwt) {
+      if (this.loggedIn) {
         this.$router.push('/' + settings.admin)
       }
     }

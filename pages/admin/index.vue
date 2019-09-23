@@ -1,7 +1,7 @@
 <template>
   <div>
     <section class="new-book">
-      <nuxt-link to="/admin/new-book">
+      <nuxt-link :to="newBookUrl">
         <mon-button>{{ monText.newBook }}</mon-button>
       </nuxt-link>
     </section>
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 import settings from '@/settings.js'
 import gv from '@/mixins/common.js'
@@ -24,26 +24,29 @@ export default {
   },
   mixins: [gv],
   computed: {
-    ...mapState({
-      books: state => state.books.Books
-    })
-  },
-  watch: {
-    async $route(to, from) {
-      console.log('route watch')
-      const itemsPerPage = settings.itemsPerPage
-      const pageid = to.query.page ? parseInt(to.query.page) : 1
-      const filter = ''
-      const skip = (pageid - 1) * itemsPerPage
-      const first = itemsPerPage
-
-      await this.$store.dispatch('books/fetchBooks', {
-        filter,
-        skip,
-        first
-      })
+    ...mapGetters({
+      books: 'books/getBooks'
+    }),
+    newBookUrl() {
+      return `/${settings.admin}/${settings.newBook}`
     }
   },
+  // watch: {
+  //   async $route(to, from) {
+  //     console.log('route watch')
+  //     const itemsPerPage = settings.itemsPerPage
+  //     const pageid = to.query.page ? parseInt(to.query.page) : 1
+  //     const filter = ''
+  //     const skip = (pageid - 1) * itemsPerPage
+  //     const first = itemsPerPage
+
+  //     await this.$store.dispatch('books/fetchBooks', {
+  //       filter,
+  //       skip,
+  //       first
+  //     })
+  //   }
+  // },
   async fetch({ store, query }) {
     const itemsPerPage = settings.itemsPerPage
     const pageid = query.page ? parseInt(query.page) : 1

@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 import settings from '@/settings.js'
 import common from '@/mixins/common.js'
@@ -25,8 +25,8 @@ import common from '@/mixins/common.js'
 export default {
   mixins: [common],
   computed: {
-    ...mapState({
-      book: state => state.books.Book
+    ...mapGetters({
+      book: 'books/getBook'
     })
   },
   methods: {

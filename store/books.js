@@ -182,12 +182,7 @@ export const getters = {
 }
 
 function existBookCache(cache, bookid) {
-  let exist = false
-  for (let i = 0; i < cache.length; i++) {
-    const book = cache[i]
-    if (book.id === bookid) {
-      exist = book
-    }
-  }
-  return exist
+  return _.find(cache, function(book) {
+    return book.id === bookid
+  })
 }
