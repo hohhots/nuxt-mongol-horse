@@ -21,9 +21,6 @@ export default {
       newBook: state => state.books.newBook
     })
   }
-  // async fetch({ store, params }) {
-  //   await store.dispatch('books/fetchBook', params.bookid)
-  // }
 }
 </script>
 

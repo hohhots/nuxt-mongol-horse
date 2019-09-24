@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-export default gql`
+export const getBook = gql`
   query getBook($bookId: ID!) {
     book(bookId: $bookId) {
       id
@@ -10,13 +10,55 @@ export default gql`
       preview
       pages {
         id
-        # pageNum
-        # content
-        # imageType
       }
       postedBy {
         name
       }
+    }
+  }
+`
+export const newBook = gql`
+  mutation newBook(
+    $title: String!
+    $author: String!
+    $publishedAt: String!
+    $preview: String!
+  ) {
+    newBook(
+      title: $title
+      author: $author
+      publishedAt: $publishedAt
+      preview: $preview
+    ) {
+      id
+      title
+      author
+      publishedAt
+      preview
+    }
+  }
+`
+
+export const updateBook = gql`
+  mutation updateBook(
+    $bookid: ID!
+    $title: String!
+    $author: String!
+    $publishedAt: String!
+    $preview: String!
+  ) {
+    updateBook(
+      bookId: $bookid
+      title: $title
+      author: $author
+      publishedAt: $publishedAt
+      preview: $preview
+    ) {
+      id
+      title
+      author
+      publishedAt
+      preview
     }
   }
 `

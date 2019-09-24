@@ -1,4 +1,4 @@
-import Login from '@/graphql/User'
+import { Login } from '@/graphql/User'
 
 export const state = () => ({
   user: {},
@@ -9,6 +9,8 @@ export const mutations = {
   SET_USER_JWT(state, login) {
     state.user = login.user
     state.jwt = login.token
+
+    this.$apolloHelpers.onLogin(state.jwt)
   }
 }
 

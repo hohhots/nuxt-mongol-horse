@@ -64,47 +64,53 @@ export default {
   },
   methods: {
     async onSubmit() {
-      const id = `bookId: "${this.newBook.id}"`
-      const newBook = `title: "${this.newBook.title}"
-              author: "${this.newBook.author}"
-              publishedAt: "${this.newBook.publishedAt}"
-              preview: """${this.newBook.preview}"""`
-
-      let query = `
-            newBook( 
-              ${newBook}
-            )`
-
       if (this.newBook.id) {
-        query = `
-          updateBook( 
-            ${id}
-            ${newBook}
-          )`
-      }
-
-      query = `mutation {
-        ${query}
-        {
-          title
-          author
-          publishedAt
-          preview
-        }
-      }`
-      const book = await this.$axios.$post(
-        '/',
-        { query },
-        {
-          headers: { Authorization: 'Bearer ' + this.jwt }
-        }
-      )
-
-      if (book.errors) {
-        alert(book.errors[0].message)
+        await this.$store.dispatch('books/updateBook', this.newBook)
       } else {
-        this.$router.push('/' + settings.admin)
+        await this.$store.dispatch('books/newBook', this.newBook)
       }
+
+      // const id = `bookId: "${this.newBook.id}"`
+      // const newBook = `title: "${this.newBook.title}"
+      //         author: "${this.newBook.author}"
+      //         publishedAt: "${this.newBook.publishedAt}"
+      //         preview: """${this.newBook.preview}"""`
+
+      // let query = `
+      //       newBook(
+      //         ${newBook}
+      //       )`
+
+      // if (this.newBook.id) {
+      //   query = `
+      //     updateBook(
+      //       ${id}
+      //       ${newBook}
+      //     )`
+      // }
+
+      // query = `mutation {
+      //   ${query}
+      //   {
+      //     title
+      //     author
+      //     publishedAt
+      //     preview
+      //   }
+      // }`
+      // const book = await this.$axios.$post(
+      //   '/',
+      //   { query },
+      //   {
+      //     headers: { Authorization: 'Bearer ' + this.jwt }
+      //   }
+      // )
+
+      // if (book.errors) {
+      //   alert(book.errors[0].message)
+      // } else {
+      //   this.$router.push('/' + settings.admin)
+      // }
     },
     onCancel() {
       this.$router.push('/' + settings.admin)

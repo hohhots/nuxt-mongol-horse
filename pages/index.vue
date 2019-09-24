@@ -21,6 +21,7 @@ export default {
       books: 'books/getBooks'
     })
   },
+  watchQuery: ['page'],
   async fetch({ store, query }) {
     const itemsPerPage = settings.itemsPerPage
     const pageid = query.page ? parseInt(query.page) : 1
