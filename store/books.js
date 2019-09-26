@@ -12,11 +12,13 @@ export const state = () => ({
   // current display book and page id
   BookId: '',
   PageId: '',
-  // url: booksID array
-  BooksIDCacke: {},
+  // {filter:{0: {book}}}
+  BooksIDCache: {},
   // global books and page local cache
-  BooksCache: [],
-  PagesCache: [],
+  // id: book
+  BooksCache: {},
+  // id: page
+  PagesCache: {},
 
   // model for new book and page
   newBook: {
@@ -33,11 +35,8 @@ export const state = () => ({
 
 export const mutations = {
   SET_PAGE(state, page) {
-    const cpage = _.find(state.PagesCache, function(p) {
-      return page.id === p.id
-    })
-    if (!cpage) {
-      state.PagesCache.push(page)
+    if (!state.PagesCache[page.id]) {
+      state.PagesCache[page.id] = page
     }
   },
   SET_PAGEID(state, pageid) {
@@ -54,15 +53,22 @@ export const mutations = {
   },
   SET_BOOK(state, book) {
     // only for add or update book property
-    const cbook = _.map(state.BooksCache, function(b) {
-      if (b.id === book.id) {
-        return _.assign(b, book)
-      }
-      return b
-    })
-    if (!cbook.length) {
-      state.BooksCache.push(book)
+    const cbook = state.BooksCache[book.id]
+
+    if (cbook) {
+      _.assign(cbook, book)
+    } else {
+      state.BooksCache[book.id] = book
     }
+  },
+  ADD_NEWBOOK(state, newbook) {
+    state.BooksCache[newbook.id] = newbook
+
+    state.BooksID = []
+    state.BooksIDCache = {}
+    state.BookId = newbook.id
+
+    this.app.apolloProvider.defaultClient.cache.data.data = {}
   },
   SET_BOOKS_PREVIEW(state, booksid) {
     const books = booksid.booksList.books
@@ -75,17 +81,17 @@ export const mutations = {
     state.BooksID = []
     for (let i = 0; i < books.length; i++) {
       const book = books[i]
-      if (!existBookCache(state.BooksCache, book.id)) {
-        state.BooksCache.push(book)
+      if (!state.BooksCache[book.id]) {
+        state.BooksCache[book.id] = book
       }
       state.BooksID.push(book.id)
     }
-    if (!state.BooksIDCacke[filter]) {
-      state.BooksIDCacke[filter] = {}
+    if (!state.BooksIDCache[filter]) {
+      state.BooksIDCache[filter] = {}
     }
 
-    state.BooksIDCacke[filter][skip] = state.BooksID
-    state.BooksIDCacke[filter].total = count
+    state.BooksIDCache[filter][skip] = state.BooksID
+    state.BooksIDCache[filter].total = count
   }
 }
 
@@ -101,11 +107,8 @@ export const actions = {
 
     commit('SET_PAGEID', pageid)
 
-    const cpage = _.find(state.PagesCache, function(p) {
-      return pageid === p.id
-    })
-    if (cpage) {
-      return cpage
+    if (state.PagesCache[pageid]) {
+      return state.PagesCache[pageid]
     }
 
     console.log('fetchPage')
@@ -127,72 +130,81 @@ export const actions = {
 
     commit('SET_BOOKID', bookid)
 
-    const book = existBookCache(state.BooksCache, bookid)
+    const book = state.BooksCache[bookid]
     // because fetchBook just for get more information, like all pages
-    if (book.pages) {
+    if (book && book.pages) {
       return
     }
 
     console.log('fetchBook')
     const apollo = this.app.apolloProvider.defaultClient
-    const { data } = await apollo.query({
-      query: getBook,
-      variables: {
-        bookId: bookid
-      }
-    })
-
-    commit('SET_BOOK', data.book)
+    await apollo
+      .query({
+        query: getBook,
+        variables: {
+          bookId: bookid
+        }
+      })
+      .then(({ data }) => {
+        commit('SET_BOOK', data.book)
+      })
+      .catch(e => console.log(e))
   },
 
-  async newBook({ rootState }, book) {
-    // this.$apolloHelpers.onLogin(rootState.user.jwt)
-
+  async newBook({ rootState, commit }, book) {
     const apollo = this.app.apolloProvider.defaultClient
 
-    const nbook = await apollo.mutate({
-      mutation: newBook,
-      variables: {
-        title: book.title,
-        author: book.author,
-        publishedAt: book.publishedAt,
-        preview: book.preview
-      },
-      headers: { Authorization: 'Bearer ' + rootState.user.jwt }
-    })
-
-    if (nbook.errors) {
-      alert(nbook.errors[0].message)
-    }
+    await apollo
+      .mutate({
+        mutation: newBook,
+        variables: {
+          title: book.title,
+          author: book.author,
+          publishedAt: book.publishedAt,
+          preview: book.preview
+        }
+      })
+      .then(({ data }) => {
+        alert('OK, new book is created!')
+        commit('ADD_NEWBOOK', data.newBook)
+      })
+      .catch(e => {
+        throw e
+      })
   },
 
   async updateBook({ state, commit }, book) {
     const apollo = this.app.apolloProvider.defaultClient
-    const nbook = await apollo.mutate({
-      mutation: updateBook,
-      variables: {
-        bookId: book.id,
-        title: book.title,
-        author: book.author,
-        publishedAt: book.publishedAt,
-        preview: book.preview
-      }
-    })
 
-    if (nbook.errors) {
-      alert(nbook.errors[0].message)
-    }
+    await apollo
+      .mutate({
+        mutation: updateBook,
+        variables: {
+          bookId: book.id,
+          title: book.title,
+          author: book.author,
+          publishedAt: book.publishedAt,
+          preview: book.preview
+        }
+      })
+      .then(({ data }) => {
+        alert('OK, update book is completed!')
+        // commit('ADD_NEWBOOK', data.newBook)
+      })
+      .catch(e => {
+        throw e
+      })
   },
 
   async fetchBooks({ state, commit }, filters) {
     const cachefilter = filters.filter || 'empty'
     const cacheskip = filters.skip || 0
-    const booksId = state.BooksIDCacke[cachefilter]
-      ? state.BooksIDCacke[cachefilter][cacheskip]
+    const booksId = state.BooksIDCache[cachefilter]
+      ? state.BooksIDCache[cachefilter][cacheskip]
       : null
     if (booksId) {
       commit('SET_BOOKSID', booksId)
-      commit('SET_TOTALBOOKS', state.BooksIDCacke[cachefilter].total)
+      commit('SET_TOTALBOOKS', state.BooksIDCache[cachefilter].total)
       return
     }
 
@@ -222,28 +234,14 @@ export const getters = {
     })
   },
   getBook(state) {
-    return _.find(state.BooksCache, function(book) {
-      return state.BookId === book.id
-    })
+    return state.BooksCache[state.BookId]
   },
   getBooks(state) {
     const books = []
-    const cache = state.BooksCache
     for (let i = 0; i < state.BooksID.length; i++) {
-      const bookid = state.BooksID[i]
-      for (let i = 0; i < cache.length; i++) {
-        const book = cache[i]
-        if (book.id === bookid) {
-          books.push(book)
-        }
-      }
+      const book = state.BooksCache[state.BooksID[i]]
+      books.push(book)
     }
     return books
   }
-}
-
-function existBookCache(cache, bookid) {
-  return _.find(cache, function(book) {
-    return book.id === bookid
-  })
 }

@@ -1,5 +1,5 @@
 export default {
-  itemsPerPage: 10,
+  itemsPerPage: 5,
 
   book: 'book',
   auth: 'auth',

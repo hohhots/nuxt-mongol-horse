@@ -31,24 +31,20 @@ export const newBook = gql`
       preview: $preview
     ) {
       id
-      title
-      author
-      publishedAt
-      preview
     }
   }
 `
 
 export const updateBook = gql`
   mutation updateBook(
-    $bookid: ID!
+    $bookId: String!
     $title: String!
     $author: String!
     $publishedAt: String!
     $preview: String!
   ) {
     updateBook(
-      bookId: $bookid
+      bookId: $bookId
       title: $title
       author: $author
       publishedAt: $publishedAt

@@ -50,7 +50,8 @@ export default {
   },
   computed: {
     ...mapState({
-      jwt: state => state.user.jwt
+      jwt: state => state.user.jwt,
+      newBookId: state => state.books.BookId
     }),
     bookid() {
       return this.$route.params.bookid
@@ -65,52 +66,16 @@ export default {
   methods: {
     async onSubmit() {
       if (this.newBook.id) {
-        await this.$store.dispatch('books/updateBook', this.newBook)
+        await this.$store
+          .dispatch('books/updateBook', this.newBook)
+          .then(() => this.$router.push(`${this.baseUrl}/${this.newBookId}`))
+          .catch(e => alert(e))
       } else {
-        await this.$store.dispatch('books/newBook', this.newBook)
+        await this.$store
+          .dispatch('books/newBook', this.newBook)
+          .then(() => this.$router.push(`${this.baseUrl}/${this.newBookId}`))
+          .catch(e => alert(e))
       }
-
-      // const id = `bookId: "${this.newBook.id}"`
-      // const newBook = `title: "${this.newBook.title}"
-      //         author: "${this.newBook.author}"
-      //         publishedAt: "${this.newBook.publishedAt}"
-      //         preview: """${this.newBook.preview}"""`
-
-      // let query = `
-      //       newBook(
-      //         ${newBook}
-      //       )`
-
-      // if (this.newBook.id) {
-      //   query = `
-      //     updateBook(
-      //       ${id}
-      //       ${newBook}
-      //     )`
-      // }
-
-      // query = `mutation {
-      //   ${query}
-      //   {
-      //     title
-      //     author
-      //     publishedAt
-      //     preview
-      //   }
-      // }`
-      // const book = await this.$axios.$post(
-      //   '/',
-      //   { query },
-      //   {
-      //     headers: { Authorization: 'Bearer ' + this.jwt }
-      //   }
-      // )
-
-      // if (book.errors) {
-      //   alert(book.errors[0].message)
-      // } else {
-      //   this.$router.push('/' + settings.admin)
-      // }
     },
     onCancel() {
       this.$router.push('/' + settings.admin)

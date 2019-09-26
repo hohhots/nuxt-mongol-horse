@@ -2,7 +2,14 @@
   <div class="book-list">
     <div v-for="book in books" :key="book.id" class="book">
       <h3>
-        <nuxt-link :to="baseUrl + '/' + book.id">{{ book.title }}</nuxt-link>
+        <span v-if="loggedIn">
+          <nuxt-link :to="baseUrl + '/' + book.id">{{ book.title }}</nuxt-link>
+        </span>
+        <span v-if="!loggedIn">
+          <a :href="baseUrl + '/' + book.id" target="_blank">
+            {{ book.title }}
+          </a>
+        </span>
       </h3>
       <div class="preview">
         <pre>{{ book.preview }}</pre>
@@ -18,7 +25,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 import settings from '@/settings.js'
 import gv from '@/mixins/common.js'
@@ -45,6 +52,9 @@ export default {
   computed: {
     ...mapState({
       totalBooks: state => state.books.TotalBooks
+    }),
+    ...mapGetters({
+      loggedIn: 'user/loggedIn'
     }),
     totalPages() {
       return Math.ceil(this.totalBooks / settings.itemsPerPage)

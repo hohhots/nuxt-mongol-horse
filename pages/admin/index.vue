@@ -14,6 +14,7 @@
 <script>
 import { mapGetters } from 'vuex'
 
+import Util from '@/util/util'
 import settings from '@/settings.js'
 import gv from '@/mixins/common.js'
 import BooksList from '@/components/books/BooksList'
@@ -31,34 +32,9 @@ export default {
       return `/${settings.admin}/${settings.newBook}`
     }
   },
-  // watch: {
-  //   async $route(to, from) {
-  //     console.log('route watch')
-  //     const itemsPerPage = settings.itemsPerPage
-  //     const pageid = to.query.page ? parseInt(to.query.page) : 1
-  //     const filter = ''
-  //     const skip = (pageid - 1) * itemsPerPage
-  //     const first = itemsPerPage
-
-  //     await this.$store.dispatch('books/fetchBooks', {
-  //       filter,
-  //       skip,
-  //       first
-  //     })
-  //   }
-  // },
+  watchQuery: ['page'],
   async fetch({ store, query }) {
-    const itemsPerPage = settings.itemsPerPage
-    const pageid = query.page ? parseInt(query.page) : 1
-    const filter = ''
-    const skip = (pageid - 1) * itemsPerPage
-    const first = itemsPerPage
-
-    await store.dispatch('books/fetchBooks', {
-      filter,
-      skip,
-      first
-    })
+    await Util.fetchBooks(store, query)
   }
 }
 </script>

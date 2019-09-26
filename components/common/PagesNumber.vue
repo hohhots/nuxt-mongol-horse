@@ -142,10 +142,6 @@ export default {
   margin-left: 0;
 }
 
-.num:hover {
-  text-decoration: overline;
-}
-
 .num-only {
   position: relative;
   display: flex;
@@ -155,6 +151,7 @@ export default {
   color: black;
 }
 
+.num:hover:after,
 .num-only:after {
   position: absolute;
   content: ' ';

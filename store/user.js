@@ -17,19 +17,22 @@ export const mutations = {
 export const actions = {
   async login({ state, commit }, emailPassword) {
     const apollo = this.app.apolloProvider.defaultClient
-    const login = await apollo.mutate({
-      mutation: Login,
-      variables: {
-        email: emailPassword.email,
-        password: emailPassword.password
-      }
-    })
 
-    if (login.errors) {
-      alert(login.errors[0].message)
-      return
+    try {
+      await apollo
+        .mutate({
+          mutation: Login,
+          variables: {
+            email: emailPassword.email,
+            password: emailPassword.password
+          }
+        })
+        .then(({ data }) => {
+          commit('SET_USER_JWT', data.login)
+        })
+    } catch (e) {
+      alert(e)
     }
-    commit('SET_USER_JWT', login.data.login)
   }
 }
 
