@@ -63,6 +63,10 @@ export default {
     displayPagesRange: {
       type: Number,
       default: 10
+    },
+    currentPagePosition: {
+      type: Number,
+      default: 6
     }
   },
   computed: {
@@ -71,8 +75,8 @@ export default {
     },
     startPage() {
       let num = 0
-      if (this.pageId > 6) {
-        num = this.pageId - 6
+      if (this.pageId > this.currentPagePosition) {
+        num = this.pageId - this.currentPagePosition
       }
       if (num + this.displayPagesRange > this.totalPages) {
         num = this.totalPages - this.displayPagesRange
@@ -92,7 +96,7 @@ export default {
     },
     isFirstPage() {
       // startPage start from -9
-      return this.firstPageId >= this.startPage
+      return this.firstPageId > this.startPage
     },
     isLastPage() {
       // startPage start from -9
@@ -100,17 +104,20 @@ export default {
     },
     isFirstPages() {
       // startPage start from -9
-      return this.firstPageId >= this.startPage - this.displayPagesRange
+      return this.firstPageId - 1 > this.startPage - this.displayPagesRange
     },
     isLastPages() {
       // startPage start from -9
       return this.totalPages < this.startPage + 2 * this.displayPagesRange
     },
     prePages() {
-      return this.pageId - this.displayPagesRange
+      return (
+        this.startPage - (this.displayPagesRange - this.currentPagePosition) ||
+        this.firstPageId
+      )
     },
     nextPages() {
-      return this.pageId + this.displayPagesRange
+      return this.startPage + this.displayPagesRange + this.currentPagePosition
     }
   }
 }
@@ -160,5 +167,10 @@ export default {
   border-radius: 50%;
   width: 10px;
   height: 10px;
+}
+
+.num:hover:after {
+  top: 0.3rem;
+  border: 2px solid #666;
 }
 </style>

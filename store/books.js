@@ -1,8 +1,7 @@
 import _ from 'lodash'
 
 import getPage from '@/graphql/Page'
-import { getBook, newBook, updateBook } from '@/graphql/Book'
-import getBooks from '@/graphql/Books'
+import { getBook, newBook, updateBook, getBooks } from '@/graphql/Book'
 
 export const state = () => ({
   // current page display books
@@ -69,6 +68,11 @@ export const mutations = {
     state.BookId = newbook.id
 
     this.app.apolloProvider.defaultClient.cache.data.data = {}
+  },
+  UPDATE_BOOK(state, book) {
+    const cbook = state.BooksCache[book.id]
+
+    _.assign(cbook, book)
   },
   SET_BOOKS_PREVIEW(state, booksid) {
     const books = booksid.booksList.books
@@ -188,8 +192,8 @@ export const actions = {
         }
       })
       .then(({ data }) => {
-        alert('OK, update book is completed!')
-        // commit('ADD_NEWBOOK', data.newBook)
+        alert('OK, updated !')
+        commit('UPDATE_BOOK', data.updateBook)
       })
       .catch(e => {
         throw e
