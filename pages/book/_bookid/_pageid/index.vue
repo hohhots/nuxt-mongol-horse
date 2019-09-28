@@ -1,15 +1,15 @@
 <template>
   <div class="container">
     <div class="types">
-      <mon-button class="item" width="70px" @click="toggle(0)">{{
-        monText.text
-      }}</mon-button>
-      <mon-button class="item" width="70px" @click="toggle(1)">{{
-        monText.photo
-      }}</mon-button>
-      <mon-button class="item" width="70px" @click="toggle(2)">{{
-        monText.together
-      }}</mon-button>
+      <mon-button class="item" width="70px" @click="toggle(0)">
+        {{ monText.text }}
+      </mon-button>
+      <mon-button class="item" width="70px" @click="toggle(1)">
+        {{ monText.photo }}
+      </mon-button>
+      <mon-button class="item" width="70px" @click="toggle(2)">
+        {{ monText.together }}
+      </mon-button>
     </div>
     <div class="content">
       <div class="img-container">
@@ -25,8 +25,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 import settings from '@/settings.js'
 import gv from '@/mixins/common.js'
 import MonImg from '@/components/mongol/MonImg'
@@ -40,16 +38,13 @@ export default {
   mixins: [gv],
   data: function() {
     return {
-      // cmounted: after page rendered flag, sure run on browser
+      // cmounted: after page rendered flag, make sure run on browser
       cmounted: false,
       displayText: true,
       displayImage: false
     }
   },
   computed: {
-    ...mapGetters({
-      page: 'books/getPage'
-    }),
     imgSrc() {
       if (!this.page) {
         return ''
@@ -63,9 +58,9 @@ export default {
       return ''
     }
   },
-  // await for fetchBook, so call fetchPage in beforeMount hook
-  async beforeMount() {
-    await this.$store.dispatch('books/fetchPage', this.$route.params.pageid)
+  async asyncData({ store, params }) {
+    await store.dispatch('books/fetchPage', params.pageid)
+    return { page: store.getters['books/getPage'] }
   },
   mounted() {
     // display image after content mounted

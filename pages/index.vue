@@ -7,24 +7,17 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 import Util from '@/util/util'
-// import settings from '@/settings.js'
 import BooksList from '@/components/books/BooksList'
 
 export default {
   components: {
     BooksList
   },
-  computed: {
-    ...mapGetters({
-      books: 'books/getBooks'
-    })
-  },
   watchQuery: ['page'],
-  async fetch({ store, query }) {
+  async asyncData({ store, query }) {
     await Util.fetchBooks(store, query)
+    return { books: store.getters['books/getBooks'] }
   }
 }
 </script>

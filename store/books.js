@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-import getPage from '@/graphql/Page'
+import getPageQ from '@/graphql/Page'
 import { getBook, newBook, updateBook, getBooks } from '@/graphql/Book'
 
 export const state = () => ({
@@ -34,9 +34,7 @@ export const state = () => ({
 
 export const mutations = {
   SET_PAGE(state, page) {
-    if (!state.PagesCache[page.id]) {
-      state.PagesCache[page.id] = page
-    }
+    state.PagesCache[page.id] = page
   },
   SET_PAGEID(state, pageid) {
     state.PageId = pageid
@@ -100,30 +98,32 @@ export const mutations = {
 }
 
 export const actions = {
-  async fetchPage({ state, commit, getters }, pageid) {
-    if (!pageid) {
-      alert('Need page id for get book')
-      return
+  async fetchPage({ state, commit, getters, dispatch }, pageid) {
+    if (!getters.getBook) {
+      await dispatch('fetchBook', state.BookId)
     }
-
     const book = getters.getBook
     pageid = book.pages[pageid - 1].id
 
     commit('SET_PAGEID', pageid)
 
     if (state.PagesCache[pageid]) {
-      return state.PagesCache[pageid]
+      return
     }
 
     console.log('fetchPage')
     const apollo = this.app.apolloProvider.defaultClient
-    const { data } = await apollo.query({
-      query: getPage,
-      variables: {
-        pageId: pageid
-      }
-    })
-    commit('SET_PAGE', data.page)
+    await apollo
+      .query({
+        query: getPageQ,
+        variables: {
+          pageId: pageid
+        }
+      })
+      .then(({ data }) => {
+        commit('SET_PAGE', data.page)
+      })
+      .catch(e => console.log(e))
   },
 
   async fetchBook({ state, commit }, bookid) {
@@ -214,28 +214,30 @@ export const actions = {
 
     console.log('fetchBooks')
     const apollo = this.app.apolloProvider.defaultClient
-    const { data } = await apollo.query({
-      query: getBooks,
-      variables: {
-        filter: filters.filter,
-        skip: filters.skip,
-        first: filters.first
-      }
-    })
-    const booksid = {
-      booksList: data.bookList,
-      filter: filters.filter,
-      skip: filters.skip
-    }
-    commit('SET_BOOKS_PREVIEW', booksid)
+    await apollo
+      .query({
+        query: getBooks,
+        variables: {
+          filter: filters.filter,
+          skip: filters.skip,
+          first: filters.first
+        }
+      })
+      .then(({ data }) => {
+        const booksid = {
+          booksList: data.bookList,
+          filter: filters.filter,
+          skip: filters.skip
+        }
+        commit('SET_BOOKS_PREVIEW', booksid)
+      })
+      .catch(e => console.log(e))
   }
 }
 
 export const getters = {
   getPage(state) {
-    return _.find(state.PagesCache, function(page) {
-      return state.PageId === page.id
-    })
+    return state.PagesCache[state.PageId]
   },
   getBook(state) {
     return state.BooksCache[state.BookId]
