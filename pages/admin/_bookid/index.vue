@@ -7,21 +7,14 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 import AdminNewBook from '@/components/admin/AdminNewBook'
 
 export default {
   components: {
     AdminNewBook
   },
-  computed: {
-    ...mapGetters({
-      book: 'books/getBook'
-    })
-  },
-  async fetch({ store, params }) {
-    await store.dispatch('books/fetchBook', params.bookid)
+  asyncData({ store, params }) {
+    return { book: store.getters['books/getBook'] }
   }
 }
 </script>

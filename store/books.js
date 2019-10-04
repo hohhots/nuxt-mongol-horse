@@ -34,6 +34,7 @@ export const state = () => ({
 
 export const mutations = {
   SET_PAGE(state, page) {
+    page.pageNum = page.pageNum + ''
     state.PagesCache[page.id] = page
   },
   SET_PAGEID(state, pageid) {
@@ -104,7 +105,6 @@ export const actions = {
     }
     const book = getters.getBook
     pageid = book.pages[pageid - 1].id
-
     commit('SET_PAGEID', pageid)
 
     if (state.PagesCache[pageid]) {
@@ -137,6 +137,7 @@ export const actions = {
     const book = state.BooksCache[bookid]
     // because fetchBook just for get more information, like all pages
     if (book && book.pages) {
+      console.log('Book cache exist')
       return
     }
 
@@ -236,7 +237,13 @@ export const actions = {
 }
 
 export const getters = {
-  getPage(state) {
+  getPage(state, getters, rootState, rootGetters) {
+    // console.log(
+    //   'getPage - ',
+    //   state.PagesCache,
+    //   state.PageId,
+    //   state.PagesCache[state.PageId]
+    // )
     return state.PagesCache[state.PageId]
   },
   getBook(state) {

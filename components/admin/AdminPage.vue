@@ -31,12 +31,12 @@
       </div>
     </div>
 
-    <MonInputControl v-model="myPage.pageNum" :placeholder="monText.pageNum"
+    <MonInputControl v-model="page.pageNum" :placeholder="monText.pageNum"
       >{{ monText.pageNum }}᠄</MonInputControl
     >
 
     <MonInputControl
-      v-model="myPage.content"
+      v-model="page.content"
       control-type="textarea"
       :placeholder="monText.content"
       >{{ monText.content }}᠄</MonInputControl
@@ -103,20 +103,21 @@ export default {
       return ''
     }
   },
-  watch: {
-    $route(to, from) {
-      this.setNewPage()
-    }
-  },
-  beforeMount() {
-    this.setNewPage()
-  },
+  // watch: {
+  //   $route(to, from) {
+  //     console.log('route - ', this.page)
+  //     // this.setNewPage()
+  //   }
+  // },
+  // beforeMount() {
+  //   this.setNewPage()
+  // },
   methods: {
-    setNewPage() {
-      this.photo = ''
-      this.myPage = { ...this.page }
-      this.myPage.pageNum = this.myPage.pageNum + ''
-    },
+    // setNewPage() {
+    //   this.photo = ''
+    //   this.myPage = { ...this.page }
+    //   this.myPage.pageNum = this.myPage.pageNum + ''
+    // },
     async onSubmit() {
       if (!/^([1-9])([0-9]*)$/.test(this.myPage.pageNum)) {
         alert('page number must be number!')

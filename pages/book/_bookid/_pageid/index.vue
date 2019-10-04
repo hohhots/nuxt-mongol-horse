@@ -1,15 +1,15 @@
 <template>
   <div class="container">
     <div class="types">
-      <mon-button class="item" width="70px" @click="toggle(0)">
-        {{ monText.text }}
-      </mon-button>
-      <mon-button class="item" width="70px" @click="toggle(1)">
-        {{ monText.photo }}
-      </mon-button>
-      <mon-button class="item" width="70px" @click="toggle(2)">
-        {{ monText.together }}
-      </mon-button>
+      <mon-button class="item" width="70px" @click="toggle(0)">{{
+        monText.text
+      }}</mon-button>
+      <mon-button class="item" width="70px" @click="toggle(1)">{{
+        monText.photo
+      }}</mon-button>
+      <mon-button class="item" width="70px" @click="toggle(2)">{{
+        monText.together
+      }}</mon-button>
     </div>
     <div class="content">
       <div class="img-container">
@@ -26,7 +26,7 @@
 
 <script>
 import settings from '@/settings.js'
-import gv from '@/mixins/common.js'
+import common from '@/mixins/common.js'
 import MonImg from '@/components/mongol/MonImg'
 import MonButton from '@/components/mongol/MonButton'
 
@@ -35,7 +35,7 @@ export default {
     MonImg,
     MonButton
   },
-  mixins: [gv],
+  mixins: [common],
   data: function() {
     return {
       // cmounted: after page rendered flag, make sure run on browser

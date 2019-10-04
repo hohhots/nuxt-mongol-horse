@@ -6,7 +6,7 @@
       </nuxt-link>
     </span>
     <span v-if="!isFirstPages()" class="pre">
-      <nuxt-link :to="basePath + prePages()">《《</nuxt-link>
+      <nuxt-link :to="basePath + prePages()">《</nuxt-link>
     </span>
     <span
       v-for="num in displayPagesRange"
@@ -24,7 +24,7 @@
       </template>
     </span>
     <span v-if="!isLastPages()" class="next">
-      <nuxt-link :to="basePath + nextPages()">》》</nuxt-link>
+      <nuxt-link :to="basePath + nextPages()">》</nuxt-link>
     </span>
     <span v-if="!isLastPage()" class="next">
       <nuxt-link :to="basePath + totalPages">

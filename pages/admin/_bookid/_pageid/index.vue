@@ -3,7 +3,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import common from '@/mixins/common.js'
 
 import AdminPage from '@/components/admin/AdminPage'
@@ -13,15 +12,10 @@ export default {
     AdminPage
   },
   mixins: [common],
-  computed: {
-    page() {
-      return this.getPage()(this.$route.params.pageid, this.editExistingPage)
-    }
-  },
-  methods: {
-    ...mapGetters({
-      getPage: 'books/getPage'
-    })
+  async asyncData({ store, params }) {
+    // console.log('asyncData - ', store.getters['books/getPage'])
+    await store.dispatch('books/fetchPage', params.pageid)
+    return { page: store.getters['books/getPage'] }
   }
 }
 </script>
