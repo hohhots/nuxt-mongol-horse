@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-import getPageQ from '@/graphql/Page'
+import { getPage } from '@/graphql/Page'
 import { getBook, newBook, updateBook, getBooks } from '@/graphql/Book'
 
 export const state = () => ({
@@ -115,7 +115,7 @@ export const actions = {
     const apollo = this.app.apolloProvider.defaultClient
     await apollo
       .query({
-        query: getPageQ,
+        query: getPage,
         variables: {
           pageId: pageid
         }

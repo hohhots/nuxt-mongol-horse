@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-export default gql`
+export const getPage = gql`
   query getPage($pageId: ID!) {
     page(pageId: $pageId) {
       id

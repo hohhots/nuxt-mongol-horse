@@ -205,6 +205,8 @@ export default {
       const reader = new FileReader()
       reader.onload = e => {
         this.image = e.target.result
+        // reset file input for reuse later
+        this.$refs.image.value = ''
       }
       reader.readAsDataURL(image)
     },
