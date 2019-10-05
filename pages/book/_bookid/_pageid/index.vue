@@ -51,9 +51,7 @@ export default {
       }
       const type = this.page.imageType
       if (this.cmounted && type) {
-        return `/${settings.images}/${settings.book}/${this.page.book.id}/${
-          this.page.id
-        }.${type}`
+        return `/${settings.images}/${settings.book}/${this.page.book.id}/${this.page.id}.${type}`
       }
       return ''
     }

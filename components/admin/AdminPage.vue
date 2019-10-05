@@ -5,7 +5,7 @@
     </div>
     <div class="upload">
       <div ref="preview">
-        <mon-img v-if="photoExist" :src="photoExist" />
+        <mon-img v-if="imageExist" :src="imageExist" />
       </div>
       <div class="label">
         <input
@@ -74,8 +74,7 @@ export default {
   },
   data: function() {
     return {
-      myPage: {},
-      photo: '',
+      image: '',
       tempFile: ''
     }
   },
@@ -89,35 +88,31 @@ export default {
     pageid() {
       return this.$route.params.pageid
     },
-    photoExist() {
-      if (this.photo) {
-        return this.photo
+    imageExist() {
+      if (this.image) {
+        return this.image
       }
-      const id = this.myPage.id
-      const type = this.myPage.imageType
-      if (this.myPage && type) {
-        return `/${settings.images}/${settings.book}/${
-          this.bookid
-        }/${id}.${type}`
+      const id = this.page.id
+      const type = this.page.imageType
+      if (this.page && type) {
+        return `/${settings.images}/${settings.book}/${this.bookid}/${id}.${type}`
       }
       return ''
     }
   },
-  // watch: {
-  //   $route(to, from) {
-  //     console.log('route - ', this.page)
-  //     // this.setNewPage()
-  //   }
-  // },
+  watch: {
+    $route(to, from) {
+      this.initVar()
+    }
+  },
   // beforeMount() {
-  //   this.setNewPage()
+  //   this.initVar()
   // },
   methods: {
-    // setNewPage() {
-    //   this.photo = ''
-    //   this.myPage = { ...this.page }
-    //   this.myPage.pageNum = this.myPage.pageNum + ''
-    // },
+    initVar() {
+      this.image = ''
+      this.tempFile = ''
+    },
     async onSubmit() {
       if (!/^([1-9])([0-9]*)$/.test(this.myPage.pageNum)) {
         alert('page number must be number!')
@@ -205,10 +200,11 @@ export default {
         alert('Image must be smaller than 2M')
         return
       }
+      // for upload photo function
       this.tempFile = image
       const reader = new FileReader()
       reader.onload = e => {
-        this.photo = e.target.result
+        this.image = e.target.result
       }
       reader.readAsDataURL(image)
     },

@@ -13,7 +13,6 @@ export default {
   },
   mixins: [common],
   async asyncData({ store, params }) {
-    // console.log('asyncData - ', store.getters['books/getPage'])
     await store.dispatch('books/fetchPage', params.pageid)
     return { page: store.getters['books/getPage'] }
   }
