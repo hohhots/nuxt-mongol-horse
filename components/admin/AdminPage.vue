@@ -58,8 +58,6 @@ import common from '@/mixins/common.js'
 import AdminSaveCancel from '@/components/admin/AdminSaveCancel'
 import MonInputControl from '@/components/mongol/MonInputControl'
 
-import UploadPhoto from '@/graphql/UploadPhoto'
-
 export default {
   components: {
     AdminSaveCancel,
@@ -80,7 +78,8 @@ export default {
   },
   computed: {
     ...mapState({
-      jwt: state => state.user.jwt
+      jwt: state => state.user.jwt,
+      newPageId: state => state.books.PageId
     }),
     bookid() {
       return this.$route.params.bookid
@@ -105,89 +104,65 @@ export default {
       this.initVar()
     }
   },
-  // beforeMount() {
-  //   this.initVar()
-  // },
   methods: {
     initVar() {
       this.image = ''
       this.tempFile = ''
     },
     async onSubmit() {
-      if (!/^([1-9])([0-9]*)$/.test(this.myPage.pageNum)) {
+      if (!/^([1-9])([0-9]*)$/.test(this.page.pageNum)) {
         alert('page number must be number!')
         return
       }
-      const bookId = `bookId: "${this.bookid}"`
-      const pageId = `pageId: "${this.myPage.id}"`
-      const myPage = `pageNum: ${this.myPage.pageNum}
-              content: """${this.myPage.content}"""`
-      let query = `
-            newPage(
-              ${bookId}
-              ${myPage}
-            )`
 
-      if (this.myPage.id) {
-        query = `
-          updatePage( 
-            ${pageId}
-            ${myPage}
-          )`
-      }
-
-      query = `mutation {
-        ${query}
-        {
-          id
-        }
-      }`
-      const page = await this.$axios.$post(
-        '/',
-        { query },
-        {
-          headers: { Authorization: 'Bearer ' + this.jwt }
-        }
-      )
-
-      if (page.errors) {
-        alert(page.errors[0].message)
+      if (this.page.id) {
+        await this.$store
+          .dispatch('books/updatePage', this.page)
+          .then(() =>
+            this.$router.push(`${this.baseUrl}/${this.bookid}/${this.pageid}`)
+          )
+          .catch(e => alert(e))
       } else {
-        await this.uploadPhoto(page.data)
-        this.$router.push('/' + settings.admin + '/' + this.bookid)
-        alert('Ok!')
+        await this.$store
+          .dispatch('books/newPage', this.page)
+          .then(() =>
+            this.$router.push(
+              `${this.bookid}/${this.bookid}/${this.pageid + 1}`
+            )
+          )
+          .catch(e => alert(e))
       }
     },
-    async uploadPhoto(page) {
-      if (!this.tempFile) {
-        return
-      }
-      const paget = page.newPage || page.updatePage
-      const p = await this.$apollo.mutate({
-        mutation: UploadPhoto,
-        variables: {
-          photo: this.tempFile,
-          bookId: this.bookid,
-          pageId: paget.id
-        },
-        context: {
-          headers: {
-            Authorization: 'Bearer ' + this.jwt
-          }
-        }
-        // update: (store, { data: { uploadPhoto } }) => {
-        //   const data = store.readQuery({ query: ALL_PHOTOS })
+    // async uploadPhoto(page) {
+    //   if (!this.tempFile) {
+    //     return
+    //   }
+    //   const paget = page.newPage || page.updatePage
+    //   const p = await this.$apollo.mutate({
+    //     mutation: UploadPhoto,
+    //     variables: {
+    //       photo: this.tempFile,
+    //       bookId: this.bookid,
+    //       pageId: paget.id
+    //     },
+    //     context: {
+    //       headers: {
+    //         Authorization: 'Bearer ' + this.jwt
+    //       }
+    //     }
+    //     // update: (store, { data: { uploadPhoto } }) => {
+    //     //   const data = store.readQuery({ query: ALL_PHOTOS })
 
-        //   data.allPhotos.push(uploadPhoto)
+    //     //   data.allPhotos.push(uploadPhoto)
 
-        //   store.writeQuery({ query: ALL_PHOTOS, data })
-        // }
-      })
+    //     //   store.writeQuery({ query: ALL_PHOTOS, data })
+    //     // }
+    //   })
 
-      if (p.errors) {
-        alert(p.errors[0].message)
-      }
-    },
+    //   if (p.errors) {
+    //     alert(p.errors[0].message)
+    //   }
+    // },
     onCancel() {
       this.$router.push('/' + settings.admin + '/' + this.bookid)
     },

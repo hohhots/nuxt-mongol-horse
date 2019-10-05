@@ -1,6 +1,7 @@
 import _ from 'lodash'
 
-import { getPage } from '@/graphql/Page'
+// import { uploadPhoto } from '@/graphql/UploadPhoto'
+import { getPage, newPage, updatePage } from '@/graphql/Page'
 import { getBook, newBook, updateBook, getBooks } from '@/graphql/Book'
 
 export const state = () => ({
@@ -39,6 +40,14 @@ export const mutations = {
   },
   SET_PAGEID(state, pageid) {
     state.PageId = pageid
+  },
+  ADD_NEWPAGE(state, newpage) {
+    state.PagesCache[newpage.id] = newpage
+    state.PageId = newpage.id
+  },
+  UPDATE_PAGE(state, page) {
+    const cpage = state.PagesCache[page.id]
+    _.assign(cpage, page)
   },
   SET_BOOKID(state, bookid) {
     state.BookId = bookid
@@ -124,6 +133,48 @@ export const actions = {
         commit('SET_PAGE', data.page)
       })
       .catch(e => console.log(e))
+  },
+
+  async newPage({ state, commit }, page) {
+    const apollo = this.app.apolloProvider.defaultClient
+
+    await apollo
+      .mutate({
+        mutation: newPage,
+        variables: {
+          pageNum: _.parseInt(page.pageNum),
+          content: page.content,
+          bookId: page.book.id
+        }
+      })
+      .then(({ data }) => {
+        alert('OK, new page is created!')
+        commit('ADD_NEWPAGE', data.newPage)
+      })
+      .catch(e => {
+        throw e
+      })
+  },
+
+  async updatePage({ state, commit }, page) {
+    const apollo = this.app.apolloProvider.defaultClient
+
+    await apollo
+      .mutate({
+        mutation: updatePage,
+        variables: {
+          pageNum: _.parseInt(page.pageNum),
+          content: page.content,
+          pageId: page.id
+        }
+      })
+      .then(({ data }) => {
+        alert('OK, page updated !')
+        commit('UPDATE_PAGE', data.updatePage)
+      })
+      .catch(e => {
+        throw e
+      })
   },
 
   async fetchBook({ state, commit }, bookid) {
@@ -238,12 +289,6 @@ export const actions = {
 
 export const getters = {
   getPage(state, getters, rootState, rootGetters) {
-    // console.log(
-    //   'getPage - ',
-    //   state.PagesCache,
-    //   state.PageId,
-    //   state.PagesCache[state.PageId]
-    // )
     return state.PagesCache[state.PageId]
   },
   getBook(state) {

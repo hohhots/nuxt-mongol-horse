@@ -13,3 +13,19 @@ export const getPage = gql`
     }
   }
 `
+
+export const newPage = gql`
+  mutation newPage($pageNum: Int!, $content: String!, $bookId: String!) {
+    newPage(pageNum: $pageNum, content: $content, bookId: $bookId) {
+      id
+    }
+  }
+`
+
+export const updatePage = gql`
+  mutation updatePage($pageNum: Int!, $content: String!, $pageId: String!) {
+    updatePage(pageNum: $pageNum, content: $content, pageId: $pageId) {
+      id
+    }
+  }
+`
