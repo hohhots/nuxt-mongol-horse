@@ -49,6 +49,9 @@ export const mutations = {
   UPDATE_PAGE(state, page) {
     _.assign(state.PagesCache[page.id], page)
   },
+  SET_PAGE_IMAGE_TYPE(state, imageType) {
+    state.PagesCache[state.PageId].imageType = imageType.split('/')[1]
+  },
   SET_BOOKID(state, bookid) {
     state.BookId = bookid
   },
@@ -306,6 +309,7 @@ export const actions = {
         //   store.writeQuery({ query: ALL_PHOTOS, data })
         // }
       })
+      .then(() => commit('SET_PAGE_IMAGE_TYPE', image.type))
       .catch(e => {
         throw e
       })
