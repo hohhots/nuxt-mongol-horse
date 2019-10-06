@@ -31,12 +31,12 @@
       </div>
     </div>
 
-    <MonInputControl v-model="page.pageNum" :placeholder="monText.pageNum"
+    <MonInputControl v-model="tempPage.pageNum" :placeholder="monText.pageNum"
       >{{ monText.pageNum }}᠄</MonInputControl
     >
 
     <MonInputControl
-      v-model="page.content"
+      v-model="tempPage.content"
       control-type="textarea"
       :placeholder="monText.content"
       >{{ monText.content }}᠄</MonInputControl
@@ -50,6 +50,8 @@
 </template>
 
 <script>
+import _ from 'lodash'
+
 import { mapState } from 'vuex'
 
 import settings from '@/settings.js'
@@ -81,6 +83,9 @@ export default {
       jwt: state => state.user.jwt,
       newPageId: state => state.books.PageId
     }),
+    tempPage() {
+      return _.assign({}, this.page)
+    },
     bookid() {
       return this.$route.params.bookid
     },
@@ -91,9 +96,9 @@ export default {
       if (this.image) {
         return this.image
       }
-      const id = this.page.id
-      const type = this.page.imageType
-      if (this.page && type) {
+      const id = this.tempPage.id
+      const type = this.tempPage.imageType
+      if (this.tempPage && type) {
         return `/${settings.images}/${settings.book}/${this.bookid}/${id}.${type}`
       }
       return ''
@@ -110,21 +115,21 @@ export default {
       this.tempFile = ''
     },
     async onSubmit() {
-      if (!/^([1-9])([0-9]*)$/.test(this.page.pageNum)) {
+      if (!/^([1-9])([0-9]*)$/.test(this.tempPage.pageNum)) {
         alert('page number must be number!')
         return
       }
 
-      if (this.page.id) {
+      if (this.tempPage.id) {
         await this.$store
-          .dispatch('books/updatePage', this.page)
+          .dispatch('books/updatePage', this.tempPage)
           .then(() =>
             this.$router.push(`${this.baseUrl}/${this.bookid}/${this.pageid}`)
           )
           .catch(e => alert(e))
       } else {
         await this.$store
-          .dispatch('books/newPage', this.page)
+          .dispatch('books/newPage', this.tempPage)
           .then(() =>
             this.$router.push(
               `${this.bookid}/${this.bookid}/${this.pageid + 1}`

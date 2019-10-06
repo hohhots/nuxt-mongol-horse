@@ -46,8 +46,7 @@ export const mutations = {
     state.PageId = newpage.id
   },
   UPDATE_PAGE(state, page) {
-    const cpage = state.PagesCache[page.id]
-    _.assign(cpage, page)
+    _.assign(state.PagesCache[page.id], page)
   },
   SET_BOOKID(state, bookid) {
     state.BookId = bookid
@@ -168,9 +167,9 @@ export const actions = {
           pageId: page.id
         }
       })
-      .then(({ data }) => {
+      .then(() => {
+        commit('UPDATE_PAGE', page)
         alert('OK, page updated !')
-        commit('UPDATE_PAGE', data.updatePage)
       })
       .catch(e => {
         throw e
