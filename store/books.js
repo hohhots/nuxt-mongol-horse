@@ -3,6 +3,7 @@ import _ from 'lodash'
 // import { uploadPhoto } from '@/graphql/UploadPhoto'
 import { getPage, newPage, updatePage } from '@/graphql/Page'
 import { getBook, newBook, updateBook, getBooks } from '@/graphql/Book'
+import { uploadPhoto } from '@/graphql/UploadPhoto'
 
 export const state = () => ({
   // current page display books
@@ -147,7 +148,6 @@ export const actions = {
         }
       })
       .then(({ data }) => {
-        alert('OK, new page is created!')
         commit('ADD_NEWPAGE', data.newPage)
       })
       .catch(e => {
@@ -169,7 +169,6 @@ export const actions = {
       })
       .then(() => {
         commit('UPDATE_PAGE', page)
-        alert('OK, page updated !')
       })
       .catch(e => {
         throw e
@@ -283,6 +282,33 @@ export const actions = {
         commit('SET_BOOKS_PREVIEW', booksid)
       })
       .catch(e => console.log(e))
+  },
+
+  async uploadPhoto({ state, commit }, image) {
+    if (!image) {
+      return
+    }
+    // const paget = page.newPage || page.updatePage
+    const apollo = this.app.apolloProvider.defaultClient
+    await apollo
+      .mutate({
+        mutation: uploadPhoto,
+        variables: {
+          photo: image,
+          bookId: state.BookId,
+          pageId: state.PageId
+        }
+        // update: (store, { data: { uploadPhoto } }) => {
+        //   const data = store.readQuery({ query: ALL_PHOTOS })
+
+        //   data.allPhotos.push(uploadPhoto)
+
+        //   store.writeQuery({ query: ALL_PHOTOS, data })
+        // }
+      })
+      .catch(e => {
+        throw e
+      })
   }
 }
 

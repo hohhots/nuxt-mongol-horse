@@ -123,51 +123,39 @@ export default {
       if (this.tempPage.id) {
         await this.$store
           .dispatch('books/updatePage', this.tempPage)
-          .then(() =>
-            this.$router.push(`${this.baseUrl}/${this.bookid}/${this.pageid}`)
-          )
+          .then(async () => {
+            await this.uploadPhoto()
+          })
+          .then(() => {
+            alert('OK! update page completed!')
+          })
           .catch(e => alert(e))
       } else {
         await this.$store
           .dispatch('books/newPage', this.tempPage)
-          .then(() =>
+          .then(async () => {
+            await this.uploadPhoto()
+          })
+          .then(() => {
+            alert('OK! create new page completed!')
             this.$router.push(
               `${this.bookid}/${this.bookid}/${this.pageid + 1}`
             )
-          )
+          })
           .catch(e => alert(e))
       }
     },
-    // async uploadPhoto(page) {
-    //   if (!this.tempFile) {
-    //     return
-    //   }
-    //   const paget = page.newPage || page.updatePage
-    //   const p = await this.$apollo.mutate({
-    //     mutation: UploadPhoto,
-    //     variables: {
-    //       photo: this.tempFile,
-    //       bookId: this.bookid,
-    //       pageId: paget.id
-    //     },
-    //     context: {
-    //       headers: {
-    //         Authorization: 'Bearer ' + this.jwt
-    //       }
-    //     }
-    //     // update: (store, { data: { uploadPhoto } }) => {
-    //     //   const data = store.readQuery({ query: ALL_PHOTOS })
+    async uploadPhoto() {
+      if (!this.tempFile) {
+        return
+      }
 
-    //     //   data.allPhotos.push(uploadPhoto)
-
-    //     //   store.writeQuery({ query: ALL_PHOTOS, data })
-    //     // }
-    //   })
-
-    //   if (p.errors) {
-    //     alert(p.errors[0].message)
-    //   }
-    // },
+      await this.$store
+        .dispatch('books/uploadPhoto', this.tempFile)
+        .catch(e => {
+          throw e
+        })
+    },
     onCancel() {
       this.$router.push('/' + settings.admin + '/' + this.bookid)
     },
