@@ -34,8 +34,11 @@ export default {
     }
   },
   computed: {
-    totalPages() {
-      return this.book.pages.length
+    totalPages: {
+      cache: false,
+      get: function() {
+        return this.book.pages.length
+      }
     },
     bookLink() {
       return this.baseUrl + '/' + this.$route.params.bookid

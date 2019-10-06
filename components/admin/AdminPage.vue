@@ -139,7 +139,7 @@ export default {
           .then(() => {
             alert('OK! create new page completed!')
             this.$router.push(
-              `${this.bookid}/${this.bookid}/${this.pageid + 1}`
+              `/${settings.admin}/${this.bookid}/${this.pageid}`
             )
           })
           .catch(e => alert(e))
@@ -157,7 +157,11 @@ export default {
         })
     },
     onCancel() {
-      this.$router.push('/' + settings.admin + '/' + this.bookid)
+      if (!this.editExistingPage) {
+        this.$router.push(
+          `/${settings.admin}/${this.bookid}/${this.pageid - 1}`
+        )
+      }
     },
     setImage() {
       const image = this.$refs.image.files[0]

@@ -13,7 +13,7 @@ export default {
     AdminPage
   },
   mixins: [common],
-  methods: {
+  computed: {
     ...mapState({
       page: 'books/newPage'
     })

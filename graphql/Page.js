@@ -18,6 +18,12 @@ export const newPage = gql`
   mutation newPage($pageNum: Int!, $content: String!, $bookId: String!) {
     newPage(pageNum: $pageNum, content: $content, bookId: $bookId) {
       id
+      imageType
+      pageNum
+      content
+      book {
+        id
+      }
     }
   }
 `

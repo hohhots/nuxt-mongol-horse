@@ -43,8 +43,12 @@ export const mutations = {
     state.PageId = pageid
   },
   ADD_NEWPAGE(state, newpage) {
-    state.PagesCache[newpage.id] = newpage
     state.PageId = newpage.id
+
+    newpage.pageNum = newpage.pageNum + ''
+    state.PagesCache[newpage.id] = newpage
+
+    state.BooksCache[state.BookId].pages.push({ id: newpage.id })
   },
   UPDATE_PAGE(state, page) {
     _.assign(state.PagesCache[page.id], page)
@@ -138,20 +142,21 @@ export const actions = {
       .catch(e => console.log(e))
   },
 
-  async newPage({ state, commit }, page) {
+  async newPage({ state, commit, dispatch }, page) {
     const apollo = this.app.apolloProvider.defaultClient
 
     await apollo
       .mutate({
         mutation: newPage,
         variables: {
-          pageNum: _.parseInt(page.pageNum),
+          pageNum: parseInt(page.pageNum),
           content: page.content,
-          bookId: page.book.id
+          bookId: state.BookId
         }
       })
       .then(({ data }) => {
         commit('ADD_NEWPAGE', data.newPage)
+        // await dispatch('fetchBook', state.BookId)
       })
       .catch(e => {
         throw e
@@ -165,7 +170,7 @@ export const actions = {
       .mutate({
         mutation: updatePage,
         variables: {
-          pageNum: _.parseInt(page.pageNum),
+          pageNum: parseInt(page.pageNum),
           content: page.content,
           pageId: page.id
         }
@@ -215,9 +220,9 @@ export const actions = {
       .mutate({
         mutation: newBook,
         variables: {
-          title: book.title,
-          author: book.author,
-          publishedAt: book.publishedAt,
+          title: book.title.trim(),
+          author: book.author.trim(),
+          publishedAt: book.publishedAt.trim(),
           preview: book.preview
         }
       })
@@ -238,9 +243,9 @@ export const actions = {
         mutation: updateBook,
         variables: {
           bookId: book.id,
-          title: book.title,
-          author: book.author,
-          publishedAt: book.publishedAt,
+          title: book.title.trim(),
+          author: book.author.trim(),
+          publishedAt: book.publishedAt.trim(),
           preview: book.preview
         }
       })
