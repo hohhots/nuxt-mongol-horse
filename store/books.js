@@ -1,6 +1,5 @@
 import _ from 'lodash'
 
-// import { uploadPhoto } from '@/graphql/UploadPhoto'
 import { getPage, newPage, updatePage } from '@/graphql/Page'
 import { getBook, newBook, updateBook, getBooks } from '@/graphql/Book'
 import { uploadPhoto } from '@/graphql/UploadPhoto'
@@ -48,7 +47,13 @@ export const mutations = {
     newpage.pageNum = newpage.pageNum + ''
     state.PagesCache[newpage.id] = newpage
 
-    state.BooksCache[state.BookId].pages.push({ id: newpage.id })
+    const pages = state.BooksCache[state.BookId].pages
+    pages.push({
+      id: newpage.id,
+      pageNum: newpage.pageNum,
+      __typename: 'Page'
+    })
+    state.BooksCache[state.BookId].pages = _.sortBy(pages, ['pageNum'])
   },
   UPDATE_PAGE(state, page) {
     _.assign(state.PagesCache[page.id], page)
@@ -74,6 +79,9 @@ export const mutations = {
     } else {
       state.BooksCache[book.id] = book
     }
+  },
+  SET_BOOK_PAGES(state, pages) {
+    state.BooksCache[state.BookId].pages = pages
   },
   ADD_NEWBOOK(state, newbook) {
     state.BooksCache[newbook.id] = newbook
@@ -153,10 +161,40 @@ export const actions = {
           content: page.content,
           bookId: state.BookId
         }
+        // update: (store, { data: { newPage } }) => {
+        //   console.log(
+        //     'update - ',
+        //     store.readQuery({
+        //       query: getBookPagesId,
+        //       variables: {
+        //         bookId: state.BookId
+        //       }
+        //     })
+        //   )
+        //   const data = store.readQuery({
+        //     query: getBookPagesId,
+        //     variables: {
+        //       bookId: state.BookId
+        //     }
+        //   })
+
+        //   data.book.pages.push({
+        //     id: newPage.id,
+        //     pageNum: newPage.pageNum,
+        //     __typename: 'Page'
+        //   })
+
+        //   store.writeQuery({
+        //     query: getBookPagesId,
+        //     variables: {
+        //       bookId: state.BookId
+        //     },
+        //     data
+        //   })
+        // }
       })
       .then(({ data }) => {
         commit('ADD_NEWPAGE', data.newPage)
-        // await dispatch('fetchBook', state.BookId)
       })
       .catch(e => {
         throw e
@@ -306,13 +344,6 @@ export const actions = {
           bookId: state.BookId,
           pageId: state.PageId
         }
-        // update: (store, { data: { uploadPhoto } }) => {
-        //   const data = store.readQuery({ query: ALL_PHOTOS })
-
-        //   data.allPhotos.push(uploadPhoto)
-
-        //   store.writeQuery({ query: ALL_PHOTOS, data })
-        // }
       })
       .then(() => commit('SET_PAGE_IMAGE_TYPE', image.type))
       .catch(e => {

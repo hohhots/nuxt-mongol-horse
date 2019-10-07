@@ -10,6 +10,7 @@ export const getBook = gql`
       preview
       pages {
         id
+        pageNum
       }
       postedBy {
         name
@@ -17,6 +18,7 @@ export const getBook = gql`
     }
   }
 `
+
 export const newBook = gql`
   mutation newBook(
     $title: String!

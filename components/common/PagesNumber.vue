@@ -1,6 +1,6 @@
 <template>
   <div class="pages-number">
-    <span v-if="!isFirstPage()" class="pre">
+    <span v-if="!isFirstPage()" class="first">
       <nuxt-link :to="basePath + firstPageId">
         <mon-horizon class="num">{{ firstPageId }}</mon-horizon>
       </nuxt-link>
@@ -26,7 +26,7 @@
     <span v-if="!isLastPages()" class="next">
       <nuxt-link :to="basePath + nextPages()">》</nuxt-link>
     </span>
-    <span v-if="!isLastPage()" class="next">
+    <span v-if="!isLastPage()" class="last">
       <nuxt-link :to="basePath + totalPages">
         <mon-horizon class="num">{{ totalPages }}</mon-horizon>
       </nuxt-link>
@@ -137,16 +137,24 @@ export default {
 .num,
 .num-only,
 .number,
+.first,
 .pre,
-.next {
+.next,
+.last {
   cursor: pointer;
   font-size: 1.2rem;
   margin-left: 0.3rem;
   margin-right: 0.3rem;
 }
 
+.first,
 .pre {
   margin-left: 0;
+}
+
+.first,
+.last {
+  font-weight: bold;
 }
 
 .num-only {
