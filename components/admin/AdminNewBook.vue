@@ -65,6 +65,16 @@ export default {
   },
   methods: {
     async onSubmit() {
+      const ask = confirm('Are you sure to save changes?')
+      if (!ask) {
+        return
+      }
+
+      if (!this.newBook.title) {
+        alert('Title is empty!')
+        return
+      }
+
       if (this.newBook.id) {
         await this.$store
           .dispatch('books/updateBook', this.newBook)
@@ -78,7 +88,10 @@ export default {
       }
     },
     onCancel() {
-      this.$router.push('/' + settings.admin)
+      const ask = confirm('Are you sure to save changes?')
+      if (ask) {
+        this.$router.push('/' + settings.admin + '/' + this.bookid)
+      }
     },
     onNewPage() {
       const pageid = this.pageid || 1

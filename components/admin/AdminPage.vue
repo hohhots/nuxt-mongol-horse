@@ -115,12 +115,27 @@ export default {
       this.tempFile = ''
     },
     async onSubmit() {
+      const ask = confirm('Are you sure to save changes?')
+      if (!ask) {
+        return
+      }
+
+      if (!this.tempPage.pageNum || !this.tempPage.content) {
+        alert('Page number or conten is empty!')
+        return
+      }
+
       if (!/^([1-9])([0-9]*)$/.test(this.tempPage.pageNum)) {
         alert('page number must be number!')
         return
       }
 
       if (this.tempPage.id) {
+        if (this.hasSamePageNum(this.tempPage.id, this.tempPage.pageNum)) {
+          alert('Page number ' + this.tempPage.pageNum + ' already exist!')
+          return
+        }
+
         await this.$store
           .dispatch('books/updatePage', this.tempPage)
           .then(async () => {
@@ -128,9 +143,19 @@ export default {
           })
           .then(() => {
             alert('OK! update page completed!')
+            this.$router.push(
+              `/${settings.admin}/${this.bookid}/${
+                this.$store.getters['books/getPageURLId']
+              }`
+            )
           })
           .catch(e => alert(e))
       } else {
+        if (this.pageNumExist(this.tempPage.pageNum)) {
+          alert('Page number ' + this.tempPage.pageNum + ' already exist!')
+          return
+        }
+
         await this.$store
           .dispatch('books/newPage', this.tempPage)
           .then(async () => {
@@ -158,9 +183,12 @@ export default {
     },
     onCancel() {
       if (!this.editExistingPage) {
-        this.$router.push(
-          `/${settings.admin}/${this.bookid}/${this.pageid - 1}`
-        )
+        const ask = confirm('Are you sure to cancel changes?')
+        if (ask) {
+          this.$router.push(
+            `/${settings.admin}/${this.bookid}/${this.pageid - 1}`
+          )
+        }
       }
     },
     setImage() {
@@ -187,6 +215,26 @@ export default {
       this.$router.push(
         `${this.baseUrl}/${this.bookid}/${p}/${settings.newPage}`
       )
+    },
+    pageNumExist(pagenum) {
+      const pages = this.$store.getters['books/getBook'].pages
+
+      if (_.find(pages, { pageNum: parseInt(pagenum) })) {
+        return true
+      }
+      return false
+    },
+    hasSamePageNum(pageid, pagenum) {
+      const pages = this.$store.getters['books/getBook'].pages
+
+      if (
+        _.find(pages, page => {
+          return page.id !== pageid && page.pageNum === parseInt(pagenum)
+        })
+      ) {
+        return true
+      }
+      return false
     }
   }
 }

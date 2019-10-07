@@ -57,6 +57,12 @@ export const mutations = {
   },
   UPDATE_PAGE(state, page) {
     _.assign(state.PagesCache[page.id], page)
+
+    const pages = state.BooksCache[state.BookId].pages
+    const upage = _.find(pages, { id: page.id })
+    upage.pageNum = page.pageNum
+
+    state.BooksCache[state.BookId].pages = _.sortBy(pages, ['pageNum'])
   },
   SET_PAGE_IMAGE_TYPE(state, imageType) {
     state.PagesCache[state.PageId].imageType = imageType.split('/')[1]
@@ -355,6 +361,15 @@ export const actions = {
 export const getters = {
   getPage(state, getters, rootState, rootGetters) {
     return state.PagesCache[state.PageId]
+  },
+  getPageURLId(state) {
+    const pages = state.BooksCache[state.BookId].pages
+
+    state.BooksCache[state.BookId].pages = _.sortBy(pages, ['pageNum'])
+    const id =
+      _.findIndex(state.BooksCache[state.BookId].pages, { id: state.PageId }) +
+      1
+    return id
   },
   getBook(state) {
     return state.BooksCache[state.BookId]
