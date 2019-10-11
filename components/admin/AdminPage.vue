@@ -164,7 +164,9 @@ export default {
           .then(() => {
             alert('OK! create new page completed!')
             this.$router.push(
-              `/${settings.admin}/${this.bookid}/${this.pageid}`
+              `/${settings.admin}/${this.bookid}/${
+                this.$store.getters['books/getPageURLId']
+              }`
             )
           })
           .catch(e => alert(e))

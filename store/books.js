@@ -363,13 +363,17 @@ export const getters = {
     return state.PagesCache[state.PageId]
   },
   getPageURLId(state) {
-    const pages = state.BooksCache[state.BookId].pages
+    try {
+      const id =
+        _.findIndex(
+          _.sortBy(state.BooksCache[state.BookId].pages, ['pageNum']),
+          { id: state.PageId }
+        ) + 1
 
-    state.BooksCache[state.BookId].pages = _.sortBy(pages, ['pageNum'])
-    const id =
-      _.findIndex(state.BooksCache[state.BookId].pages, { id: state.PageId }) +
-      1
-    return id
+      return id
+    } catch (e) {
+      return ''
+    }
   },
   getBook(state) {
     return state.BooksCache[state.BookId]
