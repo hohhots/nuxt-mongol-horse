@@ -1,15 +1,17 @@
 <template>
   <form @submit.prevent="onSubmit">
-    <MonInputControl v-model="newBook.title" :placeholder="monText.bookTitle"
+    <MonInputControl
+      v-model.trim="newBook.title"
+      :placeholder="monText.bookTitle"
       >{{ monText.bookTitle }}᠄</MonInputControl
     >
 
-    <MonInputControl v-model="newBook.author" :placeholder="monText.author"
+    <MonInputControl v-model.trim="newBook.author" :placeholder="monText.author"
       >{{ monText.author }}᠄</MonInputControl
     >
 
     <MonInputControl
-      v-model="newBook.publishedAt"
+      v-model.trim="newBook.publishedAt"
       :placeholder="monText.publishedAt"
       >{{ monText.publishedAt }}᠄</MonInputControl
     >

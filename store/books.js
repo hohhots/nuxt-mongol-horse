@@ -35,7 +35,6 @@ export const state = () => ({
 
 export const mutations = {
   SET_PAGE(state, page) {
-    page.pageNum = page.pageNum + ''
     state.PagesCache[page.id] = page
   },
   SET_PAGEID(state, pageid) {
@@ -44,7 +43,6 @@ export const mutations = {
   ADD_NEWPAGE(state, newpage) {
     state.PageId = newpage.id
 
-    newpage.pageNum = newpage.pageNum + ''
     state.PagesCache[newpage.id] = newpage
 
     const pages = state.BooksCache[state.BookId].pages
@@ -56,11 +54,13 @@ export const mutations = {
     state.BooksCache[state.BookId].pages = _.sortBy(pages, ['pageNum'])
   },
   UPDATE_PAGE(state, page) {
-    _.assign(state.PagesCache[page.id], page)
+    const tp = { ...page }
+    tp.pageNum = parseInt(tp.pageNum)
+    _.assign(state.PagesCache[tp.id], tp)
 
     const pages = state.BooksCache[state.BookId].pages
-    const upage = _.find(pages, { id: page.id })
-    upage.pageNum = page.pageNum
+    const upage = _.find(pages, { id: tp.id })
+    upage.pageNum = tp.pageNum
 
     state.BooksCache[state.BookId].pages = _.sortBy(pages, ['pageNum'])
   },
@@ -238,7 +238,6 @@ export const actions = {
     const book = state.BooksCache[bookid]
     // because fetchBook just for get more information, like all pages
     if (book && book.pages) {
-      console.log('Book cache exist')
       return
     }
 
@@ -264,9 +263,9 @@ export const actions = {
       .mutate({
         mutation: newBook,
         variables: {
-          title: book.title.trim(),
-          author: book.author.trim(),
-          publishedAt: book.publishedAt.trim(),
+          title: book.title,
+          author: book.author,
+          publishedAt: book.publishedAt,
           preview: book.preview
         }
       })
@@ -287,9 +286,9 @@ export const actions = {
         mutation: updateBook,
         variables: {
           bookId: book.id,
-          title: book.title.trim(),
-          author: book.author.trim(),
-          publishedAt: book.publishedAt.trim(),
+          title: book.title,
+          author: book.author,
+          publishedAt: book.publishedAt,
           preview: book.preview
         }
       })
@@ -360,7 +359,9 @@ export const actions = {
 
 export const getters = {
   getPage(state, getters, rootState, rootGetters) {
-    return state.PagesCache[state.PageId]
+    const page = { ...state.PagesCache[state.PageId] }
+    page.pageNum = page.pageNum + ''
+    return page
   },
   getPageURLId(state) {
     try {
