@@ -18,6 +18,11 @@ import gv from '@/mixins/common.js'
 import BooksList from '@/components/books/BooksList'
 
 export default {
+  head() {
+    return {
+      title: 'Admin All Books'
+    }
+  },
   components: {
     BooksList
   },

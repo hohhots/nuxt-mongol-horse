@@ -31,6 +31,11 @@ import MonImg from '@/components/mongol/MonImg'
 import MonButton from '@/components/mongol/MonButton'
 
 export default {
+  head() {
+    return {
+      title: 'A Book Page'
+    }
+  },
   components: {
     MonImg,
     MonButton

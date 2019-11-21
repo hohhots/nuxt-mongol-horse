@@ -10,6 +10,11 @@ import { mapGetters } from 'vuex'
 import BookPreview from '@/components/books/BookPreview'
 
 export default {
+  head() {
+    return {
+      title: 'A Book Preview'
+    }
+  },
   components: {
     BookPreview
   },

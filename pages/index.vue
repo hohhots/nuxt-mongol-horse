@@ -11,6 +11,11 @@ import Util from '@/util/util'
 import BooksList from '@/components/books/BooksList'
 
 export default {
+  head() {
+    return {
+      title: 'All Books'
+    }
+  },
   components: {
     BooksList
   },

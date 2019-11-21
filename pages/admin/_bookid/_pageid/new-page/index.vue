@@ -9,6 +9,11 @@ import common from '@/mixins/common.js'
 import AdminPage from '@/components/admin/AdminPage'
 
 export default {
+  head() {
+    return {
+      title: 'Add New Page'
+    }
+  },
   components: {
     AdminPage
   },

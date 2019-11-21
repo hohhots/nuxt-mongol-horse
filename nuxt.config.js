@@ -1,5 +1,3 @@
-import pkg from './package'
-
 export default {
   mode: 'universal',
 
@@ -13,11 +11,17 @@ export default {
    ** Headers of the page
    */
   head: {
-    title: pkg.name,
+    titleTemplate:
+      '%s - Archives Of Books Of Mongol Horse In Traditional Mongolian',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: pkg.description }
+      {
+        hid: 'description',
+        name: 'description',
+        content:
+          'Where you can find all the archives of books of mongol horse in traditional mongolian'
+      }
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },

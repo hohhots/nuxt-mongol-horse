@@ -10,6 +10,11 @@
 import AdminNewBook from '@/components/admin/AdminNewBook'
 
 export default {
+  head() {
+    return {
+      title: 'Admin Book Preview'
+    }
+  },
   components: {
     AdminNewBook
   },

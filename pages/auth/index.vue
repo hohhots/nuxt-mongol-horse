@@ -22,6 +22,11 @@ import gVariables from '@/mixins/common.js'
 import AdminSaveCancel from '@/components/admin/AdminSaveCancel'
 
 export default {
+  head() {
+    return {
+      title: 'Auth User'
+    }
+  },
   components: {
     AdminSaveCancel
   },
