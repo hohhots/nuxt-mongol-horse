@@ -12,6 +12,11 @@ import gv from '@/mixins/common.js'
 import AdminNewBook from '@/components/admin/AdminNewBook'
 
 export default {
+  head() {
+    return {
+      title: 'Add New Book'
+    }
+  },
   components: {
     AdminNewBook
   },

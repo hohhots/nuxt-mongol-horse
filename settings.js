@@ -10,6 +10,8 @@ export default {
   imageTypes: ['png', 'jpg'],
   images: 'images',
   monText: {
+    firstPage: 'ᠲᠡᠷᠢᠭᠦᠨ ᠨᠢᠭᠤᠷ',
+    pageNotFound: 'ᠲᠤᠰ ᠨᠢᠭᠤᠷ ᠤᠷᠤᠰᠢᠬᠤ ᠦᠭᠡᠢ᠃',
     login: 'ᠡᠷᠬᠡᠯᠡᠭᠴᠢ',
     email: 'ᠴᠠᠬᠢᠳᠠᠯ',
     name: '',
