@@ -13,7 +13,7 @@
     </mon-svg>
 
     <div class="title">
-      {{ message }}
+      {{ monMessage }}
     </div>
     <p v-if="statusCode === 404">
       <nuxt-link to="/"> {{ firstPage }} </nuxt-link>
@@ -41,6 +41,9 @@ export default {
       return (this.error && this.error.statusCode) || 500
     },
     message() {
+      return this.error.message
+    },
+    monMessage() {
       let message = this.error.message
       if (this.error.statusCode === 404) {
         message = settings.monText.pageNotFound
