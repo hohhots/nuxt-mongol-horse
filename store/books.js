@@ -1,8 +1,9 @@
 import _ from 'lodash'
 
 import { getPage, newPage, updatePage } from '@/graphql/Page'
-import { getBook, newBook, updateBook, getBooks } from '@/graphql/Book'
+import { getBook, newBook, updateBook } from '@/graphql/Book'
 import { uploadPhoto } from '@/graphql/UploadPhoto'
+import BookService from '@/services/BookService.js'
 
 export const state = () => ({
   // current page display books
@@ -301,7 +302,7 @@ export const actions = {
       })
   },
 
-  async fetchBooks({ state, commit }, filters) {
+  async fetchBooks({ state, commit, $nuxt }, filters) {
     const cachefilter = filters.filter || 'empty'
     const cacheskip = filters.skip || 0
     const booksId = state.BooksIDCache[cachefilter]
@@ -314,25 +315,12 @@ export const actions = {
     }
 
     console.log('fetchBooks')
-    const apollo = this.app.apolloProvider.defaultClient
-    await apollo
-      .query({
-        query: getBooks,
-        variables: {
-          filter: filters.filter,
-          skip: filters.skip,
-          first: filters.first
-        }
-      })
-      .then(({ data }) => {
-        const booksid = {
-          booksList: data.bookList,
-          filter: filters.filter,
-          skip: filters.skip
-        }
-        commit('SET_BOOKS_PREVIEW', booksid)
-      })
-      .catch(e => console.log(e))
+    const books = await BookService.qlBooks(this, filters)
+    if (books.statusCode) {
+      return books
+    } else {
+      commit('SET_BOOKS_PREVIEW', books)
+    }
   },
 
   async uploadPhoto({ state, commit }, image) {

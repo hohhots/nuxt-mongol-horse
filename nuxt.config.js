@@ -44,19 +44,7 @@ export default {
   /*
    ** Nuxt.js modules
    */
-  modules: [
-    // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
-    '@nuxtjs/pwa',
-    '@nuxtjs/apollo'
-  ],
-  /*
-   ** Axios module configuration
-   */
-  axios: {
-    // See https://github.com/nuxt-community/axios-module#options
-    baseURL: 'http://192.168.3.18:4000'
-  },
+  modules: ['@nuxtjs/pwa', '@nuxtjs/apollo'],
 
   apollo: {
     includeNodeModules: true,

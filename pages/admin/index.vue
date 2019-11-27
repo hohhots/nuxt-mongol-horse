@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 import Util from '@/util/util'
 import settings from '@/settings.js'
 import gv from '@/mixins/common.js'
@@ -30,12 +32,17 @@ export default {
   computed: {
     newBookUrl() {
       return `/${settings.admin}/${settings.newBook}`
-    }
+    },
+    ...mapGetters({
+      books: 'books/getBooks'
+    })
   },
   watchQuery: ['page'],
-  async asyncData({ store, query }) {
-    await Util.fetchBooks(store, query)
-    return { books: store.getters['books/getBooks'] }
+  async fetch({ store, query, error }) {
+    const err = await Util.fetchBooks(store, query)
+    if (err) {
+      error(err)
+    }
   }
 }
 </script>

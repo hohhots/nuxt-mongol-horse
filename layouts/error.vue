@@ -44,9 +44,10 @@ export default {
       return this.error.message
     },
     monMessage() {
+      console.log(this.error)
       let message = this.error.message
       if (this.error.statusCode === 404) {
-        message = settings.monText.pageNotFound
+        message = settings.mErrorMessages.pageNotFound
       }
       return message
     },

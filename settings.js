@@ -9,9 +9,15 @@ export default {
 
   imageTypes: ['png', 'jpg'],
   images: 'images',
+  mErrorMessages: {
+    pageNotFound: 'ᠲᠤᠰ ᠨᠢᠭᠤᠷ ᠤᠷᠤᠰᠢᠬᠤ ᠦᠭᠡᠢ᠃',
+
+    fetchPageError: '',
+    fetchBookError: 'e200',
+    fetchBooksError: 'ᠨᠤᠮ ᠬᠠᠢᠭᠠᠳ ᠤᠯᠤᠭᠰᠠᠨ ᠦᠭᠡᠢ᠃'
+  },
   monText: {
     firstPage: 'ᠲᠡᠷᠢᠭᠦᠨ ᠨᠢᠭᠤᠷ',
-    pageNotFound: 'ᠲᠤᠰ ᠨᠢᠭᠤᠷ ᠤᠷᠤᠰᠢᠬᠤ ᠦᠭᠡᠢ᠃',
     login: 'ᠡᠷᠬᠡᠯᠡᠭᠴᠢ',
     email: 'ᠴᠠᠬᠢᠳᠠᠯ',
     name: '',

@@ -15,11 +15,12 @@ const util = {
     const skip = (pageid - 1) * itemsPerPage
     const first = itemsPerPage
 
-    await store.dispatch('books/fetchBooks', {
+    const books = await store.dispatch('books/fetchBooks', {
       filter,
       skip,
       first
     })
+    return books
   }
 }
 
