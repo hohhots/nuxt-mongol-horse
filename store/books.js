@@ -1,7 +1,7 @@
 import _ from 'lodash'
 
 import { getPage, newPage, updatePage } from '@/graphql/Page'
-import { getBook, newBook, updateBook } from '@/graphql/Book'
+import { newBook, updateBook } from '@/graphql/Book'
 import { uploadPhoto } from '@/graphql/UploadPhoto'
 import BookService from '@/services/BookService.js'
 
@@ -236,25 +236,19 @@ export const actions = {
 
     commit('SET_BOOKID', bookid)
 
-    const book = state.BooksCache[bookid]
+    let book = state.BooksCache[bookid]
     // because fetchBook just for get more information, like all pages
     if (book && book.pages) {
       return
     }
 
     console.log('fetchBook')
-    const apollo = this.app.apolloProvider.defaultClient
-    await apollo
-      .query({
-        query: getBook,
-        variables: {
-          bookId: bookid
-        }
-      })
-      .then(({ data }) => {
-        commit('SET_BOOK', data.book)
-      })
-      .catch(e => console.log(e))
+    book = await BookService.qlBook(this, bookid)
+    if (book.statusCode) {
+      return book
+    } else {
+      commit('SET_BOOK', book)
+    }
   },
 
   async newBook({ rootState, commit }, book) {

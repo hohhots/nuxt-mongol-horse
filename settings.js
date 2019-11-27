@@ -13,8 +13,8 @@ export default {
     pageNotFound: 'ᠲᠤᠰ ᠨᠢᠭᠤᠷ ᠤᠷᠤᠰᠢᠬᠤ ᠦᠭᠡᠢ᠃',
 
     fetchPageError: '',
-    fetchBookError: 'e200',
-    fetchBooksError: 'ᠨᠤᠮ ᠬᠠᠢᠭᠠᠳ ᠤᠯᠤᠭᠰᠠᠨ ᠦᠭᠡᠢ᠃'
+    fetchBookError: 'ᠨᠤᠮ ᠡᠷᠢᠭᠡᠳ ᠪᠤᠷᠤᠭᠤ ᠭᠠᠷᠴᠢᠬᠠᠯ᠎ᠠ᠃',
+    fetchBooksError: 'ᠨᠤᠮ ᠦᠨ ᠰᠠᠩ ᠡᠷᠢᠭᠡᠳ ᠪᠤᠷᠤᠭᠤ ᠭᠠᠷᠴᠢᠬᠠᠯ᠎ᠠ᠃'
   },
   monText: {
     firstPage: 'ᠲᠡᠷᠢᠭᠦᠨ ᠨᠢᠭᠤᠷ',

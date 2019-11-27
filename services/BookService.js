@@ -1,5 +1,5 @@
 import settings from '@/settings.js'
-import { getBooks } from '@/graphql/Book'
+import { getBook, getBooks } from '@/graphql/Book'
 // getBook, newBook, updateBook
 let apolloCli
 
@@ -10,6 +10,24 @@ function setApolloCli(ob) {
 }
 
 export default {
+  qlBook(ob, bookid) {
+    setApolloCli(ob)
+    return apolloCli
+      .query({
+        query: getBook,
+        variables: {
+          bookId: bookid
+        }
+      })
+      .then(({ data }) => {
+        return data.book
+      })
+      .catch(e => {
+        e.statusCode = 503
+        e.message = settings.mErrorMessages.fetchBookError
+        return e
+      })
+  },
   qlBooks(ob, filters) {
     setApolloCli(ob)
     return apolloCli
@@ -33,9 +51,6 @@ export default {
         e.message = settings.mErrorMessages.fetchBooksError
         return e
       })
-  },
-  qlBook(ob, id) {
-    setApolloCli(ob)
   },
   qlUpdateBook(ob, id) {
     setApolloCli(ob)
