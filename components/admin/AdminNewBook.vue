@@ -83,10 +83,12 @@ export default {
           .then(() => this.$router.push(`${this.baseUrl}/${this.newBookId}`))
           .catch(e => alert(e))
       } else {
-        await this.$store
-          .dispatch('books/newBook', this.newBook)
-          .then(() => this.$router.push(`${this.baseUrl}/${this.newBookId}`))
-          .catch(e => alert(e))
+        const err = await this.$store.dispatch('books/newBook', this.newBook)
+        if (err) {
+          this.$root.error(err)
+        } else {
+          this.$router.push(`${this.baseUrl}/${this.newBookId}`)
+        }
       }
     },
     onCancel() {

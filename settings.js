@@ -12,9 +12,12 @@ export default {
   mErrorMessages: {
     pageNotFound: 'ᠲᠤᠰ ᠨᠢᠭᠤᠷ ᠤᠷᠤᠰᠢᠬᠤ ᠦᠭᠡᠢ᠃',
 
-    fetchPageError: '',
+    fetchPageError: 'ᠲᠤᠰ ᠨᠢᠭᠤᠷ ᠪᠤᠷᠤᠭᠤ ᠭᠠᠷᠴᠢᠬᠠᠯ᠎ᠠ᠃',
     fetchBookError: 'ᠨᠤᠮ ᠡᠷᠢᠭᠡᠳ ᠪᠤᠷᠤᠭᠤ ᠭᠠᠷᠴᠢᠬᠠᠯ᠎ᠠ᠃',
-    fetchBooksError: 'ᠨᠤᠮ ᠦᠨ ᠰᠠᠩ ᠡᠷᠢᠭᠡᠳ ᠪᠤᠷᠤᠭᠤ ᠭᠠᠷᠴᠢᠬᠠᠯ᠎ᠠ᠃'
+    fetchBooksError: 'ᠨᠤᠮ ᠦᠨ ᠰᠠᠩ ᠡᠷᠢᠭᠡᠳ ᠪᠤᠷᠤᠭᠤ ᠭᠠᠷᠴᠢᠬᠠᠯ᠎ᠠ᠃',
+
+    newPageError: 'ᠰᠢᠨ᠎ᠡ ᠨᠢᠭᠤᠷ ᠨᠡᠮᠡᠬᠦ ᠳᠤ ᠪᠤᠷᠤᠭᠤ ᠭᠠᠷᠴᠢᠬᠠᠯ᠎ᠠ᠃',
+    newBookError: 'ᠰᠢᠨ᠎ᠡ ᠨᠤᠮ ᠨᠡᠮᠡᠬᠦ ᠳᠤ ᠪᠤᠷᠤᠭᠤ ᠭᠠᠷᠴᠢᠬᠠᠯ᠎ᠠ᠃'
   },
   monText: {
     firstPage: 'ᠲᠡᠷᠢᠭᠦᠨ ᠨᠢᠭᠤᠷ',

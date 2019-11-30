@@ -52,7 +52,7 @@
 <script>
 import _ from 'lodash'
 
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 import settings from '@/settings.js'
 import common from '@/mixins/common.js'
@@ -82,6 +82,9 @@ export default {
     ...mapState({
       jwt: state => state.user.jwt,
       newPageId: state => state.books.PageId
+    }),
+    ...mapGetters({
+      pageUrlId: 'books/getPageURLId'
     }),
     tempPage() {
       return _.assign({}, this.page)
@@ -144,9 +147,7 @@ export default {
           .then(() => {
             alert('OK! update page completed!')
             this.$router.push(
-              `/${settings.admin}/${this.bookid}/${
-                this.$store.getters['books/getPageURLId']
-              }`
+              `/${settings.admin}/${this.bookid}/${this.pageUrlId}`
             )
           })
           .catch(e => alert(e))
@@ -156,20 +157,29 @@ export default {
           return
         }
 
-        await this.$store
-          .dispatch('books/newPage', this.tempPage)
-          .then(async () => {
-            await this.uploadPhoto()
-          })
-          .then(() => {
-            alert('OK! create new page completed!')
-            this.$router.push(
-              `/${settings.admin}/${this.bookid}/${
-                this.$store.getters['books/getPageURLId']
-              }`
-            )
-          })
-          .catch(e => alert(e))
+        const err = await this.$store.dispatch('books/newPage', this.tempPage)
+        if (err) {
+          this.$root.error(err)
+        } else {
+          this.$router.push(
+            `/${settings.admin}/${this.bookid}/${this.pageUrlId}`
+          )
+        }
+
+        // await this.$store
+        //   .dispatch('books/newPage', this.tempPage)
+        //   .then(async () => {
+        //     await this.uploadPhoto()
+        //   })
+        //   .then(() => {
+        //     alert('OK! create new page completed!')
+        //     this.$router.push(
+        //       `/${settings.admin}/${this.bookid}/${
+        //         this.$store.getters['books/getPageURLId']
+        //       }`
+        //     )
+        //   })
+        //   .catch(e => alert(e))
       }
     },
     async uploadPhoto() {

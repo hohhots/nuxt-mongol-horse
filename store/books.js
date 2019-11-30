@@ -1,7 +1,7 @@
 import _ from 'lodash'
 
-import { getPage, newPage, updatePage } from '@/graphql/Page'
-import { newBook, updateBook } from '@/graphql/Book'
+import { updatePage } from '@/graphql/Page'
+import { updateBook } from '@/graphql/Book'
 import { uploadPhoto } from '@/graphql/UploadPhoto'
 import BookService from '@/services/BookService.js'
 
@@ -130,11 +130,16 @@ export const mutations = {
 }
 
 export const actions = {
-  async fetchPage({ state, commit, getters, dispatch }, pageid) {
-    if (!getters.getBook) {
-      await dispatch('fetchBook', state.BookId)
+  async fetchPage({ error, state, commit, getters, dispatch }, pageid) {
+    let book = getters.getBook
+    if (!book) {
+      const err = await dispatch('fetchBook', state.BookId)
+      if (err) {
+        return error(err)
+      } else {
+        book = getters.getBook
+      }
     }
-    const book = getters.getBook
     pageid = book.pages[pageid - 1].id
     commit('SET_PAGEID', pageid)
 
@@ -143,69 +148,21 @@ export const actions = {
     }
 
     console.log('fetchPage')
-    const apollo = this.app.apolloProvider.defaultClient
-    await apollo
-      .query({
-        query: getPage,
-        variables: {
-          pageId: pageid
-        }
-      })
-      .then(({ data }) => {
-        commit('SET_PAGE', data.page)
-      })
-      .catch(e => console.log(e))
+    const page = await BookService.qlPage(this, pageid)
+    if (page.statusCode) {
+      return page
+    } else {
+      commit('SET_PAGE', page)
+    }
   },
 
-  async newPage({ state, commit, dispatch }, page) {
-    const apollo = this.app.apolloProvider.defaultClient
-
-    await apollo
-      .mutate({
-        mutation: newPage,
-        variables: {
-          pageNum: parseInt(page.pageNum),
-          content: page.content,
-          bookId: state.BookId
-        }
-        // update: (store, { data: { newPage } }) => {
-        //   console.log(
-        //     'update - ',
-        //     store.readQuery({
-        //       query: getBookPagesId,
-        //       variables: {
-        //         bookId: state.BookId
-        //       }
-        //     })
-        //   )
-        //   const data = store.readQuery({
-        //     query: getBookPagesId,
-        //     variables: {
-        //       bookId: state.BookId
-        //     }
-        //   })
-
-        //   data.book.pages.push({
-        //     id: newPage.id,
-        //     pageNum: newPage.pageNum,
-        //     __typename: 'Page'
-        //   })
-
-        //   store.writeQuery({
-        //     query: getBookPagesId,
-        //     variables: {
-        //       bookId: state.BookId
-        //     },
-        //     data
-        //   })
-        // }
-      })
-      .then(({ data }) => {
-        commit('ADD_NEWPAGE', data.newPage)
-      })
-      .catch(e => {
-        throw e
-      })
+  async newPage({ state, commit, dispatch }, newPage) {
+    const page = await BookService.qlNewPage(this, state.BookId, newPage)
+    if (page.statusCode) {
+      return page
+    } else {
+      commit('ADD_NEWPAGE', page)
+    }
   },
 
   async updatePage({ state, commit }, page) {
@@ -252,25 +209,31 @@ export const actions = {
   },
 
   async newBook({ rootState, commit }, book) {
-    const apollo = this.app.apolloProvider.defaultClient
+    const newbook = await BookService.qlNewBook(this, book)
+    if (newbook.statusCode) {
+      return newbook
+    } else {
+      commit('ADD_NEWBOOK', newbook)
+    }
+    // const apollo = this.app.apolloProvider.defaultClient
 
-    await apollo
-      .mutate({
-        mutation: newBook,
-        variables: {
-          title: book.title,
-          author: book.author,
-          publishedAt: book.publishedAt,
-          preview: book.preview
-        }
-      })
-      .then(({ data }) => {
-        alert('OK, new book is created!')
-        commit('ADD_NEWBOOK', data.newBook)
-      })
-      .catch(e => {
-        throw e
-      })
+    // await apollo
+    //   .mutate({
+    //     mutation: newBook,
+    //     variables: {
+    //       title: book.title,
+    //       author: book.author,
+    //       publishedAt: book.publishedAt,
+    //       preview: book.preview
+    //     }
+    //   })
+    //   .then(({ data }) => {
+    //     alert('OK, new book is created!')
+    //     commit('ADD_NEWBOOK', data.newBook)
+    //   })
+    //   .catch(e => {
+    //     throw e
+    //   })
   },
 
   async updateBook({ state, commit }, book) {
