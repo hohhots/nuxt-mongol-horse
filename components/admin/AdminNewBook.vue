@@ -78,10 +78,13 @@ export default {
       }
 
       if (this.newBook.id) {
-        await this.$store
-          .dispatch('books/updateBook', this.newBook)
-          .then(() => this.$router.push(`${this.baseUrl}/${this.newBookId}`))
-          .catch(e => alert(e))
+        const err = await this.$store.dispatch('books/updateBook', this.newBook)
+        if (err) {
+          this.$root.error(err)
+        } else {
+          alert('OK! This book update completed!')
+          // this.$router.push(`${this.baseUrl}/${this.newBookId}`)
+        }
       } else {
         const err = await this.$store.dispatch('books/newBook', this.newBook)
         if (err) {

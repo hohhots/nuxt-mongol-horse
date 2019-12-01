@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 import AdminNewBook from '@/components/admin/AdminNewBook'
 
 export default {
@@ -18,8 +20,10 @@ export default {
   components: {
     AdminNewBook
   },
-  asyncData({ store, params }) {
-    return { book: store.getters['books/getBook'] }
+  computed: {
+    ...mapGetters({
+      book: 'books/getBook'
+    })
   }
 }
 </script>

@@ -1,6 +1,6 @@
 import settings from '@/settings.js'
-import { getPage, newPage } from '@/graphql/Page'
-import { getBook, getBooks, newBook } from '@/graphql/Book'
+import { getPage, updatePage, newPage } from '@/graphql/Page'
+import { getBook, updateBook, newBook, getBooks } from '@/graphql/Book'
 // getBook, newBook, updateBook
 let apolloCli
 
@@ -29,53 +29,23 @@ export default {
         return e
       })
   },
-  qlBook(ob, bookid) {
+  qlUpdatePage(ob, page) {
     setApolloCli(ob)
+
     return apolloCli
-      .query({
-        query: getBook,
+      .mutate({
+        mutation: updatePage,
         variables: {
-          bookId: bookid
-        }
-      })
-      .then(({ data }) => {
-        return data.book
-      })
-      .catch(e => {
-        e.statusCode = 503
-        e.message = settings.mErrorMessages.fetchBookError
-        return e
-      })
-  },
-  qlBooks(ob, filters) {
-    setApolloCli(ob)
-    return apolloCli
-      .query({
-        query: getBooks,
-        variables: {
-          filter: filters.filter,
-          skip: filters.skip,
-          first: filters.first
-        }
-      })
-      .then(({ data }) => {
-        return {
-          booksList: data.bookList,
-          filter: filters.filter,
-          skip: filters.skip
+          pageNum: parseInt(page.pageNum),
+          content: page.content,
+          pageId: page.id
         }
       })
       .catch(e => {
         e.statusCode = 503
-        e.message = settings.mErrorMessages.fetchBooksError
+        e.message = settings.mErrorMessages.updatePageError
         return e
       })
-  },
-  qlUpdateBook(ob, id) {
-    setApolloCli(ob)
-  },
-  qlUpdatePage(ob, id) {
-    setApolloCli(ob)
   },
   qlNewPage(ob, bookid, page) {
     setApolloCli(ob)
@@ -125,6 +95,68 @@ export default {
       .catch(e => {
         e.statusCode = 503
         e.message = settings.mErrorMessages.newPageError
+        return e
+      })
+  },
+  qlBook(ob, bookid) {
+    setApolloCli(ob)
+    return apolloCli
+      .query({
+        query: getBook,
+        variables: {
+          bookId: bookid
+        }
+      })
+      .then(({ data }) => {
+        return data.book
+      })
+      .catch(e => {
+        e.statusCode = 503
+        e.message = settings.mErrorMessages.fetchBookError
+        return e
+      })
+  },
+  qlBooks(ob, filters) {
+    setApolloCli(ob)
+    return apolloCli
+      .query({
+        query: getBooks,
+        variables: {
+          filter: filters.filter,
+          skip: filters.skip,
+          first: filters.first
+        }
+      })
+      .then(({ data }) => {
+        return {
+          booksList: data.bookList,
+          filter: filters.filter,
+          skip: filters.skip
+        }
+      })
+      .catch(e => {
+        e.statusCode = 503
+        e.message = settings.mErrorMessages.fetchBooksError
+        return e
+      })
+  },
+  qlUpdateBook(ob, book) {
+    setApolloCli(ob)
+
+    return apolloCli
+      .mutate({
+        mutation: updateBook,
+        variables: {
+          bookId: book.id,
+          title: book.title,
+          author: book.author,
+          publishedAt: book.publishedAt,
+          preview: book.preview
+        }
+      })
+      .catch(e => {
+        e.statusCode = 503
+        e.message = settings.mErrorMessages.updateBookError
         return e
       })
   },

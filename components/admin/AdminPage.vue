@@ -139,18 +139,16 @@ export default {
           return
         }
 
-        await this.$store
-          .dispatch('books/updatePage', this.tempPage)
-          .then(async () => {
-            await this.uploadPhoto()
-          })
-          .then(() => {
-            alert('OK! update page completed!')
-            this.$router.push(
-              `/${settings.admin}/${this.bookid}/${this.pageUrlId}`
-            )
-          })
-          .catch(e => alert(e))
+        const err = await this.$store.dispatch(
+          'books/updatePage',
+          this.tempPage
+        )
+        if (err.statusCode) {
+          this.$root.error(err)
+        } else {
+          await this.uploadPhoto()
+          alert('OK! update page completed!')
+        }
       } else {
         if (this.pageNumExist(this.tempPage.pageNum)) {
           alert('Page number ' + this.tempPage.pageNum + ' already exist!')
@@ -165,21 +163,6 @@ export default {
             `/${settings.admin}/${this.bookid}/${this.pageUrlId}`
           )
         }
-
-        // await this.$store
-        //   .dispatch('books/newPage', this.tempPage)
-        //   .then(async () => {
-        //     await this.uploadPhoto()
-        //   })
-        //   .then(() => {
-        //     alert('OK! create new page completed!')
-        //     this.$router.push(
-        //       `/${settings.admin}/${this.bookid}/${
-        //         this.$store.getters['books/getPageURLId']
-        //       }`
-        //     )
-        //   })
-        //   .catch(e => alert(e))
       }
     },
     async uploadPhoto() {

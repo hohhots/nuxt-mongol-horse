@@ -1,7 +1,5 @@
 import _ from 'lodash'
 
-import { updatePage } from '@/graphql/Page'
-import { updateBook } from '@/graphql/Book'
 import { uploadPhoto } from '@/graphql/UploadPhoto'
 import BookService from '@/services/BookService.js'
 
@@ -156,6 +154,15 @@ export const actions = {
     }
   },
 
+  async updatePage({ state, commit }, page) {
+    const err = await BookService.qlUpdatePage(this, page)
+    if (err) {
+      return err
+    } else {
+      commit('UPDATE_PAGE', page)
+    }
+  },
+
   async newPage({ state, commit, dispatch }, newPage) {
     const page = await BookService.qlNewPage(this, state.BookId, newPage)
     if (page.statusCode) {
@@ -163,26 +170,6 @@ export const actions = {
     } else {
       commit('ADD_NEWPAGE', page)
     }
-  },
-
-  async updatePage({ state, commit }, page) {
-    const apollo = this.app.apolloProvider.defaultClient
-
-    await apollo
-      .mutate({
-        mutation: updatePage,
-        variables: {
-          pageNum: parseInt(page.pageNum),
-          content: page.content,
-          pageId: page.id
-        }
-      })
-      .then(() => {
-        commit('UPDATE_PAGE', page)
-      })
-      .catch(e => {
-        throw e
-      })
   },
 
   async fetchBook({ state, commit }, bookid) {
@@ -208,6 +195,15 @@ export const actions = {
     }
   },
 
+  async updateBook({ state, commit }, book) {
+    const err = await BookService.qlUpdateBook(this, book)
+    if (err) {
+      return err
+    } else {
+      commit('UPDATE_BOOK', book)
+    }
+  },
+
   async newBook({ rootState, commit }, book) {
     const newbook = await BookService.qlNewBook(this, book)
     if (newbook.statusCode) {
@@ -215,48 +211,6 @@ export const actions = {
     } else {
       commit('ADD_NEWBOOK', newbook)
     }
-    // const apollo = this.app.apolloProvider.defaultClient
-
-    // await apollo
-    //   .mutate({
-    //     mutation: newBook,
-    //     variables: {
-    //       title: book.title,
-    //       author: book.author,
-    //       publishedAt: book.publishedAt,
-    //       preview: book.preview
-    //     }
-    //   })
-    //   .then(({ data }) => {
-    //     alert('OK, new book is created!')
-    //     commit('ADD_NEWBOOK', data.newBook)
-    //   })
-    //   .catch(e => {
-    //     throw e
-    //   })
-  },
-
-  async updateBook({ state, commit }, book) {
-    const apollo = this.app.apolloProvider.defaultClient
-
-    await apollo
-      .mutate({
-        mutation: updateBook,
-        variables: {
-          bookId: book.id,
-          title: book.title,
-          author: book.author,
-          publishedAt: book.publishedAt,
-          preview: book.preview
-        }
-      })
-      .then(({ data }) => {
-        alert('OK, updated !')
-        commit('UPDATE_BOOK', data.updateBook)
-      })
-      .catch(e => {
-        throw e
-      })
   },
 
   async fetchBooks({ state, commit, $nuxt }, filters) {
