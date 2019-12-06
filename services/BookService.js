@@ -1,7 +1,8 @@
 import settings from '@/settings.js'
 import { getPage, updatePage, newPage } from '@/graphql/Page'
 import { getBook, updateBook, newBook, getBooks } from '@/graphql/Book'
-// getBook, newBook, updateBook
+import { uploadPhoto } from '@/graphql/UploadPhoto'
+
 let apolloCli
 
 function setApolloCli(ob) {
@@ -178,6 +179,24 @@ export default {
       .catch(e => {
         e.statusCode = 503
         e.message = settings.mErrorMessages.newBookError
+        return e
+      })
+  },
+  qlUploadPhoto(ob, photo, bookid, pageid) {
+    setApolloCli(ob)
+
+    return apolloCli
+      .mutate({
+        mutation: uploadPhoto,
+        variables: {
+          photo: photo,
+          bookId: bookid,
+          pageId: pageid
+        }
+      })
+      .catch(e => {
+        e.statusCode = 503
+        e.message = settings.mErrorMessages.uploadPhotoError
         return e
       })
   }

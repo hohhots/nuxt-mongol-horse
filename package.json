@@ -14,18 +14,18 @@
     "test": "jest"
   },
   "dependencies": {
-    "@nuxtjs/apollo": "^4.0.0-rc14",
+    "@nuxtjs/apollo": "^4.0.0-rc18",
     "@nuxtjs/pwa": "^2.6.0",
     "cross-env": "^5.2.1",
-    "glob": "^7.1.4",
+    "glob": "^7.1.6",
     "graphql-tag": "^2.10.1",
     "lodash": "^4.17.15",
-    "nuxt": "^2.10.0",
+    "nuxt": "^2.10.2",
     "resize-observer-polyfill": "^1.5.1"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^0.0.1",
-    "@vue/test-utils": "^1.0.0-beta.27",
+    "@vue/test-utils": "^1.0.0-beta.30",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.0.3",
     "babel-jest": "^24.9.0",
@@ -34,16 +34,16 @@
     "eslint-config-standard": "^14.1.0",
     "eslint-loader": "^2.2.1",
     "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-jest": "^22.17.0",
+    "eslint-plugin-jest": "^22.21.0",
     "eslint-plugin-node": "^10.0.0",
-    "eslint-plugin-nuxt": ">=0.4.2",
+    "eslint-plugin-nuxt": "^0.5.0",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-vue": "^5.2.3",
     "jest": "^24.9.0",
-    "nodemon": "^1.19.3",
-    "prettier": "^1.18.2",
+    "nodemon": "^1.19.4",
+    "prettier": "^1.19.1",
     "vue-jest": "^3.0.5"
   }
 }

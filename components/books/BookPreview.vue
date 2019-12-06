@@ -17,10 +17,6 @@
       <div class="content">{{ book.pages.length }}</div>
     </div>
     <div class="item">
-      <div class="title">{{ monText.postedBy }}᠄</div>
-      <div class="content">{{ book.postedBy.name }}</div>
-    </div>
-    <div class="item">
       <div class="title">{{ monText.preview }}᠄</div>
       <div class="content">
         <pre>{{ book.preview }}</pre>

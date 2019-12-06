@@ -1,13 +1,13 @@
 <template>
   <div class="container">
     <div class="types">
-      <mon-button class="item" width="70px" @click="toggle(0)">{{
+      <mon-button @click="toggle(0)" class="item" width="70px">{{
         monText.text
       }}</mon-button>
-      <mon-button class="item" width="70px" @click="toggle(1)">{{
+      <mon-button @click="toggle(1)" class="item" width="70px">{{
         monText.photo
       }}</mon-button>
-      <mon-button class="item" width="70px" @click="toggle(2)">{{
+      <mon-button @click="toggle(2)" class="item" width="70px">{{
         monText.together
       }}</mon-button>
     </div>
@@ -25,8 +25,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 import settings from '@/settings.js'
 import common from '@/mixins/common.js'
 import MonImg from '@/components/mongol/MonImg'
@@ -52,9 +50,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      page: 'books/getPage'
-    }),
     imgSrc() {
       if (!this.page) {
         return ''
@@ -66,11 +61,12 @@ export default {
       return ''
     }
   },
-  async fetch({ store, params, error }) {
+  async asyncData({ store, params, error }) {
     const err = await store.dispatch('books/fetchPage', params.pageid)
     if (err) {
       error(err)
     }
+    return { page: store.getters['books/getPage'] }
   },
   mounted() {
     // display image after content mounted

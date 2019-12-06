@@ -170,11 +170,11 @@ export default {
         return
       }
 
-      await this.$store
-        .dispatch('books/uploadPhoto', this.tempFile)
-        .catch(e => {
-          throw e
-        })
+      const err = await this.$store.dispatch('books/uploadPhoto', this.tempFile)
+      this.tempFile = ''
+      if (err) {
+        this.$root.error(err)
+      }
     },
     onCancel() {
       if (!this.editExistingPage) {

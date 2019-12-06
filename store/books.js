@@ -1,6 +1,5 @@
 import _ from 'lodash'
 
-import { uploadPhoto } from '@/graphql/UploadPhoto'
 import BookService from '@/services/BookService.js'
 
 export const state = () => ({
@@ -145,7 +144,6 @@ export const actions = {
       return
     }
 
-    console.log('fetchPage')
     const page = await BookService.qlPage(this, pageid)
     if (page.statusCode) {
       return page
@@ -197,7 +195,7 @@ export const actions = {
 
   async updateBook({ state, commit }, book) {
     const err = await BookService.qlUpdateBook(this, book)
-    if (err) {
+    if (err.statusCode) {
       return err
     } else {
       commit('UPDATE_BOOK', book)
@@ -238,21 +236,18 @@ export const actions = {
     if (!image) {
       return
     }
-    // const paget = page.newPage || page.updatePage
-    const apollo = this.app.apolloProvider.defaultClient
-    await apollo
-      .mutate({
-        mutation: uploadPhoto,
-        variables: {
-          photo: image,
-          bookId: state.BookId,
-          pageId: state.PageId
-        }
-      })
-      .then(() => commit('SET_PAGE_IMAGE_TYPE', image.type))
-      .catch(e => {
-        throw e
-      })
+
+    const err = await BookService.qlUploadPhoto(
+      this,
+      image,
+      state.BookId,
+      state.PageId
+    )
+    if (err.statusCode) {
+      return err
+    } else {
+      commit('SET_PAGE_IMAGE_TYPE', image.type)
+    }
   }
 }
 
