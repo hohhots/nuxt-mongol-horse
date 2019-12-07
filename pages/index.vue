@@ -7,8 +7,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 import Util from '@/util/util'
 import BooksList from '@/components/books/BooksList'
 
@@ -22,16 +20,12 @@ export default {
     BooksList
   },
   watchQuery: ['page'],
-  computed: {
-    ...mapGetters({
-      books: 'books/getBooks'
-    })
-  },
-  async fetch({ store, query, error }) {
+  async asyncData({ store, query, error }) {
     const err = await Util.fetchBooks(store, query)
     if (err) {
       error(err)
     }
+    return { books: store.getters['books/getBooks'] }
   }
 }
 </script>
