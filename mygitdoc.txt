@@ -1,5 +1,5 @@
 todo:
-	1, after upload photo, reset local photo value
+	1, after upload photo, reset local photo value -- done
 
 my git progress
 

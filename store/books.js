@@ -144,6 +144,7 @@ export const actions = {
       return
     }
 
+    console.log('fetch page')
     const page = await BookService.qlPage(this, pageid)
     if (page.statusCode) {
       return page
