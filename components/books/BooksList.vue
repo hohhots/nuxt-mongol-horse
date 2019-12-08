@@ -51,7 +51,7 @@ export default {
   },
   computed: {
     ...mapState({
-      totalBooks: state => state.books.TotalBooks
+      totalBooks: state => state.book.TotalBooks
     }),
     ...mapGetters({
       loggedIn: 'user/loggedIn'

@@ -53,7 +53,7 @@ export default {
   computed: {
     ...mapState({
       jwt: state => state.user.jwt,
-      newBookId: state => state.books.BookId
+      newBookId: state => state.book.BookId
     }),
     bookid() {
       return this.$route.params.bookid

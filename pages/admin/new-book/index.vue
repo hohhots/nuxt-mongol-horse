@@ -23,7 +23,7 @@ export default {
   mixins: [gv],
   computed: {
     ...mapState({
-      newBook: state => state.books.newBook
+      newBook: state => state.book.newBook
     })
   }
 }

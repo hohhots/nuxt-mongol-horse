@@ -81,7 +81,7 @@ export default {
   computed: {
     ...mapState({
       jwt: state => state.user.jwt,
-      newPageId: state => state.books.PageId
+      newPageId: state => state.book.PageId
     }),
     ...mapGetters({
       pageUrlId: 'books/getPageURLId'

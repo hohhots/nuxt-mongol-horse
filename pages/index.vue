@@ -7,6 +7,9 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
+import settings from '@/settings.js'
 import Util from '@/util/util'
 import BooksList from '@/components/books/BooksList'
 
@@ -20,12 +23,18 @@ export default {
     BooksList
   },
   watchQuery: ['page'],
-  async asyncData({ store, query, error }) {
-    const err = await Util.fetchBooks(store, query)
-    if (err) {
-      error(err)
+  computed: mapGetters({
+    books: 'book/getBooks'
+  }),
+  async fetch({ store, query, error }) {
+    try {
+      await Util.fetchBooks(store, query)
+    } catch (e) {
+      error({
+        statusCode: 503,
+        message: settings.mErrorMessages.fetchBooksError
+      })
     }
-    return { books: store.getters['books/getBooks'] }
   }
 }
 </script>

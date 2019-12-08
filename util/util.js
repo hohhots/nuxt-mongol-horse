@@ -8,19 +8,18 @@ const util = {
     }
     return p
   },
-  async fetchBooks(store, query) {
+  fetchBooks(store, query) {
     const itemsPerPage = settings.itemsPerPage
     const pageid = query.page ? parseInt(query.page) : 1
     const filter = ''
     const skip = (pageid - 1) * itemsPerPage
     const first = itemsPerPage
 
-    const books = await store.dispatch('books/fetchBooks', {
+    return store.dispatch('book/fetchBooks', {
       filter,
       skip,
       first
     })
-    return books
   }
 }
 

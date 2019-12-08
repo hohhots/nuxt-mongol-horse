@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 import settings from '@/settings.js'
 import common from '@/mixins/common.js'
 import MonImg from '@/components/mongol/MonImg'
@@ -50,6 +52,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      page: 'page/getPage'
+    }),
     imgSrc() {
       if (!this.page) {
         return ''
@@ -61,12 +66,29 @@ export default {
       return ''
     }
   },
-  async asyncData({ store, params, error }) {
-    const err = await store.dispatch('books/fetchPage', params.pageid)
-    if (err) {
-      error(err)
+  async fetch({ store, params, error }) {
+    let book = store.getters['book/getBook']
+    if (!book) {
+      try {
+        await store.dispatch('book/fetchBook')
+      } catch (e) {
+        console.log('error1 - ', e)
+        error({
+          statusCode: 503,
+          message: settings.mErrorMessages.fetchBookError
+        })
+      }
+      book = store.getters['book/getBook']
     }
-    return { page: store.getters['books/getPage'] }
+    try {
+      await store.dispatch('page/fetchPage', { book, pageid: params.pageid })
+    } catch (e) {
+      console.log('error - ', e)
+      error({
+        statusCode: 503,
+        message: settings.mErrorMessages.fetchPageError
+      })
+    }
   },
   mounted() {
     // display image after content mounted

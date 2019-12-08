@@ -20,7 +20,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      book: 'books/getBook'
+      book: 'book/getBook'
     })
   }
 }
