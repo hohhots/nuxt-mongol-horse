@@ -1,13 +1,13 @@
 <template>
   <div
     ref="container"
-    class="mv-container"
     :style="{ height: bodyContentHeight + 'px', width: rotatorHeight + 'px' }"
+    class="mv-container"
   >
     <div
       ref="rotator"
-      class="mv-rotator"
       :style="{ width: bodyContentHeight + 'px' }"
+      class="mv-rotator"
     >
       <div ref="mvbody" class="mv-body">
         <div class="slot-container">

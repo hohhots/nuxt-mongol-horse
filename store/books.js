@@ -162,12 +162,12 @@ export const actions = {
     }
   },
 
-  async newPage({ state, commit, dispatch }, newPage) {
-    const page = await BookService.qlNewPage(this, state.BookId, newPage)
-    if (page.statusCode) {
-      return page
+  async newPage({ state, commit, dispatch }, page) {
+    const newpage = await BookService.qlNewPage(this, state.BookId, page)
+    if (newpage.statusCode) {
+      return newpage
     } else {
-      commit('ADD_NEWPAGE', page)
+      commit('ADD_NEWPAGE', newpage)
     }
   },
 
@@ -254,7 +254,10 @@ export const actions = {
 
 export const getters = {
   getPage(state, getters, rootState, rootGetters) {
-    const page = { ...state.PagesCache[state.PageId] }
+    let page = { ...state.PagesCache[state.PageId] }
+    while (_.isEqual(page, {})) {
+      page = this.getPage()
+    }
     page.pageNum = page.pageNum + ''
     return page
   },

@@ -3,13 +3,13 @@
     <div class="sava-cancel">
       <mon-button type="submit" width="70px">{{ monText.save }}</mon-button>
 
-      <mon-button type="button" width="70px" @click="$emit('cancel')">{{
+      <mon-button @click="$emit('cancel')" type="button" width="70px">{{
         monText.cancel
       }}</mon-button>
     </div>
 
     <div v-if="isLastPage()" class="new-page">
-      <mon-button type="button" width="70px" @click="$emit('newPage')">
+      <mon-button @click="$emit('newPage')" type="button" width="70px">
         {{ monText.newPage }}
       </mon-button>
     </div>

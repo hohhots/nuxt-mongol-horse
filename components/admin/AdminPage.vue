@@ -11,15 +11,15 @@
         <input
           id="fileInput"
           ref="image"
+          @input="setImage"
           type="file"
           accept="image/*"
           capture="environment"
           class="fileinput"
-          @input="setImage"
         />
         <label for="fileInput" class="label">
           <figure>
-            <mon-svg focusable="false" :view-box.camel="'0 0 32 32'">
+            <mon-svg :view-box.camel="'0 0 32 32'" focusable="false">
               <path
                 style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;"
                 d="M 0 3 L 0 29 L 32 29 L 32 3 Z M 30 27 L 2 27 L 2 5 L 30 5 Z M 22 10 C 22 11.65625 23.34375 13 25 13 C 26.65625 13 28 11.65625 28 10 C 28 8.34375 26.65625 7 25 7 C 23.34375 7 22 8.34375 22 10 Z M 28 25 L 4 25 L 10 9 L 18 19 L 22 16 Z M 28 25 "
@@ -37,8 +37,8 @@
 
     <MonInputControl
       v-model="tempPage.content"
-      control-type="textarea"
       :placeholder="monText.content"
+      control-type="textarea"
       >{{ monText.content }}᠄</MonInputControl
     >
 
@@ -133,6 +133,8 @@ export default {
         return
       }
 
+      this.$nuxt.$loading.start()
+
       if (this.tempPage.id) {
         if (this.hasSamePageNum(this.tempPage.id, this.tempPage.pageNum)) {
           alert('Page number ' + this.tempPage.pageNum + ' already exist!')
@@ -159,21 +161,25 @@ export default {
         if (err) {
           this.$root.error(err)
         } else {
+          await this.uploadPhoto()
+          alert('OK! create new page completed!')
+
           this.$router.push(
             `/${settings.admin}/${this.bookid}/${this.pageUrlId}`
           )
         }
       }
+
+      this.$nuxt.$loading.finish()
     },
     async uploadPhoto() {
       if (!this.tempFile) {
         return
       }
-
-      const err = await this.$store.dispatch('books/uploadPhoto', this.tempFile)
+      const up = await this.$store.dispatch('books/uploadPhoto', this.tempFile)
       this.tempFile = ''
-      if (err) {
-        this.$root.error(err)
+      if (up) {
+        this.$root.error(up)
       }
     },
     onCancel() {

@@ -1,10 +1,10 @@
 <template>
   <button
-    class="button"
     :class="btnStyle"
     :style="'width: ' + width"
     v-bind="$attrs"
     v-on="$listeners"
+    class="button"
   >
     <slot />
   </button>

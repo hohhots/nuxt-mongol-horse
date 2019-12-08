@@ -18,8 +18,8 @@
 
     <MonInputControl
       v-model="newBook.preview"
-      control-type="textarea"
       :placeholder="monText.preview"
+      control-type="textarea"
       >{{ monText.preview }}᠄</MonInputControl
     >
 
