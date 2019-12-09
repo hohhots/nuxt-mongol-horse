@@ -72,7 +72,6 @@ export default {
       try {
         await store.dispatch('book/fetchBook')
       } catch (e) {
-        console.log('error1 - ', e)
         error({
           statusCode: 503,
           message: settings.mErrorMessages.fetchBookError
@@ -83,7 +82,6 @@ export default {
     try {
       await store.dispatch('page/fetchPage', { book, pageid: params.pageid })
     } catch (e) {
-      console.log('error - ', e)
       error({
         statusCode: 503,
         message: settings.mErrorMessages.fetchPageError

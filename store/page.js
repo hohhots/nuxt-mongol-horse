@@ -1,6 +1,5 @@
 import _ from 'lodash'
 
-// import settings from '@/settings.js'
 import PageService from '@/services/PageService.js'
 
 export const state = () => ({
@@ -111,9 +110,6 @@ export const actions = {
 export const getters = {
   getPage(state) {
     const page = { ...state.PagesCache[state.PageId] }
-    // while (_.isEqual(page, {})) {
-    //   page = this.getPage()
-    // }
     page.pageNum = page.pageNum + ''
     return page
   },

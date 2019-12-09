@@ -47,11 +47,18 @@ export default {
   },
   methods: {
     async onSubmit() {
-      await this.$store.dispatch('user/login', {
-        email: this.email,
-        password: this.password
-      })
-      this.redirect()
+      try {
+        await this.$store.dispatch('user/login', {
+          email: this.email,
+          password: this.password
+        })
+        this.redirect()
+      } catch (e) {
+        this.$root.error({
+          statusCode: 401,
+          message: settings.mErrorMessages.loginError
+        })
+      }
     },
     onCancel() {
       this.$router.push('/')
