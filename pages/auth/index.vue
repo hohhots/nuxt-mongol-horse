@@ -37,11 +37,9 @@ export default {
       password: ''
     }
   },
-  computed: {
-    ...mapGetters({
-      loggedIn: 'user/loggedIn'
-    })
-  },
+  computed: mapGetters({
+    loggedIn: 'user/loggedIn'
+  }),
   beforeMount() {
     this.redirect()
   },

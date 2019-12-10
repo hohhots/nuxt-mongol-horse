@@ -78,19 +78,25 @@ export default {
       }
 
       if (this.newBook.id) {
-        const err = await this.$store.dispatch('books/updateBook', this.newBook)
-        if (err) {
-          this.$root.error(err)
-        } else {
+        try {
+          await this.$store.dispatch('book/updateBook', this.newBook)
           alert('OK! This book update completed!')
-          // this.$router.push(`${this.baseUrl}/${this.newBookId}`)
+        } catch (e) {
+          this.$root.error({
+            statusCode: 503,
+            message: settings.mErrorMessages.updateBookError
+          })
         }
       } else {
-        const err = await this.$store.dispatch('books/newBook', this.newBook)
-        if (err) {
-          this.$root.error(err)
-        } else {
+        try {
+          await this.$store.dispatch('book/newBook', this.newBook)
+          alert('OK! This book create completed!')
           this.$router.push(`${this.baseUrl}/${this.newBookId}`)
+        } catch (e) {
+          this.$root.error({
+            statusCode: 503,
+            message: settings.mErrorMessages.newBookError
+          })
         }
       }
     },

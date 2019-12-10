@@ -24,11 +24,9 @@ import common from '@/mixins/common.js'
 
 export default {
   mixins: [common],
-  computed: {
-    ...mapGetters({
-      book: 'books/getBook'
-    })
-  },
+  computed: mapGetters({
+    book: 'book/getBook'
+  }),
   methods: {
     isLastPage() {
       if (this.$route.path === '/' + settings.auth) {

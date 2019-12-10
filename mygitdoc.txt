@@ -1,5 +1,6 @@
 todo:
 	1, after upload photo, reset local photo value -- done
+	2, autofill page number when create new page
 
 my git progress
 

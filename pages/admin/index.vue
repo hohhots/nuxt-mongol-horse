@@ -34,7 +34,7 @@ export default {
       return `/${settings.admin}/${settings.newBook}`
     },
     ...mapGetters({
-      books: 'books/getBooks'
+      books: 'book/getBooks'
     })
   },
   watchQuery: ['page'],

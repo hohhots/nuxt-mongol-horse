@@ -18,11 +18,9 @@ export default {
     Header,
     Footer
   },
-  computed: {
-    ...mapGetters({
-      loggedIn: 'user/loggedIn'
-    })
-  },
+  computed: mapGetters({
+    loggedIn: 'user/loggedIn'
+  }),
   beforeMount() {
     const admin = this.$route.path.indexOf('/' + settings.admin)
     if (!this.loggedIn && !admin) {

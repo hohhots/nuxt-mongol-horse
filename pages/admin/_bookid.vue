@@ -6,15 +6,27 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
+import settings from '@/settings.js'
 import Book from '@/components/books/Book'
 
 export default {
   components: {
     Book
   },
-  async asyncData({ store, params }) {
-    await store.dispatch('books/fetchBook', params.bookid)
-    return { book: store.getters['books/getBook'] }
+  computed: mapGetters({
+    book: 'book/getBook'
+  }),
+  async fetch({ store, params, error }) {
+    try {
+      await store.dispatch('book/fetchBook', params.bookid)
+    } catch (e) {
+      error({
+        statusCode: 503,
+        message: settings.mErrorMessages.fetchBookError
+      })
+    }
   }
 }
 </script>

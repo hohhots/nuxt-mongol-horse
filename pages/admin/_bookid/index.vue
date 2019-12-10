@@ -20,11 +20,9 @@ export default {
   components: {
     AdminNewBook
   },
-  computed: {
-    ...mapGetters({
-      book: 'books/getBook'
-    })
-  }
+  computed: mapGetters({
+    book: 'book/getBook'
+  })
 }
 </script>
 

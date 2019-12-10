@@ -52,8 +52,6 @@
 <script>
 import _ from 'lodash'
 
-import { mapState, mapGetters } from 'vuex'
-
 import settings from '@/settings.js'
 import common from '@/mixins/common.js'
 
@@ -79,13 +77,6 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      jwt: state => state.user.jwt,
-      newPageId: state => state.book.PageId
-    }),
-    ...mapGetters({
-      pageUrlId: 'books/getPageURLId'
-    }),
     tempPage() {
       return _.assign({}, this.page)
     },
@@ -141,15 +132,15 @@ export default {
           return
         }
 
-        const err = await this.$store.dispatch(
-          'books/updatePage',
-          this.tempPage
-        )
-        if (err.statusCode) {
-          this.$root.error(err)
-        } else {
+        try {
+          await this.$store.dispatch('page/updatePage', this.tempPage)
           await this.uploadPhoto()
-          alert('OK! update page completed!')
+          alert('OK! This page update completed!')
+        } catch (e) {
+          this.$root.error({
+            statusCode: 503,
+            message: settings.mErrorMessages.updatePageError
+          })
         }
       } else {
         if (this.pageNumExist(this.tempPage.pageNum)) {
@@ -157,16 +148,19 @@ export default {
           return
         }
 
-        const err = await this.$store.dispatch('books/newPage', this.tempPage)
-        if (err) {
-          this.$root.error(err)
-        } else {
+        try {
+          await this.$store.dispatch('page/newPage', {
+            bookid: this.bookid,
+            page: this.tempPage
+          })
           await this.uploadPhoto()
+          this.$router.push(`/${settings.admin}/${this.bookid}/${this.pageid}`)
           alert('OK! create new page completed!')
-
-          this.$router.push(
-            `/${settings.admin}/${this.bookid}/${this.pageUrlId}`
-          )
+        } catch (e) {
+          this.$root.error({
+            statusCode: 503,
+            message: settings.mErrorMessages.newPageError
+          })
         }
       }
 
@@ -176,10 +170,13 @@ export default {
       if (!this.tempFile) {
         return
       }
-      const up = await this.$store.dispatch('books/uploadPhoto', this.tempFile)
-      this.tempFile = ''
-      if (up) {
-        this.$root.error(up)
+      try {
+        await this.$store.dispatch('page/uploadPhoto', this.tempFile)
+      } catch (e) {
+        this.$root.error({
+          statusCode: 503,
+          message: settings.mErrorMessages.uploadPhotoError
+        })
       }
     },
     onCancel() {
@@ -218,7 +215,7 @@ export default {
       )
     },
     pageNumExist(pagenum) {
-      const pages = this.$store.getters['books/getBook'].pages
+      const pages = this.$store.getters['book/getBook'].pages
 
       if (_.find(pages, { pageNum: parseInt(pagenum) })) {
         return true
@@ -226,7 +223,7 @@ export default {
       return false
     },
     hasSamePageNum(pageid, pagenum) {
-      const pages = this.$store.getters['books/getBook'].pages
+      const pages = this.$store.getters['book/getBook'].pages
 
       if (
         _.find(pages, page => {

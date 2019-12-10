@@ -27,24 +27,26 @@ export const mutations = {
 
     state.PagesCache[newpage.id] = newpage
 
-    const pages = state.BooksCache[state.BookId].pages
+    const bookState = this.state.book
+    const pages = bookState.BooksCache[bookState.BookId].pages
     pages.push({
       id: newpage.id,
       pageNum: newpage.pageNum,
       __typename: 'Page'
     })
-    state.BooksCache[state.BookId].pages = _.sortBy(pages, ['pageNum'])
+    bookState.BooksCache[bookState.BookId].pages = _.sortBy(pages, ['pageNum'])
   },
   UPDATE_PAGE(state, page) {
+    const bookState = this.state.book
     const tp = { ...page }
     tp.pageNum = parseInt(tp.pageNum)
     _.assign(state.PagesCache[tp.id], tp)
 
-    const pages = state.BooksCache[state.BookId].pages
+    const pages = bookState.BooksCache[bookState.BookId].pages
     const upage = _.find(pages, { id: tp.id })
     upage.pageNum = tp.pageNum
 
-    state.BooksCache[state.BookId].pages = _.sortBy(pages, ['pageNum'])
+    bookState.BooksCache[bookState.BookId].pages = _.sortBy(pages, ['pageNum'])
   },
   SET_PAGE_IMAGE_TYPE(state, imageType) {
     state.PagesCache[state.PageId].imageType = imageType.split('/')[1]
@@ -55,55 +57,48 @@ export const mutations = {
 }
 
 export const actions = {
-  fetchPage({ state, commit, getters, dispatch }, bookPageid) {
+  fetchPage({ state, commit }, bookPageid) {
     const book = bookPageid.book
     const id = bookPageid.pageid
     const pageid = book.pages[id - 1].id
-    // commit('SET_PAGEID', pageid)
+    commit('SET_PAGEID', pageid) // must first set page id whether page cached
     if (state.PagesCache[pageid]) {
       return
     }
     console.log('fetch page')
     return PageService.getPage(this, pageid).then(({ data }) => {
       commit('SET_PAGE', data.page)
-      commit('SET_PAGEID', pageid)
     })
   },
 
-  async updatePage({ state, commit }, page) {
-    const err = await PageService.qlUpdatePage(this, page)
-    if (err) {
-      return err
-    } else {
+  updatePage({ commit }, page) {
+    return PageService.updatePage(this, page).then(() => {
       commit('UPDATE_PAGE', page)
-    }
+    })
   },
 
-  async newPage({ state, commit }, page) {
-    const newpage = await PageService.qlNewPage(this, state.BookId, page)
-    if (newpage.statusCode) {
-      return newpage
-    } else {
-      commit('ADD_NEWPAGE', newpage)
-    }
+  newPage({ commit }, newpage) {
+    return PageService.newPage(this, newpage.bookid, newpage.page).then(
+      ({ data }) => {
+        commit('ADD_NEWPAGE', data.newPage)
+      }
+    )
   },
 
-  async uploadPhoto({ state, commit }, image) {
+  uploadPhoto({ state, commit }, image) {
     if (!image) {
       return
     }
 
-    const err = await PageService.qlUploadPhoto(
+    const bookState = this.state.book
+    return PageService.uploadPhoto(
       this,
       image,
-      state.BookId,
+      bookState.BookId,
       state.PageId
-    )
-    if (err.statusCode) {
-      return err
-    } else {
+    ).then(() => {
       commit('SET_PAGE_IMAGE_TYPE', image.type)
-    }
+    })
   }
 }
 
@@ -112,18 +107,19 @@ export const getters = {
     const page = { ...state.PagesCache[state.PageId] }
     page.pageNum = page.pageNum + ''
     return page
-  },
-  getPageURLId(state) {
-    try {
-      const id =
-        _.findIndex(
-          _.sortBy(state.BooksCache[state.BookId].pages, ['pageNum']),
-          { id: state.PageId }
-        ) + 1
-
-      return id
-    } catch (e) {
-      return ''
-    }
   }
+  // getPageURLId(state) {
+  //   const bookState = this.state.book
+  //   try {
+  //     const id =
+  //       _.findIndex(
+  //         _.sortBy(bookState.BooksCache[bookState.BookId].pages, ['pageNum']),
+  //         { id: state.PageId }
+  //       ) + 1
+
+  //     return id
+  //   } catch (e) {
+  //     return ''
+  //   }
+  // }
 }

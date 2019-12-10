@@ -18,11 +18,9 @@ export default {
   components: {
     BookPreview
   },
-  computed: {
-    ...mapGetters({
-      book: 'book/getBook'
-    })
-  }
+  computed: mapGetters({
+    book: 'book/getBook'
+  })
 }
 </script>
 

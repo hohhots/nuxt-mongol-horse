@@ -20,7 +20,7 @@ export default {
   mixins: [common],
   computed: {
     ...mapState({
-      page: 'books/newPage'
+      page: 'page/newPage'
     })
   }
 }

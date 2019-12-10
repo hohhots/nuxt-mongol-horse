@@ -106,22 +106,16 @@ export const actions = {
     })
   },
 
-  async updateBook({ commit }, book) {
-    const err = await BookService.qlUpdateBook(this, book)
-    if (err.statusCode) {
-      return err
-    } else {
-      commit('UPDATE_BOOK', book)
-    }
+  updateBook({ commit }, book) {
+    return BookService.updateBook(this, book).then(({ data }) => {
+      commit('UPDATE_BOOK', data.updateBook)
+    })
   },
 
-  async newBook({ commit }, book) {
-    const newbook = await BookService.qlNewBook(this, book)
-    if (newbook.statusCode) {
-      return newbook
-    } else {
-      commit('ADD_NEWBOOK', newbook)
-    }
+  newBook({ commit }, book) {
+    return BookService.addNewBook(this, book).then(({ data }) => {
+      commit('ADD_NEWBOOK', data.newBook)
+    })
   },
 
   fetchBooks({ state, commit }, filters) {
