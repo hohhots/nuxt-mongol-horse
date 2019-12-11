@@ -103,8 +103,9 @@ export const actions = {
 }
 
 export const getters = {
-  getPage(state) {
-    const page = { ...state.PagesCache[state.PageId] }
+  // method style getter will disable cache
+  getPage: state => id => {
+    const page = { ...state.PagesCache[id] }
     page.pageNum = page.pageNum + ''
     return page
   }

@@ -25,8 +25,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 import settings from '@/settings.js'
 import common from '@/mixins/common.js'
 import MonImg from '@/components/mongol/MonImg'
@@ -46,15 +44,13 @@ export default {
   data: function() {
     return {
       // cmounted: after page rendered flag, make sure run on browser
+      page: this.$store.getters['page/getPage'](this.$store.state.page.PageId),
       cmounted: false,
       displayText: true,
       displayImage: false
     }
   },
   computed: {
-    ...mapGetters({
-      page: 'page/getPage'
-    }),
     imgSrc() {
       if (!this.page) {
         return ''
