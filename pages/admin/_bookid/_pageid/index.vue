@@ -3,8 +3,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 import settings from '@/settings.js'
 import common from '@/mixins/common.js'
 
@@ -20,9 +18,11 @@ export default {
     AdminPage
   },
   mixins: [common],
-  computed: mapGetters({
-    page: 'page/getPage'
-  }),
+  data: function() {
+    return {
+      page: this.$store.getters['page/getPage'](this.$store.state.page.PageId)
+    }
+  },
   async fetch({ store, params, error }) {
     let book = store.getters['book/getBook']
     if (!book) {

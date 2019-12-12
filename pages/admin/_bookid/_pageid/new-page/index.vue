@@ -4,8 +4,8 @@
 
 <script>
 import { mapState } from 'vuex'
-import common from '@/mixins/common.js'
 
+import common from '@/mixins/common.js'
 import AdminPage from '@/components/admin/AdminPage'
 
 export default {
@@ -18,9 +18,15 @@ export default {
     AdminPage
   },
   mixins: [common],
+  data: function() {
+    return {
+      image: '',
+      tempFile: ''
+    }
+  },
   computed: {
     ...mapState({
-      page: 'page/newPage'
+      page: state => state.page.newPage
     })
   }
 }

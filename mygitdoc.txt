@@ -1,6 +1,7 @@
 todo:
 	1, after upload photo, reset local photo value -- done
-	2, autofill page number when create new page
+	2, autofill page number when create new page : AdminPage.vue
+	3, reset content and page number when cancel update page : AdminPage.vue
 
 my git progress
 

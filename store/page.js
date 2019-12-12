@@ -7,8 +7,6 @@ export const state = () => ({
   PageId: '',
   // id: page
   PagesCache: {},
-
-  // model for page
   newPage: {
     pageNum: '',
     content: ''

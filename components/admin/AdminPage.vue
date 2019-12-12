@@ -109,13 +109,17 @@ export default {
       this.tempFile = ''
     },
     async onSubmit() {
+      if (!this.pageEdited()) {
+        return
+      }
+
       const ask = confirm('Are you sure to save changes?')
       if (!ask) {
         return
       }
 
       if (!this.tempPage.pageNum || !this.tempPage.content) {
-        alert('Page number or conten is empty!')
+        alert('Page number or content is empty!')
         return
       }
 
@@ -124,13 +128,13 @@ export default {
         return
       }
 
-      this.$nuxt.$loading.start()
-
-      if (this.tempPage.id) {
+      if (this.page.id) {
         if (this.hasSamePageNum(this.tempPage.id, this.tempPage.pageNum)) {
           alert('Page number ' + this.tempPage.pageNum + ' already exist!')
           return
         }
+
+        this.$nuxt.$loading.start()
 
         try {
           await this.$store.dispatch('page/updatePage', this.tempPage)
@@ -147,6 +151,8 @@ export default {
           alert('Page number ' + this.tempPage.pageNum + ' already exist!')
           return
         }
+
+        this.$nuxt.$loading.start()
 
         try {
           await this.$store.dispatch('page/newPage', {
@@ -180,13 +186,21 @@ export default {
       }
     },
     onCancel() {
-      if (!this.editExistingPage) {
+      if (this.pageEdited() || this.tempFile) {
         const ask = confirm('Are you sure to cancel changes?')
-        if (ask) {
-          this.$router.push(
-            `/${settings.admin}/${this.bookid}/${this.pageid - 1}`
-          )
+        if (!ask) {
+          return
+        } else if (this.page.id) {
+          console.log(this.tempPage)
+          location.reload()
+          return
         }
+      }
+
+      if (!this.page.id) {
+        this.$router.push(
+          `/${settings.admin}/${this.bookid}/${this.pageid - 1}`
+        )
       }
     },
     setImage() {
@@ -233,6 +247,12 @@ export default {
         return true
       }
       return false
+    },
+    pageEdited() {
+      if (!this.tempFile && _.isEqual(this.page, this.tempPage)) {
+        return false
+      }
+      return true
     }
   }
 }
