@@ -103,7 +103,11 @@ export default {
       this.initVar()
     }
   },
-
+  beforeMount() {
+    if (!this.page.id) {
+      this.tempPage.pageNum = this.pageid
+    }
+  },
   methods: {
     initVar() {
       this.image = ''
