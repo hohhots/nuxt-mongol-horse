@@ -103,10 +103,13 @@ export default {
       this.initVar()
     }
   },
+
   methods: {
     initVar() {
       this.image = ''
       this.tempFile = ''
+      this.tempPage.pageNum = this.page.pageNum
+      this.tempPage.content = this.page.content
     },
     async onSubmit() {
       if (!this.pageEdited()) {
@@ -189,10 +192,9 @@ export default {
       if (this.pageEdited() || this.tempFile) {
         const ask = confirm('Are you sure to cancel changes?')
         if (!ask) {
-          return
         } else if (this.page.id) {
-          console.log(this.tempPage)
-          location.reload()
+          this.initVar()
+          this.$forceUpdate()
           return
         }
       }
