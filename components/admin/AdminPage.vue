@@ -105,7 +105,8 @@ export default {
   },
   beforeMount() {
     if (!this.page.id) {
-      this.tempPage.pageNum = this.pageid
+      const page = _.last(this.$store.getters['book/getBook'].pages)
+      this.tempPage.pageNum = page.pageNum + 1 + ''
     }
   },
   methods: {
