@@ -164,8 +164,11 @@ export default {
           const increasePages = _.reduce(
             pages,
             (result, value, key) => {
+              const page = {}
               if (value.pageNum >= tempPageNum) {
-                result.push(value.id)
+                page.id = value.id
+                page.pageNum = value.pageNum + 1
+                result.push(page)
               }
               return result
             },
@@ -177,7 +180,7 @@ export default {
             await this.$store.dispatch('page/newPage', {
               bookid: this.bookid,
               page: this.tempPage,
-              pagesid: increasePages
+              updatePages: increasePages
             })
             await this.uploadPhoto()
             this.$router.push(

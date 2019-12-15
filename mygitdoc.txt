@@ -2,7 +2,7 @@ todo:
 	1, after upload photo, reset local photo value -- done
 	2, autofill page number when create new page : AdminPage.vue -- done
 	3, reset content and page number when cancel update page : AdminPage.vue -- done
-	4, insert page with any page number : adminPage.vue
+	4, insert page with any page number : adminPage.vue -- done
 
 my git progress
 

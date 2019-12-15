@@ -30,7 +30,7 @@ export default {
       }
     })
   },
-  newPage(ob, bookid, page, pagesid) {
+  newPage(ob, bookid, page, updatePages) {
     setApolloCli(ob)
     return apolloCli.mutate({
       mutation: newPage,
@@ -38,7 +38,7 @@ export default {
         pageNum: parseInt(page.pageNum),
         content: page.content,
         bookId: bookid,
-        pagesId: pagesid
+        updatePages
       }
       // update: (store, { data: { newPage } }) => {
       //   console.log(

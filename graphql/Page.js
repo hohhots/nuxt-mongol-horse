@@ -19,13 +19,13 @@ export const newPage = gql`
     $pageNum: Int!
     $content: String!
     $bookId: String!
-    $pagesId: [String]!
+    $updatePages: [Object]!
   ) {
     newPage(
       pageNum: $pageNum
       content: $content
       bookId: $bookId
-      pagesId: $pagesId
+      updatePages: $updatePages
     ) {
       id
       imageType
