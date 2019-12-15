@@ -184,7 +184,9 @@ export default {
             })
             await this.uploadPhoto()
             this.$router.push(
-              `/${settings.admin}/${this.bookid}/${this.pageid}`
+              `/${settings.admin}/${this.bookid}/${this.getPageUrlId(
+                this.tempPage
+              )}`
             )
             alert('OK! create new page completed!')
           } catch (e) {
@@ -296,6 +298,16 @@ export default {
         return false
       }
       return true
+    },
+    getPageUrlId(page) {
+      const pages = this.$store.getters['book/getBook'].pages
+      let index = -1
+      if (page.id) {
+        index = _.findIndex(pages, { id: page.id }) + 1
+      } else if (page.pageNum) {
+        index = _.findIndex(pages, { pageNum: parseInt(page.pageNum) }) + 1
+      }
+      return index
     }
   }
 }
