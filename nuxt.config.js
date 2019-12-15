@@ -12,7 +12,7 @@ export default {
    */
   head: {
     titleTemplate:
-      '%s - Archives Of Books Of Mongol Horse In Traditional Mongolian',
+      '%s - Traditional Mongolian Archives Of Books Of Mongol Horse',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
