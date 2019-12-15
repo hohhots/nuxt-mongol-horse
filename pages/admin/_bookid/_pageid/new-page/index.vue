@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import _ from 'lodash'
 
 import common from '@/mixins/common.js'
 import AdminPage from '@/components/admin/AdminPage'
@@ -20,14 +20,16 @@ export default {
   mixins: [common],
   data: function() {
     return {
-      image: '',
-      tempFile: ''
+      page: this.setNewPage()
     }
   },
-  computed: {
-    ...mapState({
-      page: state => state.page.newPage
-    })
+  methods: {
+    setNewPage() {
+      const store = this.$store
+      return _.assign({}, store.state.page.newPage, {
+        pageNum: _.last(store.getters['book/getBook'].pages).pageNum + 1 + ''
+      })
+    }
   }
 }
 </script>

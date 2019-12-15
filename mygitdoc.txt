@@ -2,6 +2,7 @@ todo:
 	1, after upload photo, reset local photo value -- done
 	2, autofill page number when create new page : AdminPage.vue -- done
 	3, reset content and page number when cancel update page : AdminPage.vue -- done
+	4, insert page with any page number : adminPage.vue
 
 my git progress
 
@@ -63,3 +64,32 @@ step 4: Push to orign
 
 --- Take the client branch, figure out the patches since it diverged from the server branch, and replay these patches in the client branch as if it was based directly off the master branch instead.
 	git rebase --onto master server client
+
+-------------------- blue print ---------------------
+	---insert new page
+
+		*done
+    1, if page number don't exist in local book's pages array
+       a, push new page to server
+       b, then insert server response to local book's pages array, then sort the array
+
+		*
+    2, if page number exist in pages array
+       a, get all pages has page number equal or larger than current page number then increase every page number
+       b, push this new page and previous get pages id array into server to increase by one
+       c, insert new created page responsed from server, then sort book's pages array.
+
+
+---update current page number
+    
+		1, if page number not changed
+       a, just update local current page
+       b, push modified current page to server
+    
+		2, if page number changed,
+       a, get all pages from next page of current page to last page
+			 b, delete current page from all pages array and store in a variable
+			 c, decrease all page number by one those in previous get pages array
+  		 c, push current page and previous get pages id array into server to decrease by one
+
+			 d, call create new page use current page

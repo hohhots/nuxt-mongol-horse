@@ -51,6 +51,18 @@ export const mutations = {
   },
   SET_BOOK_PAGES(state, pages) {
     state.BooksCache[state.BookId].pages = pages
+  },
+  INCREASE_PAGE_NUM(state, pageid) {
+    if (state.PagesCache[pageid]) {
+      state.PagesCache[pageid].pageNum += 1
+    }
+
+    const bookState = this.state.book
+    const pages = bookState.BooksCache[bookState.BookId].pages
+
+    _.find(pages, page => {
+      return page.id === pageid
+    }).pageNum += 1
   }
 }
 
@@ -76,11 +88,14 @@ export const actions = {
   },
 
   newPage({ commit }, newpage) {
-    return PageService.newPage(this, newpage.bookid, newpage.page).then(
-      ({ data }) => {
-        commit('ADD_NEWPAGE', data.newPage)
-      }
-    )
+    return PageService.newPage(
+      this,
+      newpage.bookid,
+      newpage.page,
+      newpage.pagesid
+    ).then(({ data }) => {
+      commit('ADD_NEWPAGE', data.newPage)
+    })
   },
 
   uploadPhoto({ state, commit }, image) {
@@ -96,6 +111,12 @@ export const actions = {
       state.PageId
     ).then(() => {
       commit('SET_PAGE_IMAGE_TYPE', image.type)
+    })
+  },
+
+  increasePageNum({ commit }, pagesId) {
+    _.map(pagesId, pageid => {
+      commit('INCREASE_PAGE_NUM', pageid)
     })
   }
 }

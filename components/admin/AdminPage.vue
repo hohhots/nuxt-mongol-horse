@@ -103,12 +103,6 @@ export default {
       this.initVar()
     }
   },
-  beforeMount() {
-    if (!this.page.id) {
-      const page = _.last(this.$store.getters['book/getBook'].pages)
-      this.tempPage.pageNum = page.pageNum + 1 + ''
-    }
-  },
   methods: {
     initVar() {
       this.image = ''
@@ -126,19 +120,22 @@ export default {
         return
       }
 
-      if (!this.tempPage.pageNum || !this.tempPage.content) {
+      const tempPageNum = this.tempPage.pageNum
+      const tempPageContent = this.tempPage.content
+
+      if (!tempPageNum || !tempPageContent) {
         alert('Page number or content is empty!')
         return
       }
 
-      if (!/^([1-9])([0-9]*)$/.test(this.tempPage.pageNum)) {
+      if (!/^([1-9])([0-9]*)$/.test(tempPageNum)) {
         alert('page number must be number!')
         return
       }
-
+      // update existing page
       if (this.page.id) {
-        if (this.hasSamePageNum(this.tempPage.id, this.tempPage.pageNum)) {
-          alert('Page number ' + this.tempPage.pageNum + ' already exist!')
+        if (this.hasSamePageNum(this.tempPage.id, tempPageNum)) {
+          alert('Page number ' + tempPageNum + ' already exist!')
           return
         }
 
@@ -154,12 +151,47 @@ export default {
             message: settings.mErrorMessages.updatePageError
           })
         }
-      } else {
-        if (this.pageNumExist(this.tempPage.pageNum)) {
-          alert('Page number ' + this.tempPage.pageNum + ' already exist!')
-          return
-        }
+        // insert new page
+      } else if (this.pageNumExist(tempPageNum)) {
+        if (
+          confirm(
+            `Page number ${tempPageNum} already exist! Do you want to continue?`
+          )
+        ) {
+          this.$nuxt.$loading.start()
 
+          const pages = this.$store.getters['book/getBook'].pages
+          const increasePages = _.reduce(
+            pages,
+            (result, value, key) => {
+              if (value.pageNum >= tempPageNum) {
+                result.push(value.id)
+              }
+              return result
+            },
+            []
+          )
+          this.$store.dispatch('page/increasePageNum', increasePages)
+
+          try {
+            await this.$store.dispatch('page/newPage', {
+              bookid: this.bookid,
+              page: this.tempPage,
+              pagesid: increasePages
+            })
+            await this.uploadPhoto()
+            this.$router.push(
+              `/${settings.admin}/${this.bookid}/${this.pageid}`
+            )
+            alert('OK! create new page completed!')
+          } catch (e) {
+            this.$root.error({
+              statusCode: 503,
+              message: settings.mErrorMessages.newPageError
+            })
+          }
+        }
+      } else {
         this.$nuxt.$loading.start()
 
         try {
@@ -243,6 +275,7 @@ export default {
       }
       return false
     },
+    // check if other page has same page number
     hasSamePageNum(pageid, pagenum) {
       const pages = this.$store.getters['book/getBook'].pages
 

@@ -30,14 +30,15 @@ export default {
       }
     })
   },
-  newPage(ob, bookid, page) {
+  newPage(ob, bookid, page, pagesid) {
     setApolloCli(ob)
     return apolloCli.mutate({
       mutation: newPage,
       variables: {
         pageNum: parseInt(page.pageNum),
         content: page.content,
-        bookId: bookid
+        bookId: bookid,
+        pagesId: pagesid
       }
       // update: (store, { data: { newPage } }) => {
       //   console.log(
