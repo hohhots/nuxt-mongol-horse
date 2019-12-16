@@ -202,10 +202,15 @@ export default {
         try {
           await this.$store.dispatch('page/newPage', {
             bookid: this.bookid,
-            page: this.tempPage
+            page: this.tempPage,
+            updatePages: []
           })
           await this.uploadPhoto()
-          this.$router.push(`/${settings.admin}/${this.bookid}/${this.pageid}`)
+          this.$router.push(
+            `/${settings.admin}/${this.bookid}/${this.getPageUrlId(
+              this.tempPage
+            )}`
+          )
           alert('OK! create new page completed!')
         } catch (e) {
           this.$root.error({
