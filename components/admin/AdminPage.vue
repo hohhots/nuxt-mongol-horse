@@ -115,13 +115,10 @@ export default {
         return
       }
 
-      const ask = confirm('Are you sure to save changes?')
-      if (!ask) {
-        return
-      }
-
       const tempPageNum = this.tempPage.pageNum
       const tempPageContent = this.tempPage.content
+      const pages = this.$store.getters['book/getBook'].pages
+      const pageNum = this.page.pageNum
 
       if (!tempPageNum || !tempPageContent) {
         alert('Page number or content is empty!')
@@ -129,27 +126,78 @@ export default {
       }
 
       if (!/^([1-9])([0-9]*)$/.test(tempPageNum)) {
-        alert('page number must be number!')
+        alert('page number must be positive number!')
         return
       }
+
+      if (!confirm('Are you sure to save changes?')) {
+        return
+      }
+
       // update existing page
       if (this.page.id) {
-        if (this.hasSamePageNum(this.tempPage.id, tempPageNum)) {
-          alert('Page number ' + tempPageNum + ' already exist!')
-          return
-        }
+        if (pageNum !== tempPageNum) {
+          if (
+            confirm(
+              `Page number ${tempPageNum} already exist! Do you want to continue?`
+            )
+          ) {
+            this.$nuxt.$loading.start()
 
-        this.$nuxt.$loading.start()
+            const increasePages = _.reduce(
+              pages,
+              (result, value, key) => {
+                if (pageNum < tempPageNum) {
+                  if (pageNum < value.pageNum && value.pageNum <= tempPageNum) {
+                    result.push({ id: value.id, pageNum: value.pageNum - 1 })
+                  }
+                }
+                if (pageNum > tempPageNum) {
+                  if (tempPageNum <= value.pageNum && value.pageNum < pageNum) {
+                    result.push({ id: value.id, pageNum: value.pageNum + 1 })
+                  }
+                }
+                return result
+              },
+              []
+            )
 
-        try {
-          await this.$store.dispatch('page/updatePage', this.tempPage)
-          await this.uploadPhoto()
-          alert('OK! This page update completed!')
-        } catch (e) {
-          this.$root.error({
-            statusCode: 503,
-            message: settings.mErrorMessages.updatePageError
-          })
+            try {
+              await this.$store.dispatch('page/updatePage', {
+                page: this.tempPage,
+                updatePages: increasePages
+              })
+              await this.uploadPhoto()
+              this.$store.dispatch('page/updatePagesNum', increasePages)
+              this.$router.push(
+                `/${settings.admin}/${this.bookid}/${this.getPageUrlId(
+                  this.tempPage
+                )}`
+              )
+              alert('OK! This page update completed!')
+            } catch (e) {
+              this.$root.error({
+                statusCode: 503,
+                message: settings.mErrorMessages.updatePageError
+              })
+            }
+          }
+        } else {
+          this.$nuxt.$loading.start()
+
+          try {
+            await this.$store.dispatch('page/updatePage', {
+              page: this.tempPage,
+              updatePages: []
+            })
+            await this.uploadPhoto()
+            alert('OK! This page update completed!')
+          } catch (e) {
+            this.$root.error({
+              statusCode: 503,
+              message: settings.mErrorMessages.updatePageError
+            })
+          }
         }
         // insert new page
       } else if (this.pageNumExist(tempPageNum)) {
@@ -160,21 +208,16 @@ export default {
         ) {
           this.$nuxt.$loading.start()
 
-          const pages = this.$store.getters['book/getBook'].pages
           const increasePages = _.reduce(
             pages,
             (result, value, key) => {
-              const page = {}
               if (value.pageNum >= tempPageNum) {
-                page.id = value.id
-                page.pageNum = value.pageNum + 1
-                result.push(page)
+                result.push({ id: value.id, pageNum: value.pageNum + 1 })
               }
               return result
             },
             []
           )
-          this.$store.dispatch('page/increasePageNum', increasePages)
 
           try {
             await this.$store.dispatch('page/newPage', {
@@ -183,6 +226,7 @@ export default {
               updatePages: increasePages
             })
             await this.uploadPhoto()
+            this.$store.dispatch('page/updatePagesNum', increasePages)
             this.$router.push(
               `/${settings.admin}/${this.bookid}/${this.getPageUrlId(
                 this.tempPage

@@ -39,8 +39,18 @@ export const newPage = gql`
 `
 
 export const updatePage = gql`
-  mutation updatePage($pageNum: Int!, $content: String!, $pageId: String!) {
-    updatePage(pageNum: $pageNum, content: $content, pageId: $pageId) {
+  mutation updatePage(
+    $pageNum: Int!
+    $content: String!
+    $pageId: String!
+    $updatePages: [Object]!
+  ) {
+    updatePage(
+      pageNum: $pageNum
+      content: $content
+      pageId: $pageId
+      updatePages: $updatePages
+    ) {
       id
     }
   }

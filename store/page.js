@@ -52,7 +52,7 @@ export const mutations = {
   SET_BOOK_PAGES(state, pages) {
     state.BooksCache[state.BookId].pages = pages
   },
-  INCREASE_PAGE_NUM(state, upage) {
+  UPDATE_PAGE_NUM(state, upage) {
     if (state.PagesCache[upage.id]) {
       state.PagesCache[upage.id].pageNum = upage.pageNum
     }
@@ -63,6 +63,8 @@ export const mutations = {
     _.find(pages, page => {
       return page.id === upage.id
     }).pageNum = upage.pageNum
+
+    bookState.BooksCache[bookState.BookId].pages = _.sortBy(pages, ['pageNum'])
   }
 }
 
@@ -81,10 +83,12 @@ export const actions = {
     })
   },
 
-  updatePage({ commit }, page) {
-    return PageService.updatePage(this, page).then(() => {
-      commit('UPDATE_PAGE', page)
-    })
+  updatePage({ commit }, upage) {
+    return PageService.updatePage(this, upage.page, upage.updatePages).then(
+      () => {
+        commit('UPDATE_PAGE', upage.page)
+      }
+    )
   },
 
   newPage({ commit }, newpage) {
@@ -114,9 +118,9 @@ export const actions = {
     })
   },
 
-  increasePageNum({ commit }, pages) {
+  updatePagesNum({ commit }, pages) {
     _.map(pages, page => {
-      commit('INCREASE_PAGE_NUM', page)
+      commit('UPDATE_PAGE_NUM', page)
     })
   }
 }

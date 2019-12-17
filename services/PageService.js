@@ -19,14 +19,15 @@ export default {
       }
     })
   },
-  updatePage(ob, page) {
+  updatePage(ob, upage, updatePages) {
     setApolloCli(ob)
     return apolloCli.mutate({
       mutation: updatePage,
       variables: {
-        pageNum: parseInt(page.pageNum),
-        content: page.content,
-        pageId: page.id
+        pageNum: parseInt(upage.pageNum),
+        content: upage.content,
+        pageId: upage.id,
+        updatePages
       }
     })
   },
