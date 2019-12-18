@@ -110,7 +110,7 @@ export default {
       this.tempPage.pageNum = this.page.pageNum
       this.tempPage.content = this.page.content
     },
-    async onSubmit() {
+    onSubmit() {
       if (!this.pageEdited()) {
         return
       }
@@ -138,8 +138,6 @@ export default {
       if (this.page.id) {
         if (pageNum !== tempPageNum) {
           if (confirm(`Page number changed! Do you want to continue?`)) {
-            this.$nuxt.$loading.start()
-
             const increasePages = _.reduce(
               pages,
               (result, value, key) => {
@@ -158,42 +156,10 @@ export default {
               []
             )
 
-            try {
-              await this.$store.dispatch('page/updatePage', {
-                page: this.tempPage,
-                updatePages: increasePages
-              })
-              await this.uploadPhoto()
-              this.$store.dispatch('page/updatePagesNum', increasePages)
-              this.$router.push(
-                `/${settings.admin}/${this.bookid}/${this.getPageUrlId(
-                  this.tempPage
-                )}`
-              )
-              alert('OK! This page update completed!')
-            } catch (e) {
-              this.$root.error({
-                statusCode: 503,
-                message: settings.mErrorMessages.updatePageError
-              })
-            }
+            this.updatePage(increasePages)
           }
         } else {
-          this.$nuxt.$loading.start()
-
-          try {
-            await this.$store.dispatch('page/updatePage', {
-              page: this.tempPage,
-              updatePages: []
-            })
-            await this.uploadPhoto()
-            alert('OK! This page update completed!')
-          } catch (e) {
-            this.$root.error({
-              statusCode: 503,
-              message: settings.mErrorMessages.updatePageError
-            })
-          }
+          this.updatePage()
         }
         // insert new page
       } else if (this.pageNumExist(tempPageNum)) {
@@ -202,8 +168,6 @@ export default {
             `Page number ${tempPageNum} already exist! Do you want to continue?`
           )
         ) {
-          this.$nuxt.$loading.start()
-
           const increasePages = _.reduce(
             pages,
             (result, value, key) => {
@@ -215,52 +179,66 @@ export default {
             []
           )
 
-          try {
-            await this.$store.dispatch('page/newPage', {
-              bookid: this.bookid,
-              page: this.tempPage,
-              updatePages: increasePages
-            })
-            await this.uploadPhoto()
-            this.$store.dispatch('page/updatePagesNum', increasePages)
-            this.$router.push(
-              `/${settings.admin}/${this.bookid}/${this.getPageUrlId(
-                this.tempPage
-              )}`
-            )
-            alert('OK! create new page completed!')
-          } catch (e) {
-            this.$root.error({
-              statusCode: 503,
-              message: settings.mErrorMessages.newPageError
-            })
-          }
+          this.newPage(increasePages)
         }
       } else {
-        this.$nuxt.$loading.start()
-
-        try {
-          await this.$store.dispatch('page/newPage', {
-            bookid: this.bookid,
-            page: this.tempPage,
-            updatePages: []
-          })
-          await this.uploadPhoto()
-          this.$router.push(
-            `/${settings.admin}/${this.bookid}/${this.getPageUrlId(
-              this.tempPage
-            )}`
-          )
-          alert('OK! create new page completed!')
-        } catch (e) {
-          this.$root.error({
-            statusCode: 503,
-            message: settings.mErrorMessages.newPageError
-          })
-        }
+        this.newPage()
       }
 
       this.$nuxt.$loading.finish()
+    },
+    async updatePage(increasePages) {
+      this.$nuxt.$loading.start()
+
+      increasePages = increasePages || []
+      try {
+        await this.$store.dispatch('page/updatePage', {
+          page: this.tempPage,
+          updatePages: increasePages
+        })
+        await this.uploadPhoto()
+        if (increasePages.length) {
+          this.$store.dispatch('page/updatePagesNum', increasePages)
+        }
+        this.$router.push(
+          `/${settings.admin}/${this.bookid}/${this.getPageUrlId(
+            this.tempPage
+          )}`
+        )
+        alert('OK! This page update completed!')
+      } catch (e) {
+        this.$root.error({
+          statusCode: 503,
+          message: settings.mErrorMessages.updatePageError
+        })
+      }
+    },
+    async newPage(increasePages) {
+      this.$nuxt.$loading.start()
+
+      increasePages = increasePages || []
+      try {
+        await this.$store.dispatch('page/newPage', {
+          bookid: this.bookid,
+          page: this.tempPage,
+          updatePages: increasePages
+        })
+        await this.uploadPhoto()
+        if (increasePages.length) {
+          this.$store.dispatch('page/updatePagesNum', increasePages)
+        }
+        this.$router.push(
+          `/${settings.admin}/${this.bookid}/${this.getPageUrlId(
+            this.tempPage
+          )}`
+        )
+        alert('OK! create new page completed!')
+      } catch (e) {
+        this.$root.error({
+          statusCode: 503,
+          message: settings.mErrorMessages.newPageError
+        })
+      }
     },
     async uploadPhoto() {
       if (!this.tempFile) {
