@@ -115,10 +115,10 @@ export default {
         return
       }
 
-      const tempPageNum = this.tempPage.pageNum
+      const tempPageNum = parseInt(this.tempPage.pageNum)
       const tempPageContent = this.tempPage.content
       const pages = this.$store.getters['book/getBook'].pages
-      const pageNum = this.page.pageNum
+      const pageNum = parseInt(this.page.pageNum)
 
       if (!tempPageNum || !tempPageContent) {
         alert('Page number or content is empty!')
@@ -137,11 +137,7 @@ export default {
       // update existing page
       if (this.page.id) {
         if (pageNum !== tempPageNum) {
-          if (
-            confirm(
-              `Page number ${tempPageNum} already exist! Do you want to continue?`
-            )
-          ) {
+          if (confirm(`Page number changed! Do you want to continue?`)) {
             this.$nuxt.$loading.start()
 
             const increasePages = _.reduce(
