@@ -7,6 +7,9 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
+import settings from '@/settings.js'
 import Header from '@/components/common/Header'
 import Footer from '@/components/common/Footer'
 
@@ -14,6 +17,17 @@ export default {
   components: {
     Header,
     Footer
+  },
+  computed: mapGetters({
+    loggedIn: 'user/loggedIn'
+  }),
+  beforeMount() {
+    console.log('admin layout')
+    this.$store.dispatch('user/initLogin')
+
+    if (!this.loggedIn) {
+      this.$router.push('/' + settings.auth)
+    }
   }
 }
 </script>

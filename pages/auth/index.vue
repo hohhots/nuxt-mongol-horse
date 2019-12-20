@@ -18,7 +18,7 @@
 import { mapGetters } from 'vuex'
 
 import settings from '@/settings.js'
-import gVariables from '@/mixins/common.js'
+import gv from '@/mixins/common.js'
 import AdminSaveCancel from '@/components/admin/AdminSaveCancel'
 
 export default {
@@ -30,7 +30,7 @@ export default {
   components: {
     AdminSaveCancel
   },
-  mixins: [gVariables],
+  mixins: [gv],
   data() {
     return {
       email: '',

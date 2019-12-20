@@ -12,6 +12,7 @@ import { mapGetters } from 'vuex'
 import AdminNewBook from '@/components/admin/AdminNewBook'
 
 export default {
+  layout: 'admin',
   head() {
     return {
       title: 'Admin Book Preview'

@@ -16,8 +16,10 @@ export const mutations = {
     this.$apolloHelpers.onLogin(state.jwt)
   },
   LOGOUT(state) {
-    localStorage.removeItem('user')
-    location.reload()
+    if (localStorage.getItem('user')) {
+      localStorage.removeItem('user')
+      location.reload()
+    }
   }
 }
 

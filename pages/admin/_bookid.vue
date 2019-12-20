@@ -12,6 +12,7 @@ import settings from '@/settings.js'
 import Book from '@/components/books/Book'
 
 export default {
+  layout: 'admin',
   components: {
     Book
   },

@@ -1,13 +1,15 @@
 <template>
   <div>
-    <section class="new-book">
-      <nuxt-link :to="newBookUrl">
-        <mon-button>{{ monText.newBook }}</mon-button>
-      </nuxt-link>
-    </section>
-    <section class="existing-books">
-      <BooksList :books="books" />
-    </section>
+    <client-only>
+      <section class="new-book">
+        <nuxt-link :to="newBookUrl">
+          <mon-button>{{ monText.newBook }}</mon-button>
+        </nuxt-link>
+      </section>
+      <section class="existing-books">
+        <BooksList :books="books" />
+      </section>
+    </client-only>
   </div>
 </template>
 
@@ -20,6 +22,7 @@ import gv from '@/mixins/common.js'
 import BooksList from '@/components/books/BooksList'
 
 export default {
+  layout: 'admin',
   head() {
     return {
       title: 'Admin All Books'
@@ -39,9 +42,13 @@ export default {
   },
   watchQuery: ['page'],
   async fetch({ store, query, error }) {
-    const err = await Util.fetchBooks(store, query)
-    if (err) {
-      error(err)
+    try {
+      await Util.fetchBooks(store, query)
+    } catch (e) {
+      error({
+        statusCode: 503,
+        message: settings.mErrorMessages.fetchBooksError
+      })
     }
   }
 }
