@@ -29,6 +29,7 @@ export default {
   monText: {
     firstPage: 'ᠲᠡᠷᠢᠭᠦᠨ ᠨᠢᠭᠤᠷ',
     login: 'ᠡᠷᠬᠡᠯᠡᠭᠴᠢ',
+    logout: 'ᠠᠮᠠᠷᠠᠶ᠎ᠠ',
     email: 'ᠴᠠᠬᠢᠳᠠᠯ',
     name: '',
     password: 'ᠬᠡᠷᠡᠴᠢ',
