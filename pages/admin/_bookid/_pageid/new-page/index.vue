@@ -27,8 +27,10 @@ export default {
   methods: {
     setNewPage() {
       const store = this.$store
+      const page = _.last(store.getters['book/getBook'].pages)
+      const pageNum = page ? page.pageNum : 0
       return _.assign({}, store.state.page.newPage, {
-        pageNum: _.last(store.getters['book/getBook'].pages).pageNum + 1 + ''
+        pageNum: pageNum + 1 + ''
       })
     }
   }
