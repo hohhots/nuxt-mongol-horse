@@ -69,7 +69,8 @@ export default {
 p,
 input,
 span,
-textarea {
+textarea,
+pre {
   cursor: vertical-text;
 }
 
