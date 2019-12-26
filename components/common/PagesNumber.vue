@@ -103,21 +103,28 @@ export default {
       return this.totalPages === this.startPage + this.displayPagesRange
     },
     isFirstPages() {
-      // startPage start from -9
-      return this.firstPageId - 1 > this.startPage - this.displayPagesRange
+      return this.startPage <= this.firstPageId
     },
     isLastPages() {
-      // startPage start from -9
-      return this.totalPages < this.startPage + 2 * this.displayPagesRange
+      return this.startPage + this.displayPagesRange >= this.totalPages - 1
     },
     prePages() {
-      return (
-        this.startPage - (this.displayPagesRange - this.currentPagePosition) ||
-        this.firstPageId
-      )
+      const pre =
+        this.startPage - (this.displayPagesRange - this.currentPagePosition)
+      if (pre > 0) {
+        return pre
+      } else {
+        return this.firstPageId
+      }
     },
     nextPages() {
-      return this.startPage + this.displayPagesRange + this.currentPagePosition
+      const next =
+        this.startPage + this.displayPagesRange + this.currentPagePosition
+      if (next < this.totalPages) {
+        return next
+      } else {
+        return this.totalPages
+      }
     }
   }
 }
