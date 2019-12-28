@@ -14,6 +14,9 @@
       <div class="preview">
         <pre>{{ book.preview }}</pre>
       </div>
+      <div v-if="search">
+        search OK!
+      </div>
     </div>
     <pages-number
       :items-count="totalBooks"
@@ -58,6 +61,9 @@ export default {
     }),
     totalPages() {
       return Math.ceil(this.totalBooks / settings.itemsPerPage)
+    },
+    search() {
+      return this.$route.query.search
     }
   },
   beforeMount() {
@@ -71,7 +77,13 @@ export default {
       }
     },
     pagenumUrl() {
-      const p = '/?page='
+      const s = this.$route.query.search
+      let p = '/?'
+      if (s) {
+        p += 'search=' + s + '&page='
+      } else {
+        p += 'page='
+      }
       const bu = this.baseUrl
       if (bu === '/' + settings.book) {
         return p

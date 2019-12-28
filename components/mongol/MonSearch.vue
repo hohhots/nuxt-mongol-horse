@@ -1,9 +1,10 @@
 <template>
   <div class="search">
-    <form>
+    <form @submit.prevent="onSearch">
       <div class="container">
         <div class="inputc">
           <input
+            v-model.trim="search"
             class="input"
             maxlength="2048"
             name="q"
@@ -37,7 +38,20 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      search: ''
+    }
+  },
+  methods: {
+    onSearch() {
+      if (this.search) {
+        this.$router.push('/?search=' + this.search)
+      }
+    }
+  }
+}
 </script>
 
 <style scoped>

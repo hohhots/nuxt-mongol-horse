@@ -11,7 +11,7 @@ const util = {
   fetchBooks(store, query) {
     const itemsPerPage = settings.itemsPerPage
     const pageid = query.page ? parseInt(query.page) : 1
-    const filter = ''
+    const filter = query.search || ''
     const skip = (pageid - 1) * itemsPerPage
     const first = itemsPerPage
 

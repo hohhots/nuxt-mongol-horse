@@ -63,7 +63,7 @@ export const mutations = {
   },
   SET_BOOKS_PREVIEW(state, booksid) {
     const books = booksid.booksList.books
-    const filter = booksid.filter || 'empty'
+    const filter = booksid.filter
     const skip = booksid.skip || 0
     const count = booksid.booksList.count
 
@@ -77,6 +77,7 @@ export const mutations = {
       }
       state.BooksID.push(book.id)
     }
+    console.log('ff - ', filter, state.BooksIDCache[filter])
     if (!state.BooksIDCache[filter]) {
       state.BooksIDCache[filter] = {}
     }
@@ -119,7 +120,9 @@ export const actions = {
   },
 
   fetchBooks({ state, commit }, filters) {
-    const cachefilter = filters.filter || 'empty'
+    const cachefilter = 'f' + (filters.filter || 'empty')
+    console.log(filters)
+    // cachefilter = 'f' + cachefilter
     const cacheskip = filters.skip || 0
     const booksId = state.BooksIDCache[cachefilter]
       ? state.BooksIDCache[cachefilter][cacheskip]
@@ -134,7 +137,7 @@ export const actions = {
     return BookService.getBooks(this, filters).then(({ data }) => {
       commit('SET_BOOKS_PREVIEW', {
         booksList: data.bookList,
-        filter: filters.filter,
+        filter: cachefilter,
         skip: filters.skip
       })
     })

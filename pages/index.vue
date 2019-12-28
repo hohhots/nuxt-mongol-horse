@@ -22,7 +22,7 @@ export default {
   components: {
     BooksList
   },
-  watchQuery: ['page'],
+  watchQuery: ['search', 'page'],
   computed: mapGetters({
     books: 'book/getBooks'
   }),
