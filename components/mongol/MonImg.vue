@@ -5,7 +5,8 @@
 </template>
 
 <script>
-/* eslint-disable */
+import ResizeObserver from 'resize-observer-polyfill'
+
 import util from '@/util/util.js'
 
 export default {
@@ -30,20 +31,39 @@ export default {
       height: '100%'
     }
   },
-  mounted() {
-    this.$refs.img.onload = () => {
-      this._initState()
-    }
-  },
   watch: {
     state(newv, oldv) {
       this._initState()
     }
   },
+  mounted() {
+    this.$refs.img.onload = () => {
+      this.setEvents()
+      this._initState()
+    }
+  },
   methods: {
     _initState(s) {
+      // reset image height
+      this.$refs.img.style.height = 'auto'
+
+      const height = util.getComputedStyle(this.$refs.img, 'height')
+      const cWidth = util.getComputedStyle(
+        this.$refs.container.parentElement,
+        'width'
+      )
+      if (height > cWidth) {
+        this.$refs.img.style.height = cWidth + 'px'
+      }
       this.height = util.getComputedStyle(this.$refs.img, 'width') + 'px'
       this.width = util.getComputedStyle(this.$refs.img, 'height') + 'px'
+    },
+    setEvents() {
+      const ro = new ResizeObserver((entries, observer) => {
+        this._initState()
+      })
+
+      ro.observe(this.$refs.container.parentElement)
     }
   }
 }
