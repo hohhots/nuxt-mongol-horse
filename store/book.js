@@ -77,7 +77,6 @@ export const mutations = {
       }
       state.BooksID.push(book.id)
     }
-    console.log('ff - ', filter, state.BooksIDCache[filter])
     if (!state.BooksIDCache[filter]) {
       state.BooksIDCache[filter] = {}
     }
@@ -121,7 +120,6 @@ export const actions = {
 
   fetchBooks({ state, commit }, filters) {
     const cachefilter = 'f' + (filters.filter || 'empty')
-    console.log(filters)
     // cachefilter = 'f' + cachefilter
     const cacheskip = filters.skip || 0
     const booksId = state.BooksIDCache[cachefilter]

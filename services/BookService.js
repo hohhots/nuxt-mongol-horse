@@ -1,4 +1,10 @@
-import { getBook, updateBook, newBook, getBooks } from '@/graphql/Book'
+import {
+  getBook,
+  updateBook,
+  newBook,
+  getBooks,
+  getFilterBooks
+} from '@/graphql/Book'
 
 let apolloCli
 
@@ -20,14 +26,24 @@ export default {
   },
   getBooks(ob, filters) {
     setApolloCli(ob)
-    return apolloCli.query({
-      query: getBooks,
-      variables: {
-        filter: filters.filter,
-        skip: filters.skip,
-        first: filters.first
-      }
-    })
+    if (filters.filter) {
+      return apolloCli.query({
+        query: getFilterBooks,
+        variables: {
+          filter: filters.filter,
+          skip: filters.skip,
+          first: filters.first
+        }
+      })
+    } else {
+      return apolloCli.query({
+        query: getBooks,
+        variables: {
+          skip: filters.skip,
+          first: filters.first
+        }
+      })
+    }
   },
   updateBook(ob, book) {
     setApolloCli(ob)

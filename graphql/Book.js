@@ -62,8 +62,21 @@ export const updateBook = gql`
 `
 
 export const getBooks = gql`
-  query getBooks($filter: String, $skip: Int!, $first: Int!) {
-    bookList(
+  query getBooks($skip: Int!, $first: Int!) {
+    bookList(skip: $skip, first: $first, orderBy: createdAt_DESC) {
+      books {
+        id
+        title
+        preview
+      }
+      count
+    }
+  }
+`
+
+export const getFilterBooks = gql`
+  query getBooks($filter: String!, $skip: Int!, $first: Int!) {
+    bookFilterList(
       filter: $filter
       skip: $skip
       first: $first
@@ -73,6 +86,10 @@ export const getBooks = gql`
         id
         title
         preview
+        pages {
+          id
+          content
+        }
       }
       count
     }
