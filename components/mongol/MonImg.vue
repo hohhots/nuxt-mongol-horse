@@ -44,6 +44,9 @@ export default {
   },
   methods: {
     _initState(s) {
+      if (!this.$refs.img) {
+        return
+      }
       // reset image height
       this.$refs.img.style.height = 'auto'
 

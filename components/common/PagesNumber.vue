@@ -1,7 +1,7 @@
 <template>
   <div class="pages-number">
     <span v-if="!isFirstPage()" class="first">
-      <nuxt-link :to="basePath + firstPageId">
+      <nuxt-link :to="basePath + getPageId(firstPageId)">
         <mon-horizon class="num">{{ firstPageId }}</mon-horizon>
       </nuxt-link>
     </span>
@@ -14,7 +14,7 @@
       :class="{ number: pageExist(num) }"
     >
       <template v-if="!isCurrentPage(num) && pageExist(num)">
-        <nuxt-link :to="basePath + pageNum(num)">
+        <nuxt-link :to="basePath + getPageId(pageNum(num))">
           <mon-horizon class="num">{{ pageNum(num) }}</mon-horizon>
         </nuxt-link>
       </template>
@@ -27,7 +27,7 @@
       <nuxt-link :to="basePath + nextPages()">》</nuxt-link>
     </span>
     <span v-if="!isLastPage()" class="last">
-      <nuxt-link :to="basePath + totalPages">
+      <nuxt-link :to="basePath + getPageId(totalPages)">
         <mon-horizon class="num">{{ totalPages }}</mon-horizon>
       </nuxt-link>
     </span>
@@ -47,6 +47,12 @@ export default {
     itemsPerpage: {
       type: Number,
       default: 1
+    },
+    pages: {
+      type: Array,
+      default: () => {
+        return []
+      }
     },
     pageId: {
       type: Number,
@@ -125,6 +131,12 @@ export default {
       } else {
         return this.totalPages
       }
+    },
+    getPageId(urlId) {
+      if (this.pages.length > 0) {
+        return this.pages[urlId - 1].id
+      }
+      return urlId
     }
   }
 }

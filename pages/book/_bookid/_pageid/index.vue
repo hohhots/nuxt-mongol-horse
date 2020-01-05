@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import _ from 'lodash'
+
 import settings from '@/settings.js'
 import common from '@/mixins/common.js'
 import MonImg from '@/components/mongol/MonImg'
@@ -103,6 +105,12 @@ export default {
         this.displayText = true
         this.displayImage = true
       }
+    },
+    getPageURLid(pageid) {
+      const order = _.findIndex(this.book.pages, function(o) {
+        return o.id === pageid
+      })
+      return order + 1
     }
   }
 }

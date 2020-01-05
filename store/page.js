@@ -70,9 +70,7 @@ export const mutations = {
 
 export const actions = {
   fetchPage({ state, commit }, bookPageid) {
-    const book = bookPageid.book
-    const id = bookPageid.pageid
-    const pageid = book.pages[id - 1].id
+    const pageid = bookPageid.pageid
     commit('SET_PAGEID', pageid) // must first set page id whether page cached
     if (state.PagesCache[pageid]) {
       return

@@ -146,6 +146,9 @@ export const getters = {
   getBook(state) {
     return state.BooksCache[state.BookId]
   },
+  getBookPages(state) {
+    return state.BooksCache[state.BookId].pages
+  },
   getBooks(state) {
     const books = []
     for (let i = 0; i < state.BooksID.length; i++) {

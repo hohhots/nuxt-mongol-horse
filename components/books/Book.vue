@@ -7,13 +7,16 @@
     </div>
     <pages-number
       :items-count="totalPages"
-      :page-id="parseInt(this.$route.params.pageid) || firstPageId"
+      :page-id="parseInt(getPageURLid(this.$route.params.pageid))"
       :base-path="basePath()"
+      :pages="book.pages"
     />
   </div>
 </template>
 
 <script>
+import _ from 'lodash'
+
 import common from '@/mixins/common.js'
 import PagesNumber from '@/components/common/PagesNumber'
 
@@ -26,11 +29,6 @@ export default {
     book: {
       type: Object,
       default: () => {}
-    }
-  },
-  data() {
-    return {
-      firstPageId: 0
     }
   },
   computed: {
@@ -58,10 +56,7 @@ export default {
       if (
         pageid &&
         // edit existing page
-        ((parseInt(pageid) > this.totalPages && this.editExistingPage) ||
-          // add new page
-          (parseInt(pageid) > this.totalPages + 1 && !this.editExistingPage) ||
-          parseInt(pageid) < 1)
+        !this.getPageURLid(pageid)
       ) {
         this.$router.push(this.baseUrl + '/' + this.$route.params.bookid)
       }
@@ -70,6 +65,13 @@ export default {
     basePath() {
       const path = this.$route.path.split('/')
       return '/' + path[1] + '/' + path[2] + '/'
+    },
+    // convert page hash id to order number
+    getPageURLid(pageid) {
+      const order = _.findIndex(this.book.pages, function(o) {
+        return o.id === pageid
+      })
+      return order + 1
     }
   }
 }

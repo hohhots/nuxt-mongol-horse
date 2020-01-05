@@ -49,6 +49,7 @@ export default {
   data() {
     return {
       itemsPerPage: settings.itemsPerPage,
+      // books display start from first page 1
       firstPageId: 1
     }
   },
