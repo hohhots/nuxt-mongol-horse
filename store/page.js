@@ -49,9 +49,9 @@ export const mutations = {
   SET_PAGE_IMAGE_TYPE(state, imageType) {
     state.PagesCache[state.PageId].imageType = imageType.split('/')[1]
   },
-  SET_BOOK_PAGES(state, pages) {
-    state.BooksCache[state.BookId].pages = pages
-  },
+  // SET_BOOK_PAGES(state, pages) {
+  //   state.BooksCache[state.BookId].pages = pages
+  // },
   UPDATE_PAGE_NUM(state, upage) {
     if (state.PagesCache[upage.id]) {
       state.PagesCache[upage.id].pageNum = upage.pageNum

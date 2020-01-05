@@ -32,7 +32,7 @@ export const mutations = {
     state.BooksID = booksid
   },
   SET_TOTALBOOKS(state, totalBooks) {
-    state.totalBooks = totalBooks
+    state.TotalBooks = totalBooks
   },
   SET_BOOK(state, book) {
     // only for add or update book property
@@ -44,9 +44,9 @@ export const mutations = {
       state.BooksCache[book.id] = book
     }
   },
-  SET_BOOK_PAGES(state, pages) {
-    state.BooksCache[state.BookId].pages = pages
-  },
+  // SET_BOOK_PAGES(state, pages) {
+  //   state.BooksCache[state.BookId].pages = pages
+  // },
   ADD_NEWBOOK(state, newbook) {
     state.BooksCache[newbook.id] = newbook
 
@@ -120,7 +120,6 @@ export const actions = {
 
   fetchBooks({ state, commit }, filters) {
     const cachefilter = 'f' + (filters.filter || 'empty')
-    // cachefilter = 'f' + cachefilter
     const cacheskip = filters.skip || 0
     const booksId = state.BooksIDCache[cachefilter]
       ? state.BooksIDCache[cachefilter][cacheskip]
@@ -133,8 +132,9 @@ export const actions = {
 
     console.log('fetchBooks')
     return BookService.getBooks(this, filters).then(({ data }) => {
+      const bookList = data.bookList || data.bookFilterList
       commit('SET_BOOKS_PREVIEW', {
-        booksList: data.bookList,
+        booksList: bookList,
         filter: cachefilter,
         skip: filters.skip
       })
