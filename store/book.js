@@ -44,9 +44,6 @@ export const mutations = {
       state.BooksCache[book.id] = book
     }
   },
-  // SET_BOOK_PAGES(state, pages) {
-  //   state.BooksCache[state.BookId].pages = pages
-  // },
   ADD_NEWBOOK(state, newbook) {
     state.BooksCache[newbook.id] = newbook
 
@@ -70,13 +67,19 @@ export const mutations = {
     state.TotalBooks = count
 
     state.BooksID = []
-    for (let i = 0; i < books.length; i++) {
-      const book = books[i]
-      if (!state.BooksCache[book.id]) {
-        state.BooksCache[book.id] = book
-      }
+    _.each(books, book => {
+      const cacheBook = state.BooksCache[book.id] || {}
+
+      state.BooksCache[book.id] = _.assign({}, cacheBook, book)
       state.BooksID.push(book.id)
-    }
+
+      const pageState = this.state.page
+      const pages = book.pages || []
+      _.each(pages, page => {
+        const cachePage = pageState.PagesCache[page.id] || {}
+        pageState.PagesCache[page.id] = _.assign({}, cachePage, page)
+      })
+    })
     if (!state.BooksIDCache[filter]) {
       state.BooksIDCache[filter] = {}
     }
@@ -144,10 +147,11 @@ export const actions = {
 
 export const getters = {
   getBook(state) {
-    return state.BooksCache[state.BookId]
+    return state.BooksCache[state.BookId] || {}
   },
   getBookPages(state) {
-    return state.BooksCache[state.BookId].pages
+    const book = state.BooksCache[state.BookId]
+    return book ? book.pages : []
   },
   getBooks(state) {
     const books = []

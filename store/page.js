@@ -15,7 +15,8 @@ export const state = () => ({
 
 export const mutations = {
   SET_PAGE(state, page) {
-    state.PagesCache[page.id] = page
+    const cachePage = state.PagesCache[page.id] || {}
+    state.PagesCache[page.id] = _.assign({}, cachePage, page)
   },
   SET_PAGEID(state, pageid) {
     state.PageId = pageid
@@ -49,9 +50,6 @@ export const mutations = {
   SET_PAGE_IMAGE_TYPE(state, imageType) {
     state.PagesCache[state.PageId].imageType = imageType.split('/')[1]
   },
-  // SET_BOOK_PAGES(state, pages) {
-  //   state.BooksCache[state.BookId].pages = pages
-  // },
   UPDATE_PAGE_NUM(state, upage) {
     if (state.PagesCache[upage.id]) {
       state.PagesCache[upage.id].pageNum = upage.pageNum
