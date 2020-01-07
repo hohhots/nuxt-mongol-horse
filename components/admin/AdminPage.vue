@@ -201,11 +201,8 @@ export default {
           this.$store.dispatch('page/updatePagesNum', increasePages)
         }
         this.$router.push(
-          `/${settings.admin}/${this.bookid}/${this.getPageUrlId(
-            this.tempPage
-          )}`
+          `/${settings.admin}/${this.bookid}/${this.tempPage.id}`
         )
-        alert('OK! This page update completed!')
       } catch (e) {
         this.$root.error({
           statusCode: 503,
@@ -218,7 +215,7 @@ export default {
 
       increasePages = increasePages || []
       try {
-        await this.$store.dispatch('page/newPage', {
+        const newPage = await this.$store.dispatch('page/newPage', {
           bookid: this.bookid,
           page: this.tempPage,
           updatePages: increasePages
@@ -227,12 +224,7 @@ export default {
         if (increasePages.length) {
           this.$store.dispatch('page/updatePagesNum', increasePages)
         }
-        this.$router.push(
-          `/${settings.admin}/${this.bookid}/${this.getPageUrlId(
-            this.tempPage
-          )}`
-        )
-        alert('OK! create new page completed!')
+        this.$router.push(`/${settings.admin}/${this.bookid}/${newPage.id}`)
       } catch (e) {
         this.$root.error({
           statusCode: 503,
@@ -264,10 +256,13 @@ export default {
         }
       }
 
+      const lastPage = _.last(this.$store.getters['book/getBook'].pages)
       if (!this.page.id) {
-        this.$router.push(
-          `/${settings.admin}/${this.bookid}/${this.pageid - 1}`
-        )
+        if (lastPage) {
+          this.$router.push(`/${settings.admin}/${this.bookid}/${lastPage.id}`)
+        } else {
+          this.$router.push(`/${settings.admin}/${this.bookid}`)
+        }
       }
     },
     setImage() {
@@ -290,10 +285,7 @@ export default {
       reader.readAsDataURL(image)
     },
     onNextNewPage() {
-      const p = parseInt(this.pageid) + 1
-      this.$router.push(
-        `${this.baseUrl}/${this.bookid}/${p}/${settings.newPage}`
-      )
+      this.$router.push(`${this.baseUrl}/${this.bookid}/${settings.newPage}`)
     },
     pageNumExist(pagenum) {
       const pages = this.$store.getters['book/getBook'].pages
@@ -321,16 +313,6 @@ export default {
         return false
       }
       return true
-    },
-    getPageUrlId(page) {
-      const pages = this.$store.getters['book/getBook'].pages
-      let index = -1
-      if (page.id) {
-        index = _.findIndex(pages, { id: page.id }) + 1
-      } else if (page.pageNum) {
-        index = _.findIndex(pages, { pageNum: parseInt(page.pageNum) }) + 1
-      }
-      return index
     }
   }
 }

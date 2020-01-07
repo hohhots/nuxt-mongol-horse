@@ -63,9 +63,12 @@ export default {
     }
   },
   beforeMount() {
-    this.newBook = { ...this.book }
+    this.init()
   },
   methods: {
+    init() {
+      this.newBook = { ...this.book }
+    },
     async onSubmit() {
       const ask = confirm('Are you sure to save changes?')
       if (!ask) {
@@ -101,16 +104,13 @@ export default {
       }
     },
     onCancel() {
-      const ask = confirm('Are you sure to save changes?')
+      const ask = confirm('Cancel all changes of this book?')
       if (ask) {
-        this.$router.push('/' + settings.admin + '/' + this.bookid)
+        this.init()
       }
     },
     onNewPage() {
-      const pageid = this.pageid || 1
-      this.$router.push(
-        `${this.baseUrl}/${this.bookid}/${pageid}/${settings.newPage}`
-      )
+      this.$router.push(`${this.baseUrl}/${this.bookid}/${settings.newPage}`)
     }
   }
 }

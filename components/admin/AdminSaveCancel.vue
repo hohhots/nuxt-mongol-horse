@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import { mapGetters } from 'vuex'
 
 import settings from '@/settings.js'
@@ -38,8 +39,14 @@ export default {
       ) {
         return false
       }
-      const pageId = parseInt(this.$route.params.pageid) || 0
-      return pageId >= this.book.pages.length
+      const pageId = this.getPageURLid(this.$route.params.pageid)
+      return pageId === this.book.pages.length
+    },
+    getPageURLid(pageid) {
+      const order = _.findIndex(this.book.pages, function(page) {
+        return page.id === pageid
+      })
+      return order + 1
     }
   }
 }

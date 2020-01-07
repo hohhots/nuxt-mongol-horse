@@ -95,6 +95,7 @@ export const actions = {
       newpage.updatePages
     ).then(({ data }) => {
       commit('ADD_NEWPAGE', data.newPage)
+      return data.newPage
     })
   },
 
