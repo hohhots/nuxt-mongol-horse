@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="title">
-      <nuxt-link :to="bookLink">
+      <nuxt-link :to="bookUrl">
         <h1>{{ book.title }}</h1>
       </nuxt-link>
     </div>
     <pages-number
       :items-count="totalPages"
       :page-id="parseInt(getPageURLid(this.$route.params.pageid))"
-      :base-path="basePath()"
+      :base-path="pageUrl"
       :pages="book.pages"
     />
   </div>
@@ -38,34 +38,14 @@ export default {
         return this.book.pages.length
       }
     },
-    bookLink() {
+    pageUrl() {
+      return this.baseUrl + '/' + this.$route.params.bookid + '/'
+    },
+    bookUrl() {
       return this.baseUrl + '/' + this.$route.params.bookid
     }
   },
-  watch: {
-    $route(to, from) {
-      this.redirect()
-    }
-  },
-  beforeMount() {
-    this.redirect()
-  },
   methods: {
-    redirect() {
-      const pageid = this.$route.params.pageid
-      if (
-        pageid &&
-        // edit existing page
-        !this.getPageURLid(pageid)
-      ) {
-        this.$router.push(this.baseUrl + '/' + this.$route.params.bookid)
-      }
-    },
-    // get base bookid url: /book/23sdff34/3 to /book/23sdff34/
-    basePath() {
-      const path = this.$route.path.split('/')
-      return '/' + path[1] + '/' + path[2] + '/'
-    },
     // convert page hash id to order number
     getPageURLid(pageid) {
       const order = _.findIndex(this.book.pages, function(o) {

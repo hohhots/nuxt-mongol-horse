@@ -38,7 +38,11 @@
 </template>
 
 <script>
+import gv from '@/mixins/common.js'
+import settings from '@/settings.js'
+
 export default {
+  mixins: [gv],
   data() {
     return {
       search: ''
@@ -47,7 +51,11 @@ export default {
   methods: {
     onSearch() {
       if (this.search) {
-        this.$router.push('/?search=' + this.search)
+        let url = '/'
+        if (this.baseUrl === '/' + settings.admin) {
+          url = this.baseUrl + '/'
+        }
+        this.$router.push(url + '?search=' + this.search)
       }
     }
   }

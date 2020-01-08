@@ -3,10 +3,10 @@
     <div v-for="book in books" :key="book.id" class="book">
       <h3>
         <span v-if="loggedIn">
-          <nuxt-link :to="baseUrl + '/' + book.id">{{ book.title }}</nuxt-link>
+          <nuxt-link :to="bookUrl + book.id">{{ book.title }}</nuxt-link>
         </span>
         <span v-if="!loggedIn">
-          <a :href="baseUrl + '/' + book.id" target="_blank">
+          <a :href="bookUrl + book.id" target="_blank">
             {{ book.title }}
           </a>
         </span>
@@ -65,6 +65,13 @@ export default {
     },
     search() {
       return this.$route.query.search
+    },
+    bookUrl() {
+      let url = this.baseUrl
+      if (url === '/') {
+        url += settings.book
+      }
+      return url + '/'
     }
   },
   beforeMount() {
@@ -78,6 +85,8 @@ export default {
       }
     },
     pagenumUrl() {
+      const bu = this.baseUrl
+
       const s = this.$route.query.search
       let p = '/?'
       if (s) {
@@ -85,8 +94,8 @@ export default {
       } else {
         p += 'page='
       }
-      const bu = this.baseUrl
-      if (bu === '/' + settings.book) {
+
+      if (bu === '/' || bu === '/' + settings.book) {
         return p
       }
       if (bu === '/' + settings.admin) {

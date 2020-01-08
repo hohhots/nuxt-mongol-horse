@@ -39,7 +39,7 @@ export const mutations = {
     const cbook = state.BooksCache[book.id]
 
     if (cbook) {
-      _.assign(cbook, book)
+      state.BooksCache[book.id] = _.assign({}, cbook, book)
     } else {
       state.BooksCache[book.id] = book
     }
@@ -99,7 +99,7 @@ export const actions = {
 
     const book = state.BooksCache[bookid]
     // because fetchBook just for get more information, like all pages
-    if (book && book.pages) {
+    if (book && book.pages && book.author) {
       return
     }
 

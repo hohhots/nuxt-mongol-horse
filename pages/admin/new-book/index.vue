@@ -17,6 +17,7 @@ export default {
       title: 'Add New Book'
     }
   },
+  layout: 'admin',
   components: {
     AdminNewBook
   },

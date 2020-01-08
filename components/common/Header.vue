@@ -12,17 +12,18 @@
 </template>
 
 <script>
+import gv from '@/mixins/common.js'
 import settings from '@/settings.js'
 
 export default {
+  mixins: [gv],
   computed: {
     homeUrl() {
-      const admin = '/' + settings.admin
-      const path = this.$route.path
-      if (path === admin || path.indexOf(admin + '/') === 0) {
-        return admin
+      let url = '/'
+      if (this.baseUrl === '/' + settings.admin) {
+        url = this.baseUrl
       }
-      return '/'
+      return url
     }
   }
 }

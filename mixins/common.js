@@ -8,10 +8,15 @@ export default {
   },
   computed: {
     baseUrl() {
-      const b = '/' + settings.book
-      const a = '/' + settings.admin
+      const r = '/'
       const path = this.$route.path
-      const secondSlash = path.substring(1).indexOf('/')
+      if (path === r) {
+        return r
+      }
+
+      const b = r + settings.book
+      const a = r + settings.admin
+      const secondSlash = path.substring(1).indexOf(r)
       if (path === a) {
         return a
       } else if (secondSlash > -1 && path.substring(0, secondSlash + 1) === a) {
