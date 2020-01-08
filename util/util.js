@@ -2,6 +2,9 @@ import settings from '@/settings.js'
 
 const util = {
   getComputedStyle(el, property) {
+    if (!el) {
+      return
+    }
     const p = window.getComputedStyle(el, null).getPropertyValue(property)
     if (p.indexOf('px') > 0) {
       return parseFloat(p)
