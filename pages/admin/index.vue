@@ -40,7 +40,7 @@ export default {
       books: 'book/getBooks'
     })
   },
-  watchQuery: ['page'],
+  watchQuery: ['search', 'page'],
   async fetch({ store, query, error }) {
     try {
       await Util.fetchBooks(store, query)

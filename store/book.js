@@ -72,13 +72,6 @@ export const mutations = {
 
       state.BooksCache[book.id] = _.assign({}, cacheBook, book)
       state.BooksID.push(book.id)
-
-      const pageState = this.state.page
-      const pages = book.pages || []
-      _.each(pages, page => {
-        const cachePage = pageState.PagesCache[page.id] || {}
-        pageState.PagesCache[page.id] = _.assign({}, cachePage, page)
-      })
     })
     if (!state.BooksIDCache[filter]) {
       state.BooksIDCache[filter] = {}

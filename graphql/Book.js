@@ -88,12 +88,7 @@ export const getFilterBooks = gql`
         preview
         pages {
           id
-          imageType
-          pageNum
           content
-          book {
-            id
-          }
         }
       }
       count

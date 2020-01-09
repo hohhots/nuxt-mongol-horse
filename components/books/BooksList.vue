@@ -1,5 +1,8 @@
 <template>
   <div class="book-list">
+    <div v-if="books.length === 0">
+      {{ empty }}
+    </div>
     <div v-for="book in books" :key="book.id" class="book">
       <h3>
         <span v-if="loggedIn">
@@ -50,7 +53,8 @@ export default {
     return {
       itemsPerPage: settings.itemsPerPage,
       // books display start from first page 1
-      firstPageId: 1
+      firstPageId: 1,
+      empty: settings.monText.emptyFilter
     }
   },
   computed: {
