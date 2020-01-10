@@ -23,9 +23,9 @@
         :key="page.id"
         class="page"
       >
-        <nuxt-link :to="baseUrl">
+        <a :href="bookUrl + book.id + '/' + page.id" target="_blank">
           <mon-horizon class="pagelink">{{ index + 1 }}</mon-horizon>
-        </nuxt-link>
+        </a>
       </span>
     </div>
     <pages-number
@@ -143,14 +143,18 @@ h3 {
   font-size: 1.2rem;
   margin-left: 0.3rem;
   margin-right: 0.3rem;
+  width: 1rem;
 }
 .page {
   background-color: rgb(210, 210, 210);
   border: 1px solid rgb(210, 210, 210);
-  width: 1rem;
   height: 1rem;
 }
 .page:hover {
   background-color: rgb(255, 255, 255);
+}
+.pagelink {
+  display: inline-table;
+  text-align: center;
 }
 </style>
