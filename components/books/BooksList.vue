@@ -17,9 +17,16 @@
       <div class="preview">
         <pre>{{ book.preview }}</pre>
       </div>
-      <div v-if="search">
-        search OK!
-      </div>
+      <span
+        v-if="search"
+        v-for="(page, index) in book.pages"
+        :key="page.id"
+        class="page"
+      >
+        <nuxt-link :to="baseUrl">
+          <mon-horizon class="pagelink">{{ index + 1 }}</mon-horizon>
+        </nuxt-link>
+      </span>
     </div>
     <pages-number
       :items-count="totalBooks"
@@ -123,5 +130,27 @@ h3 {
 .preview {
   line-height: 2rem;
   text-align: left;
+}
+.search {
+  position: relative;
+  cursor: default;
+  color: black;
+}
+.page,
+.pagelink {
+  position: relative;
+  cursor: pointer;
+  font-size: 1.2rem;
+  margin-left: 0.3rem;
+  margin-right: 0.3rem;
+}
+.page {
+  background-color: rgb(210, 210, 210);
+  border: 1px solid rgb(210, 210, 210);
+  width: 1rem;
+  height: 1rem;
+}
+.page:hover {
+  background-color: rgb(255, 255, 255);
 }
 </style>
