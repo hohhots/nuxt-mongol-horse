@@ -5,10 +5,7 @@
     </div>
     <div v-for="book in books" :key="book.id" class="book">
       <h3>
-        <span v-if="loggedIn">
-          <nuxt-link :to="bookUrl + book.id">{{ book.title }}</nuxt-link>
-        </span>
-        <span v-if="!loggedIn">
+        <span>
           <a :href="bookUrl + book.id" target="_blank">
             {{ book.title }}
           </a>
