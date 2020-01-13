@@ -77,8 +77,8 @@ button {
   border-radius: 0 20px 20px 0;
   padding-left: 8px;
   padding-right: 8px;
-  background-color: #fff;
-  border: 1px solid #dfe1e5;
+  background-color: #cfcfcf;
+  border: 1px solid #aaa;
   border-left: 0px;
   margin: -1px;
   outline: none;
@@ -111,9 +111,9 @@ svg {
   flex: 1;
   z-index: 3;
   position: relative;
-  border: 1px solid #dfe1e5;
+  border: 1px solid #aaa;
   border-radius: 20px;
-  background: #fff;
+  background: #cfcfcf;
 }
 .inputc {
   display: flex;

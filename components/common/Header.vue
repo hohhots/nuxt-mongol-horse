@@ -1,6 +1,6 @@
 <template>
   <header>
-    <div style="text-align:center;margin:0 auto 0;width:273.5px;line-height:0">
+    <div class="image-container">
       <nuxt-link :to="homeUrl">
         <mon-img src="/images/logo.jpg" width="200px" />
       </nuxt-link>
@@ -33,6 +33,11 @@ export default {
 header {
   margin-top: 40px;
   margin-bottom: 40px;
+}
+
+.image-container {
+  width: 100%;
+  text-align: center;
 }
 
 .container {

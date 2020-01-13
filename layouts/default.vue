@@ -88,15 +88,12 @@ html {
   -webkit-text-size-adjust: 100%;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  margin: 3px;
-  border: 2px solid #393;
-  padding: 2px;
+  margin: 0;
 }
 
 body {
-  margin: 3px;
-  border: 2px solid #933;
-  padding: 2px;
+  margin: 0;
+  background-color: rgba(206, 200, 167, 1);
 }
 
 a:link {

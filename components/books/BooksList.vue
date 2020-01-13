@@ -143,12 +143,12 @@ h3 {
   width: 1rem;
 }
 .page {
-  background-color: rgb(210, 210, 210);
-  border: 1px solid rgb(210, 210, 210);
+  background-color: rgba(196, 190, 157, 1);
+  border: 1px solid rgba(196, 190, 157, 1);
   height: 1rem;
 }
 .page:hover {
-  background-color: rgb(255, 255, 255);
+  background-color: rgba(226, 220, 187, 1);
 }
 .pagelink {
   display: inline-table;

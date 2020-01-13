@@ -35,7 +35,7 @@ footer {
   margin-top: 50px;
   padding-top: 20px;
   padding-bottom: 20px;
-  border-top: 1px solid #cfcfcf;
+  border-top: 1px solid rgba(146, 140, 107, 1);
 }
 
 footer > span {
