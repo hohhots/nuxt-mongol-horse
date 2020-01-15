@@ -2,7 +2,7 @@
   <header>
     <div class="image-container">
       <nuxt-link :to="homeUrl">
-        <mon-img src="/images/logo.jpg" width="200px" />
+        <mon-img src="/images/logo.png" width="200px" />
       </nuxt-link>
     </div>
     <div class="container">

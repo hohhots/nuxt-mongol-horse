@@ -76,7 +76,6 @@ export default {
 div {
   position: relative;
   display: inline-block;
-  border: 1px solid #0f0;
 }
 img {
   position: absolute;
