@@ -3,6 +3,11 @@
     <span>{{ monText.company }}</span>
     <p />
     <span>{{ monText.contact }}</span>
+    <span>
+      <div class="rotator">
+        <a href="http://beian.miit.gov.cn">蒙ICP备19003602号</a>
+      </div>
+    </span>
   </footer>
 </template>
 
@@ -41,5 +46,28 @@ footer {
 footer > span {
   line-height: 3rem;
   cursor: vertical-text;
+}
+
+.rotator {
+  margin-top: 2rem;
+  -webkit-transform-origin: left top;
+  -ms-transform-origin: left top;
+  transform-origin: left top;
+  -webkit-transform: rotate(-180deg) rotateY(180deg);
+  transform: rotate(-180deg) rotateY(180deg);
+}
+
+.rotator > a {
+  font-family: sans-serif, Arial !important;
+  font: 16px/18px arial;
+}
+
+.rotator > a:link {
+  text-decoration: none;
+  color: #333;
+}
+
+.rotator > a:visited {
+  color: #333;
 }
 </style>
