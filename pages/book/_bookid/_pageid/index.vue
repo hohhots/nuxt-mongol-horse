@@ -2,10 +2,10 @@
   <div class="container">
     <div class="types">
       <mon-button @click="toggle(0)" class="item" width="70px">{{
-        monText.text
+        monText.photo
       }}</mon-button>
       <mon-button @click="toggle(1)" class="item" width="70px">{{
-        monText.photo
+        monText.text
       }}</mon-button>
       <mon-button @click="toggle(2)" class="item" width="70px">{{
         monText.together
@@ -48,8 +48,8 @@ export default {
       // cmounted: after page rendered flag, make sure run on browser
       page: this.$store.getters['page/getPage'](this.$store.state.page.PageId),
       cmounted: false,
-      displayText: true,
-      displayImage: false
+      displayText: false,
+      displayImage: true
     }
   },
   computed: {
@@ -95,11 +95,11 @@ export default {
   },
   methods: {
     toggle(state) {
-      this.displayText = true
-      this.displayImage = false
+      this.displayText = false
+      this.displayImage = true
       if (state === 1) {
-        this.displayText = false
-        this.displayImage = true
+        this.displayText = true
+        this.displayImage = false
       }
       if (state === 2) {
         this.displayText = true
