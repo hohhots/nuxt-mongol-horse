@@ -1,6 +1,7 @@
 
 static/images/book
 *.brgd
+.DS_Store
 # Created by .ignore support plugin (hsz.mobi)
 ### Node template
 # Logs
