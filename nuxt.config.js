@@ -1,10 +1,9 @@
 export default {
-  mode: 'universal',
 
   // Add by brgd
   server: {
-    port: 3000, // default: 3000
-    host: '192.168.3.31' // default: localhost
+    port: 80, // default: 3000
+    host: '172.26.11.213' // default: localhost
   },
 
   /*
@@ -47,10 +46,15 @@ export default {
   modules: ['@nuxtjs/pwa', '@nuxtjs/apollo'],
 
   apollo: {
+    defaultOptions: {
+      query: {
+        fetchPolicy: 'no-cache',
+      },
+    },
     includeNodeModules: true,
     clientConfigs: {
       default: {
-        httpEndpoint: 'http://192.168.3.18:4000'
+        httpEndpoint: 'http://3.38.124.100:4000'
       }
     }
   },

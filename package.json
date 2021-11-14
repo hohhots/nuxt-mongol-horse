@@ -14,7 +14,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@nuxtjs/apollo": "^4.0.0-rc18",
+    "@nuxtjs/apollo": "^4.0.1-rc.5",
     "@nuxtjs/pwa": "^2.6.0",
     "cross-env": "^5.2.1",
     "glob": "^7.1.6",
